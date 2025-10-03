@@ -3,6 +3,7 @@ import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
 
+// Cache-busting update: 2025-01-03 - Force editor to reload assets
 const HeroBanner3 = () => {
 
         useEffect(() => {
