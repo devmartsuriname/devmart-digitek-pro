@@ -9,10 +9,145 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.4 - Team CRUD Module (Next)
-- [ ] Create team management UI with social links editor
-- [ ] Implement useTeam hook with repository integration
-- [ ] Build drag-drop ordering interface
+### Phase 2.5 - FAQ CRUD Module (Next)
+- [ ] Create FAQ management UI with category and ordering
+- [ ] Implement useFAQ hook with repository integration
+- [ ] Build accordion preview interface
+
+---
+
+## [0.9.0] - 2025-01-06
+
+### Phase 2.4 - Team CRUD Module ✅
+
+**Team Admin Module Complete**
+- Full CRUD interface for managing team members with profile photos and social links
+- Dynamic social links system (add/remove multiple platforms)
+- Display order control for team member arrangement
+- Search filtering by name, role, or bio
+- Auto-slug generation from name with manual override capability
+
+**Custom Hooks Created**
+- `useTeam` hook with repository integration
+  - Auto-refreshing team member list with search filter
+  - Create, update, delete operations with error handling
+  - Loading states and error boundaries
+- `useTeamMember` hook for fetching single team member by ID
+
+**UI Components Built**
+- **Team.jsx**: Main page with list/create/edit views
+  - Team member count display
+  - "Add Team Member" CTA button
+  - Search filter by name/role/bio
+  - View state management (list ↔ create ↔ edit)
+  
+- **TeamForm.jsx**: Comprehensive create/edit form component
+  - **9 form fields** organized into sections:
+    - Basic Info: name, slug (auto-generated), role, display order
+    - Media: photo URL with preview and fallback icon
+    - Content: bio (unlimited)
+    - Social Links: dynamic fields for multiple platforms (facebook, twitter, linkedin, etc.)
+  - Zod validation with inline error messages
+  - Auto-slug generation from name with manual override
+  - Photo preview with error handling and fallback
+  - Dynamic social links (add/remove platforms)
+  - Preview mode toggle
+  - "Create Member" / "Update Member" action buttons
+  - Dark theme form inputs with Digtek colors
+  
+- **TeamTable.jsx**: Reusable data table component
+  - Columns: Photo, Name, Role, Slug, Order, Socials (first 3), Updated, Actions
+  - Photo thumbnail with circular frame and fallback icon
+  - Social links display (first 3 platforms with count for overflow)
+  - Inline edit/delete actions with confirmation
+  - Empty state with helpful message
+  - Loading spinner
+
+**Toast Notifications**
+- Integrated `react-hot-toast` for user feedback
+- Success: "Team member created/updated/deleted successfully"
+- Error: Display error messages from repository
+- Non-blocking notifications with auto-dismiss
+
+**Repository Integration**
+- Team page consumes `SupabaseTeamRepository`
+- RLS policies enforced (admin/editor/viewer roles)
+- Type-safe end-to-end (Zod → Repository → Supabase)
+- User tracking (created_by, updated_by) automatic
+
+**Routing Updates**
+- Team route fully functional at `/admin/team`
+- Nested routing with view state management
+- Protected route with authentication guard
+
+**Validation Features**
+- Name: Required, 1-200 characters
+- Slug: Required, lowercase with hyphens only (regex validated), unique
+- Role: Optional, max 100 characters
+- Bio: Optional, max 1000 characters
+- Photo URL: Optional, must be valid URL
+- Socials: Object with platform keys and URL values (all URLs validated)
+- Order: Integer, min 0, default 0
+
+**UX Enhancements**
+- Auto-slug generation prevents manual errors
+- Photo preview with fallback icon
+- Dynamic social fields (add/remove multiple platforms)
+- Inline validation with instant feedback
+- Responsive design (mobile/tablet/desktop)
+- Keyboard navigation support
+- Loading states prevent double submissions
+- Empty states with helpful CTAs
+
+**Data Model Support**
+- Photo_url field for team member profile image
+- Socials field stored as `jsonb` object for flexible social links
+- Order_num field integer for display ordering
+- Slug field unique for team member detail pages
+
+**Testing Confirmed**
+- [x] Create team member flow (form → validation → submit → list refresh)
+- [x] Update team member flow (edit → preview → save → list refresh)
+- [x] Delete team member flow (confirmation → delete → list refresh)
+- [x] Search filtering works (name/role/bio)
+- [x] Slug auto-generation works
+- [x] Photo preview with fallback works
+- [x] Social links add/remove works
+- [x] Order field updates display
+- [x] Validation errors display correctly
+- [x] Toast notifications display
+- [x] Empty state displays when no team members
+- [x] Loading states work correctly
+- [x] RLS policies enforce role-based access
+
+**What's Working**
+- Complete Team CRUD with professional UI
+- Photo preview with fallback handling
+- Dynamic social links system
+- Display order management
+- Type-safe data flow (Zod → Repository → Supabase)
+- Role-based access control (RLS enforced)
+- User feedback via toast notifications
+- Auto-refresh on CRUD operations
+- Responsive design across devices
+- Pixel-perfect Digtek styling
+
+**Bug Fixes**
+- Fixed author name display in Blog module (BlogTable now shows actual author name from profiles table)
+- Updated `SupabaseBlogRepository.findAll()` to join with profiles table
+- Added `author_name` field to `BlogPostSchema` for display purposes
+
+**Deferred to Future Phases**
+- Drag-drop ordering interface (Phase 3)
+- Direct image upload via Media Library (Phase 2.6)
+- Pagination controls (Phase 2.4+)
+- Bulk actions (Phase 2.4+)
+
+**Next Steps**
+- Phase 2.5: FAQ CRUD Module (categories, accordion, ordering)
+- Phase 2.6: Media Library (upload, organization, browse)
+- Phase 2.7: Leads Inbox (view, export, status management)
+- Phase 2.8: Settings (site config, branding, social links)
 
 ---
 

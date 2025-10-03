@@ -6,6 +6,7 @@ export const BlogPostSchema = z.object({
   slug: z.string().min(1),
   title: z.string().min(1),
   author_id: z.string().uuid().nullable(),
+  author_name: z.string().nullable().optional(),
   date: z.string(),
   cover_url: z.string().nullable(),
   tags: z.array(z.string()).nullable(),

@@ -6,12 +6,13 @@ import type { Database } from '@/integrations/supabase/types';
 type BlogPostRow = Database['public']['Tables']['blog_posts']['Row'];
 
 export class SupabaseBlogRepository implements IBlogRepository {
-  private mapToBlogPost(row: BlogPostRow): BlogPost {
+  private mapToBlogPost(row: any): BlogPost {
     return {
       id: row.id,
       slug: row.slug,
       title: row.title,
       author_id: row.author_id,
+      author_name: row.profiles?.full_name || null,
       date: row.date,
       cover_url: row.cover_url,
       tags: row.tags,
@@ -68,7 +69,12 @@ export class SupabaseBlogRepository implements IBlogRepository {
   }
 
   async findAll(filters?: BlogPostFilters): Promise<BlogPost[]> {
-    let query = supabase.from('blog_posts').select('*');
+    let query = supabase.from('blog_posts').select(`
+      *,
+      profiles:author_id (
+        full_name
+      )
+    `);
 
     if (filters?.status) {
       query = query.eq('status', filters.status);

@@ -62,7 +62,7 @@ const BlogTable = ({ blogPosts, onEdit, onDelete, loading }) => {
                 )}
               </td>
               <td className="text-white-50">
-                {post.author_id ? 'Author' : 'Unknown'}
+                {post.author_name || 'Unknown'}
               </td>
               <td className="text-white-50">{formatDate(post.date)}</td>
               <td>{getStatusBadge(post.status)}</td>
