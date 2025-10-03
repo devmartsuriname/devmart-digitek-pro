@@ -1,61 +1,190 @@
+import { useState } from 'react';
+import { useBlogPosts } from '@/lib/hooks/useBlogPosts';
+import BlogTable from '@/Components/Admin/Tables/BlogTable';
+import BlogForm from '@/Components/Admin/Forms/BlogForm';
+import toast from 'react-hot-toast';
+
 const Blog = () => {
+  const [view, setView] = useState('list');
+  const [selectedBlogPost, setSelectedBlogPost] = useState(null);
+  const [filters, setFilters] = useState({
+    search: '',
+    status: '',
+    featured: undefined,
+  });
+
+  const { blogPosts, loading, error, createBlogPost, updateBlogPost, deleteBlogPost } = useBlogPosts(filters);
+
+  const handleCreate = async (data) => {
+    try {
+      await createBlogPost(data);
+      toast.success('Blog post created successfully!');
+      setView('list');
+    } catch (err) {
+      toast.error(err.message || 'Failed to create blog post');
+    }
+  };
+
+  const handleUpdate = async (data) => {
+    try {
+      await updateBlogPost(selectedBlogPost.id, data);
+      toast.success('Blog post updated successfully!');
+      setView('list');
+      setSelectedBlogPost(null);
+    } catch (err) {
+      toast.error(err.message || 'Failed to update blog post');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteBlogPost(id);
+      toast.success('Blog post deleted successfully!');
+    } catch (err) {
+      toast.error(err.message || 'Failed to delete blog post');
+    }
+  };
+
+  const handleEdit = (blogPost) => {
+    setSelectedBlogPost(blogPost);
+    setView('edit');
+  };
+
+  const handleCancel = () => {
+    setView('list');
+    setSelectedBlogPost(null);
+  };
+
+  if (view === 'create') {
+    return (
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h2 className="text-white mb-0">
+                <i className="bi bi-file-text me-2"></i>
+                Create Blog Post
+              </h2>
+            </div>
+            <BlogForm onSubmit={handleCreate} onCancel={handleCancel} loading={loading} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (view === 'edit') {
+    return (
+      <div className="container py-5">
+        <div className="row">
+          <div className="col-12">
+            <div className="d-flex justify-content-between align-items-center mb-4">
+              <h2 className="text-white mb-0">
+                <i className="bi bi-pencil me-2"></i>
+                Edit Blog Post
+              </h2>
+            </div>
+            <BlogForm
+              initialData={selectedBlogPost}
+              onSubmit={handleUpdate}
+              onCancel={handleCancel}
+              loading={loading}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-5">
       <div className="row">
         <div className="col-12">
-          <div className="card bg-dark border-0 shadow-lg">
-            <div className="card-body p-5">
-              <div className="text-center mb-4">
-                <i className="bi bi-file-text" style={{ fontSize: '3rem', color: '#6A47ED' }}></i>
-              </div>
-              <h2 className="text-center mb-3 text-white">Blog Management</h2>
-              <p className="text-center text-white-50 mb-4">
-                Publish articles and insights with a powerful content management system.
-              </p>
-              
-              <div className="row g-4 mt-4">
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h2 className="text-white mb-0">
+              <i className="bi bi-file-text me-2"></i>
+              Blog Management
+              <span className="badge ms-3" style={{ background: '#6A47ED', fontSize: '14px' }}>
+                {blogPosts.length}
+              </span>
+            </h2>
+            <button
+              className="btn"
+              style={{ background: '#6A47ED', color: 'white', border: 'none' }}
+              onClick={() => setView('create')}
+            >
+              <i className="bi bi-plus-lg me-2"></i>
+              Add Blog Post
+            </button>
+          </div>
+
+          {/* Filters */}
+          <div className="card bg-dark border-secondary mb-4">
+            <div className="card-body">
+              <div className="row g-3">
                 <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-markdown me-2"></i>
-                      MDX Editor
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Rich text editing with Markdown support
-                    </p>
-                  </div>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white border-secondary"
+                    placeholder="Search by title or summary..."
+                    value={filters.search}
+                    onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                  />
                 </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-tags me-2"></i>
-                      Tags & Categories
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Organize posts with tags and categories
-                    </p>
-                  </div>
+                <div className="col-md-3">
+                  <select
+                    className="form-select bg-dark text-white border-secondary"
+                    value={filters.status}
+                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                  >
+                    <option value="">All Statuses</option>
+                    <option value="draft">Draft</option>
+                    <option value="published">Published</option>
+                  </select>
                 </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-calendar-check me-2"></i>
-                      Draft & Publish
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Save drafts and schedule posts for later
-                    </p>
-                  </div>
+                <div className="col-md-3">
+                  <select
+                    className="form-select bg-dark text-white border-secondary"
+                    value={filters.featured === undefined ? '' : filters.featured ? 'true' : 'false'}
+                    onChange={(e) =>
+                      setFilters({
+                        ...filters,
+                        featured: e.target.value === '' ? undefined : e.target.value === 'true',
+                      })
+                    }
+                  >
+                    <option value="">All Posts</option>
+                    <option value="true">Featured Only</option>
+                    <option value="false">Not Featured</option>
+                  </select>
+                </div>
+                <div className="col-md-2">
+                  <button
+                    className="btn btn-outline-secondary w-100"
+                    onClick={() => setFilters({ search: '', status: '', featured: undefined })}
+                  >
+                    Clear
+                  </button>
                 </div>
               </div>
-              
-              <div className="text-center mt-5">
-                <span className="badge px-4 py-2" style={{ background: '#6A47ED', fontSize: '14px' }}>
-                  Coming in Phase 2.3
-                </span>
-              </div>
+            </div>
+          </div>
+
+          {error && (
+            <div className="alert alert-danger" role="alert">
+              <i className="bi bi-exclamation-triangle me-2"></i>
+              {error}
+            </div>
+          )}
+
+          <div className="card bg-dark border-secondary">
+            <div className="card-body p-0">
+              <BlogTable
+                blogPosts={blogPosts}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                loading={loading}
+              />
             </div>
           </div>
         </div>

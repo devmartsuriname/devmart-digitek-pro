@@ -221,6 +221,202 @@ useEffect(() => {
 
 ---
 
+## Blog Module
+
+### Data Flow
+
+```mermaid
+graph TD
+    A[Blog.jsx Admin Page] --> B[useBlogPosts Hook]
+    B --> C[SupabaseBlogRepository]
+    C --> D[(blog_posts Table)]
+    
+    A --> E[BlogForm Component]
+    E --> F[useAuthors Hook]
+    F --> G[(profiles + user_roles Join)]
+    
+    E --> H[TagsInput Component]
+    E --> I[RichTextEditor Component]
+    I --> J[MDXPreview Component]
+    J --> K[react-markdown]
+    
+    A --> L[BlogTable Component]
+    L --> M[Display: Title, Author, Date, Status, Featured, Tags, Views]
+    
+    D --> N[RLS Policies]
+    N --> O{User Role}
+    O -->|Admin| P[Full CRUD Access]
+    O -->|Editor| Q[Create/Edit Only]
+    O -->|Viewer| R[Read Only]
+    O -->|Anonymous| S[Published Posts Only]
+```
+
+### Component Hierarchy
+
+```
+Blog.jsx (Admin Page)
+├── BlogTable.jsx (List View)
+│   ├── Status Badges (Draft/Published)
+│   ├── Featured Star Icon
+│   ├── Tag Chips (First 3)
+│   ├── View Count Display
+│   └── Edit/Delete Actions
+│
+└── BlogForm.jsx (Create/Edit)
+    ├── Section 1: Basic Info
+    │   ├── Title Input (auto-generates slug)
+    │   ├── Slug Input (with auto-generate button)
+    │   ├── Author Dropdown (useAuthors hook)
+    │   └── DatePicker Component
+    │
+    ├── Section 2: Media
+    │   └── Cover Image URL + Preview
+    │
+    ├── Section 3: Tags
+    │   └── TagsInput Component (max 10, autocomplete)
+    │
+    ├── Section 4: Content
+    │   ├── Summary Textarea (500 char limit)
+    │   └── RichTextEditor Component
+    │       └── MDXPreview Modal
+    │           └── react-markdown Renderer
+    │
+    └── Section 5: SEO & Publishing
+        ├── SEO Title (auto-populated from title)
+        ├── SEO Description (auto-populated from summary)
+        ├── FeaturedToggle Component
+        └── Status Buttons (Save Draft / Publish)
+```
+
+### Hooks Architecture
+
+**useBlogPosts(filters)**
+- **Purpose**: Manage blog posts with filtering
+- **Returns**: `{ blogPosts, loading, error, refetch, createBlogPost, updateBlogPost, deleteBlogPost, incrementViews }`
+- **Filters**: search, status, featured, tags, author, limit, offset
+
+**useBlogPost(id)**
+- **Purpose**: Fetch single blog post by ID
+- **Returns**: `{ blogPost, loading, error }`
+- **Use Case**: Public blog detail page, admin edit
+
+**useAuthors()**
+- **Purpose**: Fetch profiles with admin/editor roles
+- **SQL**: `profiles INNER JOIN user_roles WHERE role IN ('admin', 'editor')`
+- **Returns**: `{ authors, loading, error }` → `Array<{ id, full_name, avatar_url }>`
+
+### Special Features
+
+#### 1. Auto-Slug Generation
+```javascript
+const generateSlug = (text) => {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
+// Auto-updates slug when title changes
+// Manual override available with "Regenerate" button
+```
+
+#### 2. MDX Preview with react-markdown
+```javascript
+<ReactMarkdown
+  components={{
+    h1: ({ children }) => <h1 className="mb-3 text-white">{children}</h1>,
+    code: ({ inline, children }) => inline ? <code>...</code> : <pre>...</pre>,
+    // ... custom styling for all Markdown elements
+  }}
+>
+  {body_mdx}
+</ReactMarkdown>
+```
+
+#### 3. Tag System
+- **Storage**: PostgreSQL `text[]` array
+- **Input**: Enter/comma to add, × to remove
+- **Autocomplete**: Suggestions from predefined list
+- **Limit**: Max 10 tags per post
+- **Display**: First 3 tags shown in table, "+N" for overflow
+
+#### 4. View Count Tracking
+```javascript
+// Public blog detail page calls:
+await incrementViews(postId);
+
+// Updates views column (integer) atomically
+```
+
+#### 5. Reading Time Calculation
+```javascript
+const readingTime = Math.ceil(wordCount / 200); // 200 WPM
+// Displayed in RichTextEditor footer
+```
+
+### Form Validation (Zod)
+
+```typescript
+CreateBlogPostSchema = {
+  title: string().min(1).max(200),
+  slug: string().regex(/^[a-z0-9-]+$/),
+  author_id: string().uuid().optional(),
+  date: string().optional(),
+  cover_url: string().url().optional(),
+  tags: array(string().max(50)).optional(),
+  summary: string().max(500).optional(),
+  body_mdx: string().optional(),
+  seo_title: string().max(200).optional(),
+  seo_desc: string().max(300).optional(),
+  featured: boolean().default(false),
+  status: enum(['draft', 'published']).default('draft'),
+}
+```
+
+### RLS Policies (blog_posts Table)
+
+```sql
+-- Anyone can view published posts (public)
+CREATE POLICY "Anyone can view published blog posts"
+ON blog_posts FOR SELECT
+USING (status = 'published');
+
+-- Admins have full access
+CREATE POLICY "Admins have full access to blog posts"
+ON blog_posts FOR ALL
+USING (has_role(auth.uid(), 'admin'));
+
+-- Editors can create posts
+CREATE POLICY "Editors can create blog posts"
+ON blog_posts FOR INSERT
+WITH CHECK (has_role(auth.uid(), 'editor'));
+
+-- Editors can update posts
+CREATE POLICY "Editors can update blog posts"
+ON blog_posts FOR UPDATE
+USING (has_role(auth.uid(), 'editor'));
+
+-- Viewers can view all posts (drafts included)
+CREATE POLICY "Viewers can view all blog posts"
+ON blog_posts FOR SELECT
+USING (has_role(auth.uid(), 'viewer'));
+```
+
+### Future Enhancements (Phase 3+)
+
+1. **Advanced MDX Editor**: Upgrade to Monaco/CodeMirror with syntax highlighting
+2. **Bulk Actions**: Multi-select publish/unpublish/delete
+3. **Pagination**: Server-side pagination for large post counts
+4. **Related Posts Algorithm**: Tag-based similarity scoring
+5. **Comment System**: Add `comments` table with moderation
+6. **Scheduled Publishing**: Add `scheduled_at` column + cron job
+7. **Draft Auto-Save**: Client-side auto-save to localStorage
+8. **Revision History**: Track changes with `blog_post_revisions` table
+9. **Co-Author Support**: Many-to-many `blog_post_authors` join table
+10. **Categories**: Add `categories` table (in addition to tags)
+
+---
+
 ## Active Home Page
 
 **Primary Landing Page:** Home-3 (Digtek React Template Home-3 variant)

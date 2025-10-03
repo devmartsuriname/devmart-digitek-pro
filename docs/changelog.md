@@ -9,10 +9,209 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.3 - Blog CRUD Module (Next)
-- [ ] Create blog management UI with MDX editor
-- [ ] Implement useBlogs hook with repository integration
-- [ ] Build tag management and featured post controls
+### Phase 2.4 - Team CRUD Module (Next)
+- [ ] Create team management UI with social links editor
+- [ ] Implement useTeam hook with repository integration
+- [ ] Build drag-drop ordering interface
+
+---
+
+## [0.8.0] - 2025-01-06
+
+### Phase 2.3 - Blog CRUD Module ✅
+
+**Blog Admin Module Complete**
+- Full CRUD interface for blog posts with MDX content editor and live preview
+- Multi-tag system with autocomplete suggestions (max 10 tags per post)
+- Author dropdown populated from admin/editor profiles via user_roles join
+- Advanced filtering (search by title/summary, status, featured, tags, author)
+- View count tracking with incrementViews method for analytics
+- Featured post toggle for homepage prominence
+- Auto-slug generation from title with manual override capability
+- Reading time calculation based on word count (~200 WPM)
+- SEO fields with auto-population from title and summary
+- Draft/publish workflow with separate save buttons
+- Character counters on all text fields for instant feedback
+- Cover image URL with preview thumbnail and error handling
+- Publication date picker with ISO format storage
+
+**Custom Hooks Created**
+- `useBlogPosts` hook with repository integration
+  - Auto-refreshing blog post list with filters (search, status, featured, tags, author)
+  - Create, update, delete operations with error handling
+  - incrementViews method for public page analytics
+  - Loading states and error boundaries
+- `useBlogPost` hook for fetching single blog post by ID
+- `useAuthors` hook for fetching admin/editor profiles
+  - Joins profiles with user_roles table
+  - Filters to admin and editor roles only
+  - Returns id, full_name, avatar_url for dropdown
+
+**UI Components Built**
+- **Blog.jsx**: Main page with list/create/edit views
+  - Blog post count display
+  - "Add Blog Post" CTA button
+  - Filter controls: search, status, featured, tags, author
+  - View state management (list ↔ create ↔ edit)
+  
+- **BlogForm.jsx**: Comprehensive create/edit form component
+  - **17 form fields** organized into 5 sections:
+    - Basic Info: title, slug (auto-generated), author dropdown, publication date
+    - Media: cover image URL with preview
+    - Tags: multi-tag input with autocomplete (max 10 tags)
+    - Content: summary (500 char limit), body_mdx (unlimited)
+    - SEO & Publishing: seo_title (200 char), seo_desc (300 char), featured toggle, status
+  - Zod validation with inline error messages
+  - Character counters for limited fields
+  - Auto-slug generation from title with manual override
+  - Preview images with fallback for invalid URLs
+  - "Save Draft" / "Publish" action buttons
+  - Dark theme form inputs with Digtek colors
+  
+- **BlogTable.jsx**: Reusable data table component
+  - Columns: Title, Author, Date, Status, Featured (star icon), Tags (first 3), Views, Actions
+  - Status badges (green for published, gray for draft)
+  - Featured indicator (yellow star icon)
+  - Tag chips (first 3 shown, "+N" for overflow)
+  - View count display with number formatting
+  - Inline edit/delete actions with confirmation
+  - Empty state with helpful message
+  - Loading spinner
+
+**New Reusable Sub-Components**
+- **TagsInput.jsx**: Multi-tag input with autocomplete
+  - Add tags via Enter or comma key
+  - Remove tags via × button or Backspace
+  - Autocomplete suggestions from predefined list
+  - Max 10 tags per post with warning message
+  - Purple badge styling (#6A47ED)
+  - Stored as PostgreSQL `text[]` array
+  - Duplicate prevention
+
+- **RichTextEditor.jsx**: MDX content textarea editor
+  - Monospace font for code-like editing
+  - Character counter with live update
+  - Reading time calculation (~200 WPM)
+  - Preview toggle button
+  - Unlimited content length
+  - Markdown syntax placeholder hints
+
+- **MDXPreview.jsx**: MDX preview modal with react-markdown
+  - Full-screen modal with dark theme
+  - Renders Markdown to HTML
+  - Custom component styling (headings, code blocks, blockquotes, links)
+  - Scrollable content area
+  - Close button with backdrop click
+
+**Toast Notifications**
+- Integrated `react-hot-toast` for user feedback
+- Success: "Blog post created/updated/deleted successfully"
+- Error: Display error messages from repository
+- Non-blocking notifications with auto-dismiss
+
+**Repository Integration**
+- Blog page consumes `SupabaseBlogRepository`
+- RLS policies enforced (admin/editor/viewer roles)
+- Type-safe end-to-end (Zod → Repository → Supabase)
+- User tracking (created_by, updated_by) automatic
+- Author_id linked to profiles table
+
+**Routing Updates**
+- Blog route fully functional at `/admin/blog`
+- Nested routing with view state management
+- Protected route with authentication guard
+
+**Validation Features**
+- Title: Required, 1-200 characters
+- Slug: Required, lowercase with hyphens only (regex validated), unique
+- Author: Optional, references profiles.id (admin/editor only)
+- Date: Optional, ISO 8601 date format, defaults to today
+- Cover URL: Optional, must be valid URL
+- Tags: Array of strings, max 10 tags, max 50 chars per tag
+- Summary: Optional, max 500 characters
+- Body MDX: Optional, unlimited length
+- SEO Title: Optional, max 200 characters, auto-populated from title
+- SEO Description: Optional, max 300 characters, auto-populated from summary
+- Featured: Boolean (default false)
+- Status: Enum (draft/published)
+- Views: Integer (default 0, read-only in form)
+
+**UX Enhancements**
+- Auto-slug generation prevents manual errors
+- Auto-populate SEO fields from title/summary
+- Character counters provide instant feedback
+- Tags with keyboard shortcuts (Enter/comma/Backspace)
+- MDX preview shows rendered content before publish
+- Reading time calculation for content planning
+- Inline validation with instant feedback
+- Responsive design (mobile/tablet/desktop)
+- Keyboard navigation support
+- Loading states prevent double submissions
+- Empty states with helpful CTAs
+
+**Data Model Support**
+- Tags field stored as `text[]` array for flexible tagging
+- Body_mdx field for Markdown/MDX content
+- Views field integer for analytics tracking
+- Featured field boolean flag for homepage display
+- Author_id field references profiles table
+- Date field ISO 8601 date format for publication date
+
+**Dependencies Added**
+- `react-markdown@^9.0.1` - Lightweight Markdown/MDX preview (50KB)
+
+**Testing Confirmed**
+- [x] Create blog post flow (form → validation → submit → list refresh)
+- [x] Update blog post flow (edit → preview → save → list refresh)
+- [x] Delete blog post flow (confirmation → delete → list refresh)
+- [x] Search filtering works (title/summary)
+- [x] Status filtering works (All/Draft/Published)
+- [x] Featured filtering works (All/Featured/Not Featured)
+- [x] Tags add/remove works (with autocomplete)
+- [x] Author dropdown populated with admin/editor profiles
+- [x] Slug auto-generation works
+- [x] Date picker works
+- [x] Cover image preview works
+- [x] MDX preview modal renders correctly
+- [x] Featured toggle works
+- [x] Validation errors display correctly
+- [x] Toast notifications display
+- [x] Empty state displays when no blog posts
+- [x] Loading states work correctly
+- [x] RLS policies enforce role-based access
+- [x] Character counters update live
+- [x] Reading time calculation accurate
+
+**What's Working**
+- Complete Blog CRUD with professional UI
+- MDX content editing with live preview
+- Multi-tag system with autocomplete
+- Author selection from profiles
+- View count tracking for analytics
+- Featured blog post management
+- Type-safe data flow (Zod → Repository → Supabase)
+- Role-based access control (RLS enforced)
+- User feedback via toast notifications
+- Auto-refresh on CRUD operations
+- Responsive design across devices
+- Pixel-perfect Digtek styling
+
+**Deferred to Future Phases**
+- Advanced MDX editor (Monaco/CodeMirror) (Phase 3)
+- Syntax highlighting for code blocks (Phase 3)
+- Direct image upload for cover (Phase 2.6)
+- Pagination controls (Phase 2.3+)
+- Bulk actions (Phase 2.3+)
+- Scheduled publishing (Phase 3)
+- Draft auto-save (Phase 3)
+- Revision history (Phase 3)
+
+**Next Steps**
+- Phase 2.4: Team CRUD Module (profiles, socials, ordering)
+- Phase 2.5: FAQ CRUD Module (categories, accordion, ordering)
+- Phase 2.6: Media Library (upload, organization, browse)
+- Phase 2.7: Leads Inbox (view, export, status management)
+- Phase 2.8: Settings (site config, branding, social links)
 
 ---
 
