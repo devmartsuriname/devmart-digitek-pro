@@ -106,7 +106,7 @@ export const router = createBrowserRouter([
           element: <ProtectedRoute><AdminLayout /></ProtectedRoute>,
           children: [
             {
-              index: true,
+              path: "dashboard",
               element: <Dashboard></Dashboard>,
             },
             {
