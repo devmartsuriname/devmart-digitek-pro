@@ -9,10 +9,125 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.5 - FAQ CRUD Module (Next)
-- [ ] Create FAQ management UI with category and ordering
-- [ ] Implement useFAQ hook with repository integration
-- [ ] Build accordion preview interface
+### Phase 2.6 - Media Library (Next)
+- [ ] Build media upload and management interface
+- [ ] Implement folder organization
+- [ ] Add alt text editing and image optimization
+
+---
+
+## [0.10.0] - 2025-01-06
+
+### Phase 2.5 - FAQ CRUD Module ✅
+
+**FAQ Admin Module Complete**
+- Full CRUD interface for frequently asked questions with rich text answers
+- Category-based organization for logical grouping
+- Display order control for FAQ arrangement
+- Search functionality across questions and answers
+- Professional admin UI with Digtek styling
+
+**Custom Hooks Created**
+- `useFAQs` hook with repository integration
+  - Auto-refreshing FAQ list with filters (search, category)
+  - Create, update, delete operations with error handling
+  - Count tracking for analytics
+  - Loading states and error boundaries
+- `useFAQ` hook for fetching single FAQ by ID
+
+**UI Components Built**
+- **FAQ.jsx**: Main admin page with list/create/edit views
+  - FAQ count display with dynamic subtitle
+  - "Add FAQ" CTA button with Digtek styling
+  - View state management (list ↔ create ↔ edit)
+  - Search and category filtering
+  
+- **FAQForm.jsx**: Comprehensive create/edit form
+  - **4 form fields**:
+    - Question (required, max 500 chars with counter)
+    - Category (optional, max 100 chars)
+    - Answer (rich text via RichTextEditor with preview)
+    - Display Order (integer, default 0)
+  - Zod validation with inline error messages
+  - Character counters on question field
+  - RichTextEditor integration for formatted answers
+  - Save/Cancel actions with loading states
+  - Dark theme with Digtek colors
+  
+- **FAQTable.jsx**: Searchable and filterable table
+  - Columns: Question, Answer (truncated), Category, Order, Actions
+  - Search input for questions/answers (live filtering)
+  - Category dropdown filter
+  - Results count display ("Showing X of Y FAQs")
+  - Truncated text display (question max 80 chars, answer max 100 chars)
+  - Category badges with Digtek styling
+  - Inline edit/delete actions with confirmation
+  - Empty state with context-aware message
+  - Loading spinner
+
+**Toast Notifications**
+- Success: "FAQ created/updated/deleted successfully"
+- Error: Display error messages from repository
+- Non-blocking notifications with auto-dismiss
+
+**Repository Integration**
+- FAQ page consumes `SupabaseFAQRepository`
+- RLS policies enforced (admin/editor roles can edit, anyone can view)
+- Type-safe end-to-end (Zod → Repository → Supabase)
+- User tracking (created_by, updated_by) automatic
+
+**Routing Updates**
+- FAQ route fully functional at `/admin/faq`
+- Protected route with authentication guard
+
+**Validation Features**
+- Question: Required, 1-500 characters
+- Category: Optional, max 100 characters
+- Answer: Required, 1-2000 characters
+- Order: Integer, min 0, default 0
+
+**UX Enhancements**
+- Character counter for question field
+- Category filter with dynamic dropdown
+- Search across both questions and answers
+- Results count for filter feedback
+- Inline validation with instant feedback
+- Responsive design (mobile/tablet/desktop)
+- Loading states prevent double submissions
+- Empty states with helpful CTAs
+
+**Testing Confirmed**
+- [x] Create FAQ flow (form → validation → submit → list refresh)
+- [x] Update FAQ flow (edit → save → list refresh)
+- [x] Delete FAQ flow (confirmation → delete → list refresh)
+- [x] Search filtering works (questions and answers)
+- [x] Category filtering works with dynamic dropdown
+- [x] Order field controls display sequence
+- [x] Rich text editor for answers with preview
+- [x] Validation errors display correctly
+- [x] Toast notifications display
+- [x] Empty state displays when no FAQs
+- [x] Loading states work correctly
+- [x] RLS policies enforce role-based access
+
+**What's Working**
+- Complete FAQ CRUD with professional UI
+- Rich text answers with Markdown support
+- Category-based organization
+- Display order management
+- Search and filter functionality
+- Type-safe data flow (Zod → Repository → Supabase)
+- Role-based access control (RLS enforced)
+- User feedback via toast notifications
+- Auto-refresh on CRUD operations
+- Responsive design across devices
+- Pixel-perfect Digtek styling
+
+**Next Steps**
+- Phase 2.6: Media Library (upload, organization, browse)
+- Phase 2.7: Leads Inbox (view, export, status management)
+- Phase 2.8: Settings (site config, branding, social links)
+- Phase 3: Public FAQ integration (fetch from database with accordion)
 
 ---
 

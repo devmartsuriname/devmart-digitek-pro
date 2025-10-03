@@ -1,61 +1,119 @@
+import { useState } from 'react';
+import { useFAQs } from '@/lib/hooks/useFAQ';
+import FAQTable from '@/Components/Admin/Tables/FAQTable';
+import FAQForm from '@/Components/Admin/Forms/FAQForm';
+import toast from 'react-hot-toast';
+
 const FAQ = () => {
+  const [view, setView] = useState('list'); // 'list' | 'create' | 'edit'
+  const [selectedFAQ, setSelectedFAQ] = useState(null);
+  const [saving, setSaving] = useState(false);
+
+  const { faqs, loading, createFAQ, updateFAQ, deleteFAQ } = useFAQs();
+
+  const handleCreate = async (data) => {
+    try {
+      setSaving(true);
+      await createFAQ(data);
+      toast.success('FAQ created successfully!');
+      setView('list');
+    } catch (error) {
+      toast.error(error.message || 'Failed to create FAQ');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleUpdate = async (data) => {
+    try {
+      setSaving(true);
+      await updateFAQ(selectedFAQ.id, data);
+      toast.success('FAQ updated successfully!');
+      setView('list');
+      setSelectedFAQ(null);
+    } catch (error) {
+      toast.error(error.message || 'Failed to update FAQ');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteFAQ(id);
+      toast.success('FAQ deleted successfully!');
+    } catch (error) {
+      toast.error(error.message || 'Failed to delete FAQ');
+    }
+  };
+
+  const handleEdit = (faq) => {
+    setSelectedFAQ(faq);
+    setView('edit');
+  };
+
+  const handleCancel = () => {
+    setView('list');
+    setSelectedFAQ(null);
+  };
+
   return (
     <div className="container py-5">
       <div className="row">
         <div className="col-12">
           <div className="card bg-dark border-0 shadow-lg">
-            <div className="card-body p-5">
-              <div className="text-center mb-4">
-                <i className="bi bi-question-circle" style={{ fontSize: '3rem', color: '#6A47ED' }}></i>
-              </div>
-              <h2 className="text-center mb-3 text-white">FAQ Management</h2>
-              <p className="text-center text-white-50 mb-4">
-                Create and organize frequently asked questions for your visitors.
-              </p>
-              
-              <div className="row g-4 mt-4">
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-folder2 me-2"></i>
-                      Categories
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Organize FAQs into logical categories
-                    </p>
-                  </div>
+            <div className="card-body p-4">
+              {/* Header */}
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                  <h2 className="text-white mb-1">
+                    <i className="bi bi-question-circle me-2" style={{ color: '#6A47ED' }}></i>
+                    FAQ Management
+                  </h2>
+                  <p className="text-white-50 mb-0">
+                    {view === 'list' && `Manage ${faqs.length} frequently asked questions`}
+                    {view === 'create' && 'Create a new FAQ'}
+                    {view === 'edit' && 'Edit FAQ'}
+                  </p>
                 </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-text-paragraph me-2"></i>
-                      Rich Answers
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Format answers with rich text editor
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-search me-2"></i>
-                      Search & Filter
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Help users find answers quickly
-                    </p>
-                  </div>
-                </div>
+                {view === 'list' && (
+                  <button
+                    className="btn text-dark"
+                    style={{ background: '#C6F806' }}
+                    onClick={() => setView('create')}
+                  >
+                    <i className="bi bi-plus-lg me-2"></i>
+                    Add FAQ
+                  </button>
+                )}
               </div>
-              
-              <div className="text-center mt-5">
-                <span className="badge px-4 py-2" style={{ background: '#6A47ED', fontSize: '14px' }}>
-                  Coming in Phase 2.5
-                </span>
-              </div>
+
+              {/* Content */}
+              {view === 'list' && (
+                <FAQTable
+                  faqs={faqs}
+                  loading={loading}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                />
+              )}
+
+              {view === 'create' && (
+                <FAQForm
+                  onSubmit={handleCreate}
+                  onCancel={handleCancel}
+                  loading={saving}
+                />
+              )}
+
+              {view === 'edit' && (
+                <FAQForm
+                  faq={selectedFAQ}
+                  onSubmit={handleUpdate}
+                  onCancel={handleCancel}
+                  loading={saving}
+                />
+              )}
             </div>
           </div>
         </div>

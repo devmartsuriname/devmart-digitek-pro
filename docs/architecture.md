@@ -417,6 +417,148 @@ USING (has_role(auth.uid(), 'viewer'));
 
 ---
 
+## FAQ Module
+
+### Data Flow
+
+```mermaid
+graph TD
+    A[FAQ.jsx Admin Page] --> B[useFAQs Hook]
+    B --> C[SupabaseFAQRepository]
+    C --> D[(faqs Table)]
+    
+    A --> E[FAQForm Component]
+    E --> F[RichTextEditor Component]
+    F --> G[MDXPreview Component]
+    
+    A --> H[FAQTable Component]
+    H --> I[Search: Question/Answer]
+    H --> J[Filter: Category]
+    H --> K[Display: Truncated Text]
+    
+    D --> L[RLS Policies]
+    L --> M{User Role}
+    M -->|Admin| N[Full CRUD Access]
+    M -->|Editor| O[Create/Edit Only]
+    M -->|Anonymous| P[View All FAQs]
+```
+
+### Component Hierarchy
+
+```
+FAQ.jsx (Admin Page)
+├── FAQTable.jsx (List View)
+│   ├── Search Input (question/answer)
+│   ├── Category Filter Dropdown
+│   ├── Results Count Display
+│   ├── Truncated Question (max 80 chars)
+│   ├── Truncated Answer (max 100 chars)
+│   ├── Category Badge
+│   ├── Order Number Display
+│   └── Edit/Delete Actions
+│
+└── FAQForm.jsx (Create/Edit)
+    ├── Question Input (max 500 chars, with counter)
+    ├── Category Input (optional, max 100 chars)
+    ├── RichTextEditor Component (Answer)
+    │   └── MDXPreview Modal
+    │       └── react-markdown Renderer
+    └── Order Input (integer, default 0)
+```
+
+### Hooks Architecture
+
+**useFAQs(filters)**
+- **Purpose**: Manage FAQs with filtering
+- **Returns**: `{ faqs, loading, error, total, refresh, createFAQ, updateFAQ, deleteFAQ }`
+- **Filters**: search, category, limit, offset
+- **Sorting**: Ordered by `order_num` (ascending)
+
+**useFAQ(id)**
+- **Purpose**: Fetch single FAQ by ID
+- **Returns**: `{ faq, loading, error }`
+- **Use Case**: Admin edit view
+
+### Special Features
+
+#### 1. Category-Based Organization
+```javascript
+// FAQs can be grouped by category for public display
+const categories = [...new Set(faqs.map(faq => faq.category).filter(Boolean))];
+
+// Category filter dropdown dynamically populated
+```
+
+#### 2. Rich Text Answers
+- **Storage**: Plain text with Markdown support
+- **Editor**: RichTextEditor component (shared with Blog)
+- **Preview**: MDXPreview modal with react-markdown
+- **Styling**: Custom Markdown components for consistent styling
+
+#### 3. Display Order Control
+- **Field**: `order_num` (integer, min 0, default 0)
+- **Sorting**: FAQs sorted by `order_num ASC`
+- **Use Case**: Control FAQ sequence in public accordion
+
+#### 4. Search Functionality
+```javascript
+// Search across both question and answer fields
+query = query.or(`question.ilike.%${search}%,answer.ilike.%${search}%`);
+```
+
+#### 5. Character Limits & Counters
+- **Question**: Max 500 characters (with live counter)
+- **Answer**: Max 2000 characters (no limit in practice)
+- **Category**: Max 100 characters
+
+### Form Validation (Zod)
+
+```typescript
+CreateFAQSchema = {
+  question: string().min(1, 'Required').max(500),
+  category: string().max(100).optional(),
+  answer: string().min(1, 'Required').max(2000),
+  order_num: number().int().min(0).default(0),
+}
+```
+
+### RLS Policies (faqs Table)
+
+```sql
+-- Anyone can view FAQs (public)
+CREATE POLICY "Anyone can view FAQs"
+ON faqs FOR SELECT
+USING (true);
+
+-- Admins have full access
+CREATE POLICY "Admins have full access to FAQs"
+ON faqs FOR ALL
+USING (has_role(auth.uid(), 'admin'));
+
+-- Editors can create FAQs
+CREATE POLICY "Editors can create FAQs"
+ON faqs FOR INSERT
+WITH CHECK (has_role(auth.uid(), 'editor'));
+
+-- Editors can update FAQs
+CREATE POLICY "Editors can update FAQs"
+ON faqs FOR UPDATE
+USING (has_role(auth.uid(), 'editor'));
+```
+
+### Future Enhancements (Phase 3+)
+
+1. **Public FAQ Integration**: Update `Faq1.jsx` to fetch from database with accordion
+2. **Drag-Drop Ordering**: Visual reordering interface with drag handles
+3. **FAQ Themes**: Add `theme` field for color-coded categories
+4. **FAQ Analytics**: Track most viewed/helpful FAQs
+5. **Helpful Votes**: Add upvote/downvote system for FAQs
+6. **FAQ Search Widget**: Standalone search component for public site
+7. **Bulk Import**: CSV/JSON import for initial FAQ seeding
+8. **Multi-Language**: Add translation fields for international sites
+
+---
+
 ## Active Home Page
 
 **Primary Landing Page:** Home-3 (Digtek React Template Home-3 variant)
