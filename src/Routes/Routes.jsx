@@ -20,6 +20,14 @@ import BlogDetailsPage from "../Pages/BlogDetailsPage";
 import AuthPage from "../Pages/AuthPage";
 import AdminLayout from "../Layout/AdminLayout";
 import Dashboard from "../Pages/Admin/Dashboard";
+import Services from "../Pages/Admin/Services";
+import Projects from "../Pages/Admin/Projects";
+import Blog from "../Pages/Admin/Blog";
+import Team from "../Pages/Admin/Team";
+import FAQ from "../Pages/Admin/FAQ";
+import Media from "../Pages/Admin/Media";
+import Leads from "../Pages/Admin/Leads";
+import Settings from "../Pages/Admin/Settings";
 import ProtectedRoute from "../Components/Auth/ProtectedRoute";
 
 export const router = createBrowserRouter([
@@ -100,6 +108,38 @@ export const router = createBrowserRouter([
             {
               path: "dashboard",
               element: <Dashboard></Dashboard>,
+            },
+            {
+              path: "services",
+              element: <Services></Services>,
+            },
+            {
+              path: "projects",
+              element: <Projects></Projects>,
+            },
+            {
+              path: "blog",
+              element: <Blog></Blog>,
+            },
+            {
+              path: "team",
+              element: <Team></Team>,
+            },
+            {
+              path: "faq",
+              element: <FAQ></FAQ>,
+            },
+            {
+              path: "media",
+              element: <Media></Media>,
+            },
+            {
+              path: "leads",
+              element: <Leads></Leads>,
+            },
+            {
+              path: "settings",
+              element: <Settings></Settings>,
             },
           ],
         },
