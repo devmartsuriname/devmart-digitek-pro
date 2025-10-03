@@ -1,3 +1,4 @@
+import ContactForm from "./ContactForm";
 
 const ContactInfo2 = () => {
     return (
@@ -65,35 +66,9 @@ const ContactInfo2 = () => {
                             <div className="contact-content">
                                 <h2>Ready to Get Started?</h2>
                                 <p>
-                                    Nullam varius, erat quis iaculis dictum, eros urna varius eros, ut blandit felis odio in turpis. Quisque rhoncus, eros in auctor ultrices,
+                                    Get in touch with us today. We'll respond to your inquiry as soon as possible.
                                 </p>
-                                <form id="contact-form" className="contact-form-items">
-                                    <div className="row g-4">
-                                        <div className="col-lg-6 wow fadeInUp" data-wow-delay=".3s">
-                                            <div className="form-clt">
-                                                <span>Your name*</span>
-                                                <input type="text" name="name" id="name" placeholder="Your Name" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 wow fadeInUp" data-wow-delay=".5s">
-                                            <div className="form-clt">
-                                                <span>Your Email*</span>
-                                                <input type="text" name="email" id="email" placeholder="Your Email" />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-12 wow fadeInUp" data-wow-delay=".7s">
-                                            <div className="form-clt">
-                                                <span>Write Message*</span>
-                                                <textarea name="message" id="message" placeholder="Write Message"></textarea>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-7 wow fadeInUp" data-wow-delay=".9s">
-                                            <button type="submit" className="theme-btn">
-                                                Send Message <i className="bi bi-arrow-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                <ContactForm />
                             </div>
                         </div>
                     </div>

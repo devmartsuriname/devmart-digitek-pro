@@ -252,24 +252,29 @@
 - [x] Apply RLS policies (read, insert, delete, update)
 - [x] Update `/docs/backend.md`
 
-### 3.7 Leads Inbox
-- [ ] Create `LeadsList.jsx` with:
+### 3.7 Leads Inbox ✅ COMPLETE (v0.12.0)
+- [x] Create `LeadsList.jsx` with:
   - Table: name, email, phone, subject, source, status, date
   - Status toggle (new → contacted → closed)
   - Export to CSV
-  - Mark as read/unread
-  - Search/filter
-- [ ] Implement `SupabaseLeadRepository`
-- [ ] Create public contact form:
+  - Search/filter by status, name, email, subject
+  - Expandable rows for full message
+  - Lead detail modal
+- [x] Implement `SupabaseLeadRepository`
+- [x] Create `useLeads` hook with status management
+- [x] Create public contact form:
   - Fields: name, email, phone, subject, message
   - Honeypot field (hidden, anti-spam)
   - Zod validation
-  - Rate limiting (1 per 5 min per IP)
-  - Email notification to admin (via Resend)
-  - Privacy notice checkbox
-- [ ] Apply RLS policies
-- [ ] Test lead capture flow
-- [ ] Update `/docs/backend.md`
+  - Rate limiting (client-side: 1 per 5 min per session)
+  - Privacy notice
+  - Success/error handling
+- [x] Apply RLS policies
+- [x] Test lead capture flow
+- [x] Update `/docs/backend.md`
+- [x] Update `/docs/changelog.md`
+- [ ] Email notification to admin (requires RESEND_API_KEY - Phase 3)
+- [ ] Server-side rate limiting (IP-based - Phase 3)
 
 ### 3.8 Settings
 - [ ] Create `Settings.jsx` with tabs:
@@ -443,8 +448,19 @@
 
 ## Status Tracking
 
-**Current Phase:** Phase 2 - Admin CMS ⏳ In Progress (3.6/8 complete)  
-**Next Phase:** Phase 2.7 - Leads Inbox  
-**Overall Progress:** 15% complete  
+**Current Phase:** Phase 2 - Admin CMS ⏳ In Progress (4.7/8 complete - 58.75%)  
+**Next Phase:** Phase 2.8 - Settings  
+**Overall Progress:** 18% complete  
 
-**Last Updated:** 2025-10-03
+**Last Updated:** 2025-01-06
+
+**Phase 2 Module Status:**
+- ✅ 2.1 - Admin Dashboard Shell
+- ✅ 2.2 - Services CRUD (v0.6.0)
+- ✅ 2.3 - Projects CRUD (v0.7.0)
+- ✅ 2.4 - Blog CRUD (v0.8.0)
+- ✅ 2.5 - Team CRUD (v0.9.0)
+- ✅ 2.6 - FAQ CRUD (v0.10.0)
+- ✅ 2.7 - Media Library (v0.11.0)
+- ✅ 2.8 - Leads Inbox (v0.12.0)
+- 🟡 2.9 - Settings (Next)

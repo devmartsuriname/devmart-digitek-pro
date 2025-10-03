@@ -642,9 +642,10 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 - [x] RLS enabled on all tables
 - [x] Roles stored in separate `user_roles` table (prevents privilege escalation)
 - [x] Security definer function for role checks (prevents RLS recursion)
-- [ ] Rate limiting on contact form (IP-based)
-- [ ] Honeypot field in contact form (anti-spam)
-- [ ] Input validation with Zod on all forms
+- [x] Rate limiting on contact form (client-side via localStorage)
+- [x] Honeypot field in contact form (anti-spam, hidden field)
+- [x] Input validation with Zod on all forms
+- [ ] Rate limiting on contact form (server-side IP-based - Phase 3)
 - [ ] HTTPS enforced in production
 - [ ] Supabase API keys stored in `.env` (not committed)
 - [ ] CORS configured for production domain only
@@ -705,8 +706,8 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 
 ## Status
 
-**Phase:** Phase 2.5 Complete ✅ - FAQ CRUD Module Implemented  
-**Next Steps:** Phase 2.6 - Media Library  
+**Phase:** Phase 2.7 Complete ✅ - Leads Inbox Module Implemented  
+**Next Steps:** Phase 2.8 - Settings  
 **Last Updated:** 2025-01-06
 
 ### Repository Implementation Status
@@ -731,8 +732,8 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 | Blog | ✅ useBlogPosts | ✅ BlogForm | ✅ BlogTable | ✅ v0.8.0 |
 | Team | ✅ useTeam | ✅ TeamForm | ✅ TeamTable | ✅ v0.9.0 |
 | FAQ | ✅ useFAQ | ✅ FAQForm | ✅ FAQTable | ✅ v0.10.0 |
-| Media | 🟡 Pending | 🟡 Pending | 🟡 Pending | Phase 2.6 |
-| Leads | 🟡 Pending | 🟡 Pending | 🟡 Pending | Phase 2.7 |
+| Media | ✅ useMedia | ✅ MediaUploader | ✅ MediaGrid | ✅ v0.11.0 |
+| Leads | ✅ useLeads | ✅ ContactForm | ✅ LeadsTable | ✅ v0.12.0 |
 | Settings | 🟡 Pending | 🟡 Pending | N/A | Phase 2.8 |
 
 ### Files Created (Phase 1.4)

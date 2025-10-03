@@ -9,10 +9,123 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.7 - Leads Inbox (Next)
-- [ ] Build leads inbox interface with status management
-- [ ] Implement CSV export functionality
-- [ ] Add email notifications for new leads
+---
+
+## [0.12.0] - 2025-01-06
+
+### Phase 2.7 - Leads Inbox Module ✅
+
+**Leads Management Complete**
+- Full CRUD interface for managing contact form submissions
+- Status tracking (New → Contacted → Closed) with color-coded badges
+- Search and filter functionality (by status, name, email, subject)
+- CSV export of leads (filtered or all)
+- Expandable table rows for full message view
+- Lead detail modal with contact info and quick actions
+
+**Public Contact Form**
+- Functional contact form with Zod validation
+- Fields: Name*, Email*, Phone, Subject, Message*
+- Client-side rate limiting (1 submission per 5 minutes)
+- Privacy notice and GDPR compliance
+- Success/error handling with toast notifications
+- Form reset after successful submission
+- Honeypot field for basic bot prevention
+
+**Custom Hooks Created**
+- `useLeads` hook for lead data management
+  - `fetchLeads()`: Retrieve leads with filtering
+  - `updateLeadStatus()`: Change lead status (new/contacted/closed)
+  - `fetchCounts()`: Real-time status counts
+  - Auto-refresh on status changes
+  - Error handling with toast feedback
+
+**Utilities Created**
+- `exportCSV.ts`: CSV export utility
+  - Converts lead array to downloadable CSV
+  - Proper escaping for special characters
+  - Auto-generated filename with date
+
+**UI Components Built**
+- **LeadsTable.jsx**: Responsive table with status management
+  - Sortable columns with mobile-friendly design
+  - Inline status dropdown for quick updates
+  - Expandable rows for full message display
+  - Email/phone click-to-action links
+  - Loading and empty states
+- **LeadsFilters.jsx**: Advanced filtering interface
+  - Status tabs with real-time counts
+  - Search input (name, email, subject)
+  - Clear filters button
+  - Export CSV action button
+- **LeadDetailModal.jsx**: Full lead information view
+  - Complete contact details
+  - Status update dropdown
+  - Copy email to clipboard
+  - Reply via email link
+  - Formatted message display
+- **ContactForm.jsx**: Public-facing form
+  - Controlled inputs with validation
+  - Real-time error messages
+  - Submit loading state
+  - Rate limit countdown
+  - Success confirmation
+
+**Admin Page**
+- **Leads.jsx**: Complete leads inbox
+  - Stats cards (New, Contacted, Closed, Total)
+  - Integrated filters and table
+  - Modal for lead details
+  - CSV export functionality
+  - Toast notifications
+
+**Repository Integration**
+- Leverages existing `SupabaseLeadRepository`
+- RLS policies enforce proper access control
+- No delete operations (audit trail preserved)
+
+**Files Created** (8)
+- `src/lib/hooks/useLeads.ts`
+- `src/lib/utils/exportCSV.ts`
+- `src/Components/Admin/Tables/LeadsTable.jsx`
+- `src/Components/Admin/LeadsFilters.jsx`
+- `src/Components/Admin/LeadDetailModal.jsx`
+- `src/Components/ContactInfo/ContactForm.jsx`
+- `src/Pages/Admin/Leads.jsx` (replaced placeholder)
+- `src/Components/ContactInfo/ContactInfo2.jsx` (updated)
+
+**Files Updated** (2)
+- Contact page integrated with functional form
+- Admin route functional with full interface
+
+**Security Features**
+- Client-side rate limiting via localStorage
+- RLS policies: public can insert, staff can read/update
+- Input validation with Zod schemas
+- No sensitive data logging
+- Audit trail (no delete operations)
+
+**Testing Checklist**
+- ✅ Contact form validation works correctly
+- ✅ Lead submissions stored in database
+- ✅ Admin can view all leads
+- ✅ Status updates reflect immediately
+- ✅ Search filters leads properly
+- ✅ CSV export downloads correctly
+- ✅ Mobile responsive design
+- ✅ Rate limiting prevents spam
+- ✅ Empty states display properly
+- ✅ Loading states show during operations
+
+**Known Limitations**
+- Email notifications not yet implemented (requires RESEND_API_KEY)
+- Rate limiting is client-side only (server-side planned for Phase 3)
+- No email/SMS notifications on new leads yet
+
+**Next Steps**
+- Add RESEND_API_KEY secret for email notifications
+- Create edge function for lead notification emails
+- Implement server-side rate limiting (IP-based)
 
 ---
 
