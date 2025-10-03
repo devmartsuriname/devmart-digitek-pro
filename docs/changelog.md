@@ -9,11 +9,219 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 1.4 - Repository Pattern & Admin CMS (Next)
-- [ ] Create repository interfaces (IServiceRepository, IProjectRepository, etc.)
-- [ ] Implement Supabase adapters for all repositories
-- [ ] Create Zod schemas for all DTOs
-- [ ] Create admin modules for content management (Services, Projects, Blog, etc.)
+### Phase 2.1 - Services CRUD Module (Next)
+- [ ] Create service management UI with list/create/edit forms
+- [ ] Implement useServices hook with repository integration
+- [ ] Build admin forms with Digtek styling
+- [ ] Add image upload for service icons
+
+---
+
+## [0.5.0] - 2025-01-03
+
+### Phase 1.4 - Repository Pattern & Foundation ✅
+
+**Core Architecture: Ports & Adapters Pattern**
+- Implemented complete Repository Pattern for migration-ready architecture
+- All business logic abstracted from data layer
+- Provider-agnostic design (Supabase → PlanetScale/MongoDB ready)
+- Type-safe end-to-end with TypeScript + Zod validation
+
+**Repository Interfaces Created (8 total)**
+- `IServiceRepository` - Service management with slug/publish queries
+- `IProjectRepository` - Portfolio projects with featured/tech filters
+- `IBlogRepository` - Blog posts with tags, views, and featured content
+- `ITeamRepository` - Team member profiles with ordering
+- `IFAQRepository` - FAQ management with categories
+- `IMediaRepository` - Media library with folder organization
+- `ILeadRepository` - Contact lead management (no delete for audit)
+- `ISettingsRepository` - Site settings (singleton pattern)
+
+**Standard Repository Methods**
+- `create(data)` - Insert new record with user tracking
+- `findById(id)` - Fetch by UUID
+- `findBySlug(slug)` - Fetch by URL slug (content types)
+- `findAll(filters)` - Paginated list with search/filter
+- `findAllPublished(filters)` - Public-facing content only
+- `count(filters)` - Total count for pagination
+- `update(id, data)` - Update with user tracking
+- `delete(id)` - Soft/hard delete (except leads)
+
+**Specialized Query Methods**
+- `findFeatured(limit)` - Featured projects/blog posts
+- `findByTag(tag, filters)` - Blog posts by tag
+- `findByCategory(category)` - FAQs by category
+- `findByFolder(folder)` - Media by folder
+- `incrementViews(id)` - Blog post analytics
+
+**Zod Schemas & DTOs (8 entities)**
+Created comprehensive validation schemas for all entities:
+
+1. **Service** (`src/lib/schemas/service.ts`)
+   - `ServiceSchema` - Full entity model
+   - `CreateServiceSchema` - Insert validation (slug regex, title 1-200 chars)
+   - `UpdateServiceSchema` - Partial update validation
+   - `ServiceFiltersSchema` - Query filters (status, search, pagination)
+
+2. **Project** (`src/lib/schemas/project.ts`)
+   - Includes gallery (array), tech stack (array), featured flag
+   - Filters: status, featured, tech, search
+
+3. **BlogPost** (`src/lib/schemas/blog.ts`)
+   - MDX body field (`body_mdx`), tags array, views counter
+   - Filters: status, featured, author_id, tags, search
+
+4. **TeamMember** (`src/lib/schemas/team.ts`)
+   - Socials (JSON object), photo_url, bio
+   - Order-based sorting
+
+5. **FAQ** (`src/lib/schemas/faq.ts`)
+   - Category, question (1-500 chars), answer (1-2000 chars)
+   - Order-based display
+
+6. **Media** (`src/lib/schemas/media.ts`)
+   - URL, alt text, dimensions, type, folder
+   - No delete for Media (audit trail)
+
+7. **Lead** (`src/lib/schemas/lead.ts`)
+   - Public submission (name, email, phone, subject, message)
+   - Admin-only status updates (new → contacted → closed)
+   - No delete (audit trail)
+
+8. **Settings** (`src/lib/schemas/settings.ts`)
+   - Singleton pattern (update-only)
+   - Branding, social, analytics, meta fields
+
+**Field Name Alignment**
+All schemas strictly match `backend.md` naming conventions:
+- ✅ `order_num` (not `order`)
+- ✅ `icon_url` (not `iconUrl` or `icon`)
+- ✅ `logo_url` (not `logoUrl`)
+- ✅ `body_mdx` (not `body` or `bodyMdx`)
+- ✅ `seo_title` / `seo_desc` (not `seoTitle`)
+
+**Supabase Adapters (8 implementations)**
+Created full Supabase implementations in `src/lib/adapters/supabase/`:
+
+1. **SupabaseServiceRepository**
+   - Full CRUD with RLS enforcement
+   - Slug-based queries, publish filtering
+   - Order-based sorting (ASC by order_num)
+
+2. **SupabaseProjectRepository**
+   - Gallery/tech array handling (JSONB)
+   - Featured project queries
+   - Date-based sorting (DESC)
+
+3. **SupabaseBlogRepository**
+   - MDX body handling
+   - Tag-based filtering with `overlaps()` operator
+   - View counter increment (with fallback)
+   - Featured blog queries
+
+4. **SupabaseTeamRepository**
+   - Socials JSONB mapping
+   - Order-based sorting
+
+5. **SupabaseFAQRepository**
+   - Category filtering
+   - Order-based display
+
+6. **SupabaseMediaRepository**
+   - Folder organization
+   - Type filtering (image/video/etc.)
+
+7. **SupabaseLeadRepository**
+   - Public submission (no auth required)
+   - Admin-only read/update (RLS enforced)
+   - Status tracking
+
+8. **SupabaseSettingsRepository**
+   - Singleton pattern (get/update only)
+   - Auto-create on first update if not exists
+
+**Adapter Implementation Features**
+- **Type Safety**: All adapters use `Database['public']['Tables'][...]` types
+- **User Tracking**: Auto-populate `created_by`, `updated_by` from session
+- **Error Handling**: Consistent error messages with context
+- **RLS Enforcement**: Policies enforced via `has_role()` function
+- **Smart Queries**: 
+  - `maybeSingle()` to avoid errors on missing data
+  - `ilike` for case-insensitive search
+  - `overlaps()` for array filtering (tags)
+  - `contains()` for tech stack filtering
+  - Pagination with `range(offset, offset + limit - 1)`
+- **Sorting**: Context-aware (order_num, date, created_at)
+
+**Folder Structure Created**
+```
+src/lib/
+├── schemas/                    # Zod validation schemas + DTOs
+│   ├── service.ts             # Service entity + DTOs
+│   ├── project.ts             # Project entity + DTOs
+│   ├── blog.ts                # BlogPost entity + DTOs
+│   ├── team.ts                # TeamMember entity + DTOs
+│   ├── faq.ts                 # FAQ entity + DTOs
+│   ├── media.ts               # Media entity + DTOs
+│   ├── lead.ts                # Lead entity + DTOs
+│   └── settings.ts            # Settings entity + DTOs
+├── repos/                      # Repository interfaces (ports)
+│   ├── IServiceRepository.ts
+│   ├── IProjectRepository.ts
+│   ├── IBlogRepository.ts
+│   ├── ITeamRepository.ts
+│   ├── IFAQRepository.ts
+│   ├── IMediaRepository.ts
+│   ├── ILeadRepository.ts
+│   └── ISettingsRepository.ts
+└── adapters/
+    └── supabase/               # Supabase implementations
+        ├── SupabaseServiceRepository.ts
+        ├── SupabaseProjectRepository.ts
+        ├── SupabaseBlogRepository.ts
+        ├── SupabaseTeamRepository.ts
+        ├── SupabaseFAQRepository.ts
+        ├── SupabaseMediaRepository.ts
+        ├── SupabaseLeadRepository.ts
+        └── SupabaseSettingsRepository.ts
+```
+
+**Architecture Benefits**
+- **Migration-Ready**: Swap providers by creating new adapters (no UI changes)
+- **Type Safety**: End-to-end TypeScript with Zod validation
+- **Security**: RLS enforcement at adapter level, input validation at schema level
+- **Testability**: Mock repositories for unit tests
+- **Maintainability**: Clear separation of concerns (UI → Service → Repository → Provider)
+- **Performance**: Optimized queries with pagination, filtering, search
+
+**Testing Strategy**
+- Repository interfaces can be mocked for UI component tests
+- Supabase adapters tested against live database
+- Zod schemas validate inputs before DB queries
+- RLS policies enforced automatically by Supabase
+
+**Migration Strategy**
+To swap providers (e.g., Supabase → PlanetScale):
+1. Create new adapter: `PlanetScaleServiceRepository implements IServiceRepository`
+2. Implement all interface methods using PlanetScale client
+3. Update hook instantiation: `const repo = new PlanetScaleServiceRepository()`
+4. **Zero UI changes required**
+
+**What's Working**
+- Complete repository pattern implementation
+- All Zod schemas with strict validation
+- All Supabase adapters with RLS enforcement
+- Type-safe end-to-end data flow
+- Migration-ready architecture
+- Security-first design (validation + RLS)
+
+**Next Steps**
+- Phase 2.1: Services CRUD Module
+  - Create `useServices()` hook with repository integration
+  - Build admin forms (ServicesList, ServiceForm)
+  - Implement CRUD operations in UI
+  - Add image upload for service icons
+  - Test with real Supabase data
 
 ---
 
