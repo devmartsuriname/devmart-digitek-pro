@@ -250,7 +250,7 @@ create index idx_leads_status on public.leads(status);
 create index idx_leads_created_at on public.leads(created_at desc);
 ```
 
-#### `settings`
+#### `settings` ✅
 ```sql
 create table public.settings (
   id uuid primary key default gen_random_uuid(),
@@ -260,8 +260,8 @@ create table public.settings (
   primary_color text default '#6A47ED',
   contact_email text,
   contact_phone text,
-  social jsonb default '{}'::jsonb,
-  analytics jsonb default '{}'::jsonb,
+  social jsonb default '{}'::jsonb,  -- { "facebook": "url", "twitter": "url", ... }
+  analytics jsonb default '{}'::jsonb,  -- { "plausible_site_id": "...", "google_analytics_id": "..." }
   meta_title text,
   meta_desc text,
   created_at timestamp with time zone default now(),
@@ -270,7 +270,20 @@ create table public.settings (
 
 -- Ensure only one settings row exists (singleton pattern)
 create unique index idx_settings_singleton on public.settings((id is not null));
+
+-- Trigger for automatic updated_at
+create trigger update_settings_updated_at
+  before update on public.settings
+  for each row execute function update_updated_at_column();
 ```
+
+**Admin UI Status:** ✅ Complete
+- Tabbed interface with 5 sections (General, Branding, Social, Analytics, Contact)
+- `useSettings` hook with singleton pattern
+- Per-tab save functionality with Zod validation
+- Color picker for primary_color with live preview
+- JSON field handling for social and analytics
+- Location: `/admin/settings`
 
 ---
 
