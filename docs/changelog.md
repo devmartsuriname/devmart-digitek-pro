@@ -9,10 +9,169 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.6 - Media Library (Next)
-- [ ] Build media upload and management interface
-- [ ] Implement folder organization
-- [ ] Add alt text editing and image optimization
+### Phase 2.7 - Leads Inbox (Next)
+- [ ] Build leads inbox interface with status management
+- [ ] Implement CSV export functionality
+- [ ] Add email notifications for new leads
+
+---
+
+## [0.11.0] - 2025-01-06
+
+### Phase 2.6 - Media Library Module ✅
+
+**Media Library Complete**
+- Full upload, organize, and manage media files with Supabase Storage integration
+- Drag-and-drop multi-file upload with progress tracking
+- Grid display with responsive design and hover actions
+- Advanced filtering (type, folder, search by alt text)
+- Alt text editing and folder organization
+- Copy URL to clipboard functionality
+- Delete with confirmation modal
+
+**Custom Hooks Created**
+- `useMedia` hook with Storage and repository integration
+  - `uploadMedia()`: Upload files to Supabase Storage with validation (max 10MB)
+  - `updateMedia()`: Update alt text and folder organization
+  - `deleteMedia()`: Delete from both Storage bucket and database
+  - `copyToClipboard()`: Copy URL utility with clipboard API
+  - Auto-refreshing media list with filters (type, folder, search)
+  - Parallel fetching for media list and count
+  - Real-time progress tracking for uploads
+  - Error handling and state management
+- `useMediaItem` hook for fetching single media by ID
+
+**UI Components Built**
+- **Media.jsx**: Main admin page with full CRUD interface
+  - File count display with dynamic subtitle
+  - Integrated uploader, grid, filters, and modals
+  - Delete confirmation modal
+  - Toast notifications for all operations
+  - Comprehensive error handling
+  
+- **MediaUploader.jsx**: Drag-and-drop upload interface
+  - Multi-file drag-and-drop zone with visual feedback
+  - File input fallback for traditional uploads
+  - Per-file progress tracking with status indicators (uploading, success, error)
+  - Folder organization field at upload time
+  - Default alt text field for batch uploads
+  - File validation (size < 10MB, allowed types)
+  - Upload queue with progress bars
+  - Dark theme with Digtek colors
+  
+- **MediaGrid.jsx**: Responsive grid display
+  - 4-column responsive grid (2 on tablet, 1 on mobile)
+  - Image lazy loading for performance optimization
+  - File type icons for non-image files (PDF, video, etc.)
+  - Hover overlays with action buttons
+  - Actions: Copy URL, Edit, Delete
+  - Folder badges and creation date display
+  - Truncated alt text with tooltips
+  - Loading skeletons (6-card placeholder)
+  - Empty state with context-aware message and icon
+  
+- **MediaFilters.jsx**: Advanced filtering controls
+  - Search input by alt text (live filtering)
+  - Type filter dropdown (All, Images, Videos, Documents)
+  - Folder filter dropdown (dynamic list from database)
+  - Clear filters button (visible when filters active)
+  - Results count display
+  
+- **MediaEditModal.jsx**: Edit media metadata
+  - Alt text editor with character counter (max 200)
+  - Folder organization field (max 100)
+  - Image preview for visual confirmation
+  - Validation with inline error messages
+  - Read-only URL display for reference
+  - Save/Cancel actions with loading states
+  - Dark theme modal with Digtek styling
+
+**Supabase Storage Integration**
+- Upload to `media-library` bucket (public)
+- Unique filename generation: `{timestamp}-{random}.{ext}`
+- File path structure: `folder/filename` or `filename`
+- Public URL retrieval for database storage
+- Delete from Storage on record deletion
+- File validation (size, type) before upload
+
+**Toast Notifications**
+- Success: "File uploaded/updated/deleted successfully"
+- Success: "URL copied to clipboard"
+- Error: Display error messages from Storage/repository
+- Non-blocking notifications with auto-dismiss
+
+**Repository Integration**
+- Media page consumes `SupabaseMediaRepository`
+- RLS policies enforced (anyone can view, authenticated can upload, admin/editor can delete)
+- Type-safe end-to-end (Zod → Repository → Supabase)
+- Storage + Database operations coordinated
+
+**Routing Updates**
+- Media route fully functional at `/admin/media`
+- Protected route with authentication guard
+
+**Validation Features**
+- File size: Max 10MB per file
+- File types: images/*, video/*, application/pdf, documents
+- Alt text: Max 200 characters
+- Folder: Max 100 characters
+- URL: Auto-generated from Storage, read-only
+
+**UX Enhancements**
+- Drag-and-drop with visual feedback (border highlight)
+- Multi-file upload with individual progress bars
+- Grid hover effects with smooth transitions
+- Image lazy loading for performance
+- Copy URL with one click and toast confirmation
+- Delete confirmation prevents accidental removal
+- Inline validation with instant feedback
+- Responsive design (mobile/tablet/desktop)
+- Loading states prevent double submissions
+- Empty states with helpful CTAs
+- Folder badges for visual organization
+
+**Dependencies Added**
+- `lucide-react@latest` - Modern icon library for UI components
+
+**Testing Confirmed**
+- [x] Upload single file (form → Storage → DB → list refresh)
+- [x] Upload multiple files (drag-drop → progress → success)
+- [x] File validation works (size limit, type check)
+- [x] Grid displays correctly with images and icons
+- [x] Search filtering works (alt text)
+- [x] Type filtering works (Images, Videos, Documents)
+- [x] Folder filtering works (dynamic dropdown)
+- [x] Edit modal updates alt text and folder
+- [x] Delete confirmation modal works
+- [x] Delete removes from Storage and DB
+- [x] Copy URL to clipboard works with toast
+- [x] Validation errors display correctly
+- [x] Toast notifications display
+- [x] Empty state displays when no media
+- [x] Loading states work correctly
+- [x] RLS policies enforce role-based access
+- [x] Responsive design across devices
+
+**What's Working**
+- Complete Media Library with professional UI
+- Supabase Storage integration for file uploads
+- Drag-and-drop multi-file upload
+- Grid display with lazy loading
+- Advanced filtering (type, folder, search)
+- Alt text and folder organization
+- Copy URL functionality
+- Delete with confirmation
+- Type-safe data flow (Zod → Repository → Supabase + Storage)
+- Role-based access control (RLS enforced)
+- User feedback via toast notifications
+- Auto-refresh on CRUD operations
+- Responsive design across devices
+- Pixel-perfect Digtek styling
+
+**Next Steps**
+- Phase 2.7: Leads Inbox (view, export, status management)
+- Phase 2.8: Settings (site config, branding, social links)
+- Phase 3: Public page integration (fetch media from database)
 
 ---
 

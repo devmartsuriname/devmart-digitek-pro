@@ -559,6 +559,37 @@ USING (has_role(auth.uid(), 'editor'));
 
 ---
 
+## 8. Media Module
+
+**Status:** ✅ Complete (v0.11.0)  
+**Purpose:** Upload, organize, and manage media files with Supabase Storage integration
+
+### Data Flow
+
+```
+[User Upload] → [MediaUploader] → [useMedia Hook]
+  → [Supabase Storage] → [Media Table] → [MediaGrid]
+  → [Edit/Delete Actions]
+```
+
+### Components
+
+- **MediaUploader.jsx**: Drag-drop multi-file upload with progress
+- **MediaGrid.jsx**: Responsive grid with lazy loading and hover actions
+- **MediaFilters.jsx**: Search, type, and folder filtering
+- **MediaEditModal.jsx**: Alt text and folder editing
+
+### Storage Integration
+
+- **Bucket:** `media-library` (public, 10MB limit)
+- **Upload:** Validate → Upload to Storage → Create DB record
+- **Delete:** Remove from Storage + DB
+- **Features:** Folder organization, alt text, copy URL, type filtering
+
+---
+
+## 9. Admin Module – Common Patterns
+
 ## Active Home Page
 
 **Primary Landing Page:** Home-3 (Digtek React Template Home-3 variant)

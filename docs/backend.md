@@ -21,8 +21,8 @@
 | `projects` | Portfolio projects | slug, title, client, gallery, tech, featured |
 | `blog_posts` | Blog articles (MDX) | slug, title, body_mdx, tags, featured |
 | `team` | Team members | slug, name, role, bio, photo_url, socials |
-| `faqs` | FAQ items | category, question, answer, order |
-| `media` | Media library | url, alt, width, height, folder |
+| `faqs` | FAQ items | category, question, answer, order_num |
+| `media` | Media library (Storage integration) | url, alt, width, height, type, folder |
 | `leads` | Contact form submissions | name, email, phone, message, status |
 | `settings` | Site configuration (singleton) | site_name, logo_url, social, analytics |
 
@@ -382,6 +382,64 @@ to authenticated
 using (public.has_role(auth.uid(), 'admin'))
 with check (public.has_role(auth.uid(), 'admin'));
 ```
+
+### Media Table
+
+```sql
+alter table public.media enable row level security;
+
+-- Anyone can view media (public read)
+create policy "Anyone can view media"
+on public.media
+for select
+to anon, authenticated
+using (true);
+
+-- Authenticated users can upload media
+create policy "Authenticated users can upload media"
+on public.media
+for insert
+to authenticated
+with check (auth.uid() is not null);
+
+-- Admin and Editor can delete media
+create policy "Admins can delete media"
+on public.media
+for delete
+to authenticated
+using (public.has_role(auth.uid(), 'admin'));
+
+create policy "Editors can delete media"
+on public.media
+for delete
+to authenticated
+using (public.has_role(auth.uid(), 'editor'));
+
+-- Note: UPDATE policy omitted intentionally
+-- Alt text/folder updates happen via custom function with validation
+```
+
+**Media Storage Integration:**
+
+The `media` table stores metadata for files uploaded to Supabase Storage:
+
+- **Upload Flow:**
+  1. Validate file (size < 10MB, allowed types)
+  2. Generate unique filename: `{timestamp}-{random}.{ext}`
+  3. Upload to `media-library` bucket
+  4. Get public URL from Storage
+  5. Create database record with URL and metadata
+
+- **Delete Flow:**
+  1. Fetch media record by ID
+  2. Extract file path from URL
+  3. Delete from Storage bucket
+  4. Delete database record
+
+- **Folder Organization:**
+  - Files can be organized into folders (e.g., `blog/`, `products/`)
+  - Folder stored as TEXT field (max 100 chars)
+  - Path structure: `folder/filename` or `filename`
 
 ---
 
