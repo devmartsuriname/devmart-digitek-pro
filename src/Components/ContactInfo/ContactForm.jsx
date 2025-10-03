@@ -111,7 +111,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="contact-form-wrap">
+    <div className="contact-form-items">
       {success && (
         <div className="alert alert-success mb-4" role="alert">
           <i className="bi bi-check-circle me-2"></i>
@@ -122,8 +122,8 @@ const ContactForm = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row g-4">
           <div className="col-md-6">
-            <div className="form-inner">
-              <label htmlFor="name">Your Name *</label>
+            <div className="form-clt">
+              <span>Your Name *</span>
               <input
                 type="text"
                 id="name"
@@ -138,8 +138,8 @@ const ContactForm = () => {
           </div>
 
           <div className="col-md-6">
-            <div className="form-inner">
-              <label htmlFor="email">Your Email *</label>
+            <div className="form-clt">
+              <span>Your Email *</span>
               <input
                 type="email"
                 id="email"
@@ -154,8 +154,8 @@ const ContactForm = () => {
           </div>
 
           <div className="col-md-6">
-            <div className="form-inner">
-              <label htmlFor="phone">Phone Number</label>
+            <div className="form-clt">
+              <span>Phone Number</span>
               <input
                 type="tel"
                 id="phone"
@@ -169,8 +169,8 @@ const ContactForm = () => {
           </div>
 
           <div className="col-md-6">
-            <div className="form-inner">
-              <label htmlFor="subject">Subject</label>
+            <div className="form-clt">
+              <span>Subject</span>
               <input
                 type="text"
                 id="subject"
@@ -184,8 +184,8 @@ const ContactForm = () => {
           </div>
 
           <div className="col-12">
-            <div className="form-inner">
-              <label htmlFor="message">Your Message *</label>
+            <div className="form-clt">
+              <span>Your Message *</span>
               <textarea
                 id="message"
                 rows={6}
@@ -211,7 +211,7 @@ const ContactForm = () => {
           <div className="col-12">
             <button
               type="submit"
-              className="eg-btn btn--primary btn--lg"
+              className="theme-btn"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -220,10 +220,12 @@ const ContactForm = () => {
                   Sending...
                 </>
               ) : (
-                'Send Message'
+                <>
+                  Send Message <i className="bi bi-arrow-right"></i>
+                </>
               )}
             </button>
-            <p className="form-note mt-3 text-muted" style={{ fontSize: '13px' }}>
+            <p className="form-note mt-3" style={{ fontSize: '13px', color: '#64748B' }}>
               <i className="bi bi-shield-check me-1"></i>
               We respect your privacy. Your information will only be used to respond to your inquiry.
             </p>
