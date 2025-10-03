@@ -7,7 +7,6 @@ import Marquee3 from "../Components/Marquee/Marquee3";
 import Services2 from "../Components/Services/Services2";
 import Testimonial3 from "../Components/Testimonial/Testimonial3";
 import WhyChoose2 from "../Components/WhyChoose/WhyChoose2";
-import WhyChoose3 from "../Components/WhyChoose/WhyChoose3";
 
 const Home3 = () => {
     return (
@@ -18,7 +17,6 @@ const Home3 = () => {
             <Marquee2></Marquee2>
             <CaseStudy3></CaseStudy3>
             <Marquee3></Marquee3>
-            <WhyChoose3></WhyChoose3>
             <Testimonial3></Testimonial3>
             <Counter2></Counter2>
             <Blog2></Blog2>
