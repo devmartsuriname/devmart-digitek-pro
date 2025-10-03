@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Route-level code splitting:** All 26 routes (18 public + 8 admin) converted to `React.lazy()` with `<Suspense>` boundaries
 - **Component-level lazy loading:** Heavy admin forms (BlogForm, ProjectForm, ServiceForm, TeamForm) lazy load on-demand
 - **Media library optimization:** MediaGrid, MediaUploader, MediaEditModal lazy load separately
+- **react-slick optimization:** Created `LazySlider` wrapper component with `forwardRef` support - lazy loads carousel library (~80KB+) only when carousel sections render
+  - Updated 4 components: `CaseStudy3`, `Team2`, `Testimonial2`, `Testimonial3`
+  - Maintains full functionality (autoplay, navigation, refs)
+  - Custom slider skeleton fallback during load
 - **Custom loading skeletons:** PageSkeleton (public pages), AdminSkeleton (admin dashboard), FormSkeleton (forms)
 - **Bundle analyzer:** Configured `rollup-plugin-visualizer` for production builds (output: `dist/stats.html`)
 - **Async analytics:** Plausible script loads 2 seconds after page render (non-blocking)
@@ -49,9 +53,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/Pages/Admin/Services.jsx`: Lazy load ServiceForm with FormSkeleton
 - `src/Pages/Admin/Team.jsx`: Lazy load TeamForm with FormSkeleton
 - `src/Pages/Admin/Media.jsx`: Lazy load MediaUploader, MediaGrid, MediaEditModal
+- `src/Components/CaseStudy/CaseStudy3.jsx`: Use LazySlider wrapper
+- `src/Components/Team/Team2.jsx`: Use LazySlider wrapper with ref
+- `src/Components/Testimonial/Testimonial2.jsx`: Use LazySlider wrapper with ref
+- `src/Components/Testimonial/Testimonial3.jsx`: Use LazySlider wrapper
 
 ### 📁 New Files
 - `src/Components/Common/LoadingSkeleton.jsx`: Reusable skeletons (PageSkeleton, AdminSkeleton, FormSkeleton)
+- `src/Components/Common/LazySlider.jsx`: Lazy-loaded react-slick wrapper with forwardRef support and skeleton fallback
 - `src/lib/utils/loadAnalytics.js`: Dynamic analytics script loader
 
 ### 🔗 Dependencies Added

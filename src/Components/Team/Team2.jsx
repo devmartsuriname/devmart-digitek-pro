@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import Slider from "react-slick";
+import LazySlider from "../Common/LazySlider";
 
 const Team2 = () => {
 
@@ -75,7 +75,7 @@ const Team2 = () => {
                     <div className="col-lg-6">
                         <div className="swiper team-slider">
                             <div className="swiper-wrapper cs_slider_gap_30">
-                            <Slider ref={sliderRef} {...settings}>
+                            <LazySlider ref={sliderRef} settings={settings}>
                             {teamContent.map((item, i) => (
                                 <div key={i} className="swiper-slide">
                                     <div className="team-card-items mt-0">
@@ -101,7 +101,7 @@ const Team2 = () => {
                                     </div>
                                 </div>
                                  ))}
-                                 </Slider>
+                                 </LazySlider>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Slider from "react-slick";
+import LazySlider from "../Common/LazySlider";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
 
 const Testimonial2 = () => {
@@ -83,7 +83,7 @@ const Testimonial2 = () => {
                                 </div>
                                 <div className="swiper testimonial-slider-3">
                                     <div className="swiper-wrapper">
-                                    <Slider ref={sliderRef} {...settings}>
+                                    <LazySlider ref={sliderRef} settings={settings}>
                                     {testimonialContent.map((item, i) => (
                                         <div key={i} className="swiper-slide">
                                             <div className="testimonial-card-items">
@@ -105,7 +105,7 @@ const Testimonial2 = () => {
                                             </div>
                                         </div>
                                     ))}
-                                    </Slider>
+                                    </LazySlider>
 
                                     </div>
                                 </div>

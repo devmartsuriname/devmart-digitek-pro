@@ -1,4 +1,4 @@
-import Slider from "react-slick";
+import LazySlider from "../Common/LazySlider";
 
 const Testimonial3 = () => {
 
@@ -69,7 +69,7 @@ const Testimonial3 = () => {
                     <div className="swiper testimonial-slider-2">
                         <div className="swiper-wrapper">
                             
-                        <Slider {...settings}>
+                        <LazySlider settings={settings}>
                         {testimonialContent.map((item, i) => (                            
                             <div key={i} className="swiper-slide">
                                 <div className="testimonial-content">
@@ -91,7 +91,7 @@ const Testimonial3 = () => {
                                 </div>
                             </div>
                             ))}
-                            </Slider>
+                            </LazySlider>
 
 
                         </div>

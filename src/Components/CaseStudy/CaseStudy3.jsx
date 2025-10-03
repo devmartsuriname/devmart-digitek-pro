@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Slider from "react-slick";
+import LazySlider from "../Common/LazySlider";
 
 const CaseStudy3 = () => {
 
@@ -57,7 +57,7 @@ const CaseStudy3 = () => {
         <div className="container-fluid">
             <div className="swiper project-slider">
                 <div className="swiper-wrapper cs_slider_gap_30">
-                <Slider {...settings}>
+                <LazySlider settings={settings}>
                 {chooseContent.map((item, i) => (
                     <div key={i} className="swiper-slide">
                         <div className="case-studies-card-items">
@@ -74,7 +74,7 @@ const CaseStudy3 = () => {
                         </div>
                     </div>
                     ))}
-                    </Slider>
+                    </LazySlider>
 
                 </div>
             </div>
