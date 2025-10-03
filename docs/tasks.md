@@ -238,8 +238,8 @@
 - [ ] Test CRUD operations
 - [ ] Update `/docs/backend.md`
 
-### 3.6 Media Library
-- [ ] Create `MediaLibrary.jsx` with:
+### 3.6 Media Library ✅ COMPLETE (v0.11.0)
+- [x] Create `MediaLibrary.jsx` with:
   - Grid view of all uploads
   - Drag-drop upload
   - Alt text editing
@@ -247,10 +247,10 @@
   - Copy URL button
   - Delete with confirmation
   - Filters (type, folder)
-- [ ] Implement `SupabaseMediaRepository`
-- [ ] Integrate with Supabase Storage
-- [ ] Apply RLS policies
-- [ ] Update `/docs/backend.md`
+- [x] Implement `SupabaseMediaRepository`
+- [x] Integrate with Supabase Storage
+- [x] Apply RLS policies (read, insert, delete, update)
+- [x] Update `/docs/backend.md`
 
 ### 3.7 Leads Inbox
 - [ ] Create `LeadsList.jsx` with:
@@ -443,8 +443,8 @@
 
 ## Status Tracking
 
-**Current Phase:** Phase 0 ✅ Complete  
-**Next Phase:** Phase 1 - Backend Setup & Authentication  
-**Overall Progress:** 5% complete  
+**Current Phase:** Phase 2 - Admin CMS ⏳ In Progress (3.6/8 complete)  
+**Next Phase:** Phase 2.7 - Leads Inbox  
+**Overall Progress:** 15% complete  
 
 **Last Updated:** 2025-10-03
