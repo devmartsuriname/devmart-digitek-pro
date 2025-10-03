@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### ✅ Implemented
 - **Route-level code splitting:** All 26 routes (18 public + 8 admin) converted to `React.lazy()` with `<Suspense>` boundaries
 - **Component-level lazy loading:** Heavy admin forms (BlogForm, ProjectForm, ServiceForm, TeamForm) lazy load on-demand
+- **Settings tabs lazy loading:** All 5 settings form components (`SettingsGeneralForm`, `SettingsBrandingForm`, `SettingsSocialForm`, `SettingsAnalyticsForm`, `SettingsContactForm`) now lazy-loaded with `FormSkeleton` fallback (~20-30KB saved per tab)
+- **MDXPreview optimization:** `react-markdown` library (~50KB) lazy-loaded only when preview button clicked in blog editor
 - **Media library optimization:** MediaGrid, MediaUploader, MediaEditModal lazy load separately
 - **react-slick optimization:** Created `LazySlider` wrapper component with `forwardRef` support - lazy loads carousel library (~80KB+) only when carousel sections render
   - Updated 4 components: `CaseStudy3`, `Team2`, `Testimonial2`, `Testimonial3`

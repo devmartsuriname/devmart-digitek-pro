@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useSettings } from '@/lib/hooks/useSettings';
-import SettingsGeneralForm from '@/Components/Admin/Forms/SettingsGeneralForm';
-import SettingsBrandingForm from '@/Components/Admin/Forms/SettingsBrandingForm';
-import SettingsSocialForm from '@/Components/Admin/Forms/SettingsSocialForm';
-import SettingsAnalyticsForm from '@/Components/Admin/Forms/SettingsAnalyticsForm';
-import SettingsContactForm from '@/Components/Admin/Forms/SettingsContactForm';
+import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
+
+// Lazy load form components (only load when tab is clicked)
+const SettingsGeneralForm = lazy(() => import('@/Components/Admin/Forms/SettingsGeneralForm'));
+const SettingsBrandingForm = lazy(() => import('@/Components/Admin/Forms/SettingsBrandingForm'));
+const SettingsSocialForm = lazy(() => import('@/Components/Admin/Forms/SettingsSocialForm'));
+const SettingsAnalyticsForm = lazy(() => import('@/Components/Admin/Forms/SettingsAnalyticsForm'));
+const SettingsContactForm = lazy(() => import('@/Components/Admin/Forms/SettingsContactForm'));
 
 const Settings = () => {
   const { settings, loading, saving, updateSettings } = useSettings();
@@ -96,51 +99,61 @@ const Settings = () => {
               <div className="tab-content">
                 {activeTab === 'general' && (
                   <div className="tab-pane fade show active">
-                    <SettingsGeneralForm
-                      settings={settings}
-                      onSave={updateSettings}
-                      saving={saving}
-                    />
+                    <Suspense fallback={<FormSkeleton />}>
+                      <SettingsGeneralForm
+                        settings={settings}
+                        onSave={updateSettings}
+                        saving={saving}
+                      />
+                    </Suspense>
                   </div>
                 )}
 
                 {activeTab === 'branding' && (
                   <div className="tab-pane fade show active">
-                    <SettingsBrandingForm
-                      settings={settings}
-                      onSave={updateSettings}
-                      saving={saving}
-                    />
+                    <Suspense fallback={<FormSkeleton />}>
+                      <SettingsBrandingForm
+                        settings={settings}
+                        onSave={updateSettings}
+                        saving={saving}
+                      />
+                    </Suspense>
                   </div>
                 )}
 
                 {activeTab === 'social' && (
                   <div className="tab-pane fade show active">
-                    <SettingsSocialForm
-                      settings={settings}
-                      onSave={updateSettings}
-                      saving={saving}
-                    />
+                    <Suspense fallback={<FormSkeleton />}>
+                      <SettingsSocialForm
+                        settings={settings}
+                        onSave={updateSettings}
+                        saving={saving}
+                      />
+                    </Suspense>
                   </div>
                 )}
 
                 {activeTab === 'analytics' && (
                   <div className="tab-pane fade show active">
-                    <SettingsAnalyticsForm
-                      settings={settings}
-                      onSave={updateSettings}
-                      saving={saving}
-                    />
+                    <Suspense fallback={<FormSkeleton />}>
+                      <SettingsAnalyticsForm
+                        settings={settings}
+                        onSave={updateSettings}
+                        saving={saving}
+                      />
+                    </Suspense>
                   </div>
                 )}
 
                 {activeTab === 'contact' && (
                   <div className="tab-pane fade show active">
-                    <SettingsContactForm
-                      settings={settings}
-                      onSave={updateSettings}
-                      saving={saving}
-                    />
+                    <Suspense fallback={<FormSkeleton />}>
+                      <SettingsContactForm
+                        settings={settings}
+                        onSave={updateSettings}
+                        saving={saving}
+                      />
+                    </Suspense>
                   </div>
                 )}
               </div>
