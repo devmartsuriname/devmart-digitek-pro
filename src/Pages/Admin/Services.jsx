@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { toast } from 'react-hot-toast';
 import { useServices } from '@/lib/hooks/useServices';
 import ServiceTable from '@/Components/Admin/Tables/ServiceTable';
-import ServiceForm from '@/Components/Admin/Forms/ServiceForm';
+import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
+
+const ServiceForm = lazy(() => import('@/Components/Admin/Forms/ServiceForm'));
 
 const Services = () => {
   const [view, setView] = useState('list'); // 'list' | 'create' | 'edit'
@@ -61,11 +63,13 @@ const Services = () => {
   if (view === 'create') {
     return (
       <div className="container py-5">
-        <ServiceForm
-          onSubmit={handleCreate}
-          onCancel={handleCancel}
-          loading={formLoading}
-        />
+        <Suspense fallback={<FormSkeleton />}>
+          <ServiceForm
+            onSubmit={handleCreate}
+            onCancel={handleCancel}
+            loading={formLoading}
+          />
+        </Suspense>
       </div>
     );
   }
@@ -73,12 +77,14 @@ const Services = () => {
   if (view === 'edit') {
     return (
       <div className="container py-5">
-        <ServiceForm
-          service={selectedService}
-          onSubmit={handleUpdate}
-          onCancel={handleCancel}
-          loading={formLoading}
-        />
+        <Suspense fallback={<FormSkeleton />}>
+          <ServiceForm
+            service={selectedService}
+            onSubmit={handleUpdate}
+            onCancel={handleCancel}
+            loading={formLoading}
+          />
+        </Suspense>
       </div>
     );
   }

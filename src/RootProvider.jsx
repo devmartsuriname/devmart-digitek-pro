@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './lib/contexts/AuthContext';
+import { loadAnalytics } from './lib/utils/loadAnalytics';
 
 export default function RootProvider() {
+  useEffect(() => {
+    // Load analytics script after initial render (deferred 2s)
+    const timer = setTimeout(() => loadAnalytics(), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <AuthProvider>
       <Toaster

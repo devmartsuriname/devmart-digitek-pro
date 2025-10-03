@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useTeamMembers } from '@/lib/hooks/useTeam';
 import TeamTable from '@/Components/Admin/Tables/TeamTable';
-import TeamForm from '@/Components/Admin/Forms/TeamForm';
+import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
 import toast from 'react-hot-toast';
+
+const TeamForm = lazy(() => import('@/Components/Admin/Forms/TeamForm'));
 
 const Team = () => {
   const [view, setView] = useState('list');
@@ -112,12 +114,14 @@ const Team = () => {
           )}
 
           {(view === 'create' || view === 'edit') && (
-            <TeamForm
-              teamMember={selectedMember}
-              onSubmit={handleSubmit}
-              onCancel={handleCancel}
-              loading={formLoading}
-            />
+            <Suspense fallback={<FormSkeleton />}>
+              <TeamForm
+                teamMember={selectedMember}
+                onSubmit={handleSubmit}
+                onCancel={handleCancel}
+                loading={formLoading}
+              />
+            </Suspense>
           )}
         </div>
       </div>

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useBlogPosts } from '@/lib/hooks/useBlogPosts';
 import BlogTable from '@/Components/Admin/Tables/BlogTable';
-import BlogForm from '@/Components/Admin/Forms/BlogForm';
+import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
 import toast from 'react-hot-toast';
+
+const BlogForm = lazy(() => import('@/Components/Admin/Forms/BlogForm'));
 
 const Blog = () => {
   const [view, setView] = useState('list');
@@ -66,7 +68,9 @@ const Blog = () => {
                 Create Blog Post
               </h2>
             </div>
-            <BlogForm onSubmit={handleCreate} onCancel={handleCancel} loading={loading} />
+            <Suspense fallback={<FormSkeleton />}>
+              <BlogForm onSubmit={handleCreate} onCancel={handleCancel} loading={loading} />
+            </Suspense>
           </div>
         </div>
       </div>
@@ -84,12 +88,14 @@ const Blog = () => {
                 Edit Blog Post
               </h2>
             </div>
-            <BlogForm
-              initialData={selectedBlogPost}
-              onSubmit={handleUpdate}
-              onCancel={handleCancel}
-              loading={loading}
-            />
+            <Suspense fallback={<FormSkeleton />}>
+              <BlogForm
+                initialData={selectedBlogPost}
+                onSubmit={handleUpdate}
+                onCancel={handleCancel}
+                loading={loading}
+              />
+            </Suspense>
           </div>
         </div>
       </div>

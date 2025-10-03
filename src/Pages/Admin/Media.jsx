@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import { useMedia } from '@/lib/hooks/useMedia';
-import MediaUploader from '@/Components/Admin/MediaUploader';
-import MediaGrid from '@/Components/Admin/MediaGrid';
 import MediaFilters from '@/Components/Admin/MediaFilters';
-import MediaEditModal from '@/Components/Admin/MediaEditModal';
 import toast from 'react-hot-toast';
+
+const MediaUploader = lazy(() => import('@/Components/Admin/MediaUploader'));
+const MediaGrid = lazy(() => import('@/Components/Admin/MediaGrid'));
+const MediaEditModal = lazy(() => import('@/Components/Admin/MediaEditModal'));
 
 const Media = () => {
   const [filters, setFilters] = useState({ limit: 50, offset: 0 });
@@ -103,7 +104,9 @@ const Media = () => {
         </div>
       )}
 
-      <MediaUploader onUpload={handleUpload} disabled={loading} />
+      <Suspense fallback={<div className="spinner-border text-light mb-4"></div>}>
+        <MediaUploader onUpload={handleUpload} disabled={loading} />
+      </Suspense>
 
       <MediaFilters
         filters={filters}
@@ -111,20 +114,24 @@ const Media = () => {
         folders={folders}
       />
 
-      <MediaGrid
-        media={media}
-        loading={loading}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onCopyUrl={handleCopyUrl}
-      />
+      <Suspense fallback={<div className="spinner-border text-light"></div>}>
+        <MediaGrid
+          media={media}
+          loading={loading}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onCopyUrl={handleCopyUrl}
+        />
+      </Suspense>
 
-      <MediaEditModal
-        media={editingMedia}
-        show={!!editingMedia}
-        onSave={handleSaveEdit}
-        onClose={() => setEditingMedia(null)}
-      />
+      <Suspense fallback={null}>
+        <MediaEditModal
+          media={editingMedia}
+          show={!!editingMedia}
+          onSave={handleSaveEdit}
+          onClose={() => setEditingMedia(null)}
+        />
+      </Suspense>
 
       {/* Delete Confirmation Modal */}
       {deletingMedia && (

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { useProjects } from '@/lib/hooks/useProjects';
-import ProjectForm from '@/Components/Admin/Forms/ProjectForm';
+import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
 import ProjectTable from '@/Components/Admin/Tables/ProjectTable';
 import toast from 'react-hot-toast';
+
+const ProjectForm = lazy(() => import('@/Components/Admin/Forms/ProjectForm'));
 
 const Projects = () => {
   const [view, setView] = useState('list'); // 'list' | 'create' | 'edit'
@@ -68,12 +70,14 @@ const Projects = () => {
         <div className="row justify-content-center">
           <div className="col-lg-10">
             <div className="card bg-dark border-0 shadow-lg">
-              <ProjectForm
-                project={view === 'edit' ? selectedProject : null}
-                onSubmit={view === 'edit' ? handleUpdate : handleCreate}
-                onCancel={handleCancel}
-                isEdit={view === 'edit'}
-              />
+              <Suspense fallback={<FormSkeleton />}>
+                <ProjectForm
+                  project={view === 'edit' ? selectedProject : null}
+                  onSubmit={view === 'edit' ? handleUpdate : handleCreate}
+                  onCancel={handleCancel}
+                  isEdit={view === 'edit'}
+                />
+              </Suspense>
             </div>
           </div>
         </div>

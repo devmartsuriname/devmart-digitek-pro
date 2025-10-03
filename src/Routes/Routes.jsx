@@ -1,34 +1,38 @@
-import {
-    createBrowserRouter,
-  } from "react-router-dom";
+import { lazy, Suspense } from 'react';
+import { createBrowserRouter } from "react-router-dom";
 import RootProvider from "../RootProvider";
 import Layout2 from "../Layout/Layout2";
-import Home3 from "../Pages/Home3";
-import AboutPage from "../Pages/AboutPage";
-import TeamPage from "../Pages/TeamPage";
-import TeamDetailsPage from "../Pages/TeamDetailsPage";
-import PricingPage from "../Pages/PricingPage";
-import FaqPage from "../Pages/FaqPage";
-import ContactPage from "../Pages/ContactPage";
-import ServicesPage from "../Pages/ServicesPage";
-import ServiceDetailsPage from "../Pages/ServiceDetailsPage";
-import CaseStudyPage from "../Pages/CaseStudyPage";
-import CaseStudyDetailsPage from "../Pages/CaseStudyDetailsPage";
-import BlogRightSidebar from "../Pages/BlogRightSidebar";
-import BlogPage from "../Pages/BlogPage";
-import BlogDetailsPage from "../Pages/BlogDetailsPage";
-import AuthPage from "../Pages/AuthPage";
 import AdminLayout from "../Layout/AdminLayout";
-import Dashboard from "../Pages/Admin/Dashboard";
-import Services from "../Pages/Admin/Services";
-import Projects from "../Pages/Admin/Projects";
-import Blog from "../Pages/Admin/Blog";
-import Team from "../Pages/Admin/Team";
-import FAQ from "../Pages/Admin/FAQ";
-import Media from "../Pages/Admin/Media";
-import Leads from "../Pages/Admin/Leads";
-import Settings from "../Pages/Admin/Settings";
 import ProtectedRoute from "../Components/Auth/ProtectedRoute";
+import { PageSkeleton, AdminSkeleton } from "../Components/Common/LoadingSkeleton";
+
+// Lazy load all page components
+const Home3 = lazy(() => import("../Pages/Home3"));
+const AboutPage = lazy(() => import("../Pages/AboutPage"));
+const TeamPage = lazy(() => import("../Pages/TeamPage"));
+const TeamDetailsPage = lazy(() => import("../Pages/TeamDetailsPage"));
+const PricingPage = lazy(() => import("../Pages/PricingPage"));
+const FaqPage = lazy(() => import("../Pages/FaqPage"));
+const ContactPage = lazy(() => import("../Pages/ContactPage"));
+const ServicesPage = lazy(() => import("../Pages/ServicesPage"));
+const ServiceDetailsPage = lazy(() => import("../Pages/ServiceDetailsPage"));
+const CaseStudyPage = lazy(() => import("../Pages/CaseStudyPage"));
+const CaseStudyDetailsPage = lazy(() => import("../Pages/CaseStudyDetailsPage"));
+const BlogRightSidebar = lazy(() => import("../Pages/BlogRightSidebar"));
+const BlogPage = lazy(() => import("../Pages/BlogPage"));
+const BlogDetailsPage = lazy(() => import("../Pages/BlogDetailsPage"));
+const AuthPage = lazy(() => import("../Pages/AuthPage"));
+
+// Admin pages
+const Dashboard = lazy(() => import("../Pages/Admin/Dashboard"));
+const Services = lazy(() => import("../Pages/Admin/Services"));
+const Projects = lazy(() => import("../Pages/Admin/Projects"));
+const Blog = lazy(() => import("../Pages/Admin/Blog"));
+const Team = lazy(() => import("../Pages/Admin/Team"));
+const FAQ = lazy(() => import("../Pages/Admin/FAQ"));
+const Media = lazy(() => import("../Pages/Admin/Media"));
+const Leads = lazy(() => import("../Pages/Admin/Leads"));
+const Settings = lazy(() => import("../Pages/Admin/Settings"));
 
 export const router = createBrowserRouter([
     {
@@ -41,65 +45,65 @@ export const router = createBrowserRouter([
           children: [
             {
               index: true,
-              element: <Home3></Home3>,
+              element: <Suspense fallback={<PageSkeleton />}><Home3 /></Suspense>,
             },
-        {
-            path: "/about",
-            element: <AboutPage></AboutPage>,
-        },
-        {
-          path: "/team",
-          element: <TeamPage></TeamPage>,
-        },   
-        {
-          path: "/team/team-details",
-          element: <TeamDetailsPage></TeamDetailsPage>,
-        },   
-        {
-          path: "/pricing",
-          element: <PricingPage></PricingPage>,
-        }, 
-        {
-          path: "/faq",
-          element: <FaqPage></FaqPage>,
-        },  
-        {
-          path: "/contact",
-          element: <ContactPage></ContactPage>,
-        },   
-        {
-          path: "/service",
-          element: <ServicesPage></ServicesPage>,
-        }, 
-        {
-          path: "/service/service-details",
-          element: <ServiceDetailsPage></ServiceDetailsPage>,
-        }, 
-        {
-          path: "/project",
-          element: <CaseStudyPage></CaseStudyPage>,
-        }, 
-        {
-          path: "/project/project-details",
-          element: <CaseStudyDetailsPage></CaseStudyDetailsPage>,
-        },   
-        {
-          path: "/blog-sidebar",
-          element: <BlogRightSidebar></BlogRightSidebar>,
-        },      
-        {
-          path: "/blog",
-          element: <BlogPage></BlogPage>,
-        }, 
-        {
-          path: "/blog/blog-details",
-          element: <BlogDetailsPage></BlogDetailsPage>,
-        },                                                                             
+            {
+              path: "/about",
+              element: <Suspense fallback={<PageSkeleton />}><AboutPage /></Suspense>,
+            },
+            {
+              path: "/team",
+              element: <Suspense fallback={<PageSkeleton />}><TeamPage /></Suspense>,
+            },   
+            {
+              path: "/team/team-details",
+              element: <Suspense fallback={<PageSkeleton />}><TeamDetailsPage /></Suspense>,
+            },   
+            {
+              path: "/pricing",
+              element: <Suspense fallback={<PageSkeleton />}><PricingPage /></Suspense>,
+            }, 
+            {
+              path: "/faq",
+              element: <Suspense fallback={<PageSkeleton />}><FaqPage /></Suspense>,
+            },  
+            {
+              path: "/contact",
+              element: <Suspense fallback={<PageSkeleton />}><ContactPage /></Suspense>,
+            },   
+            {
+              path: "/service",
+              element: <Suspense fallback={<PageSkeleton />}><ServicesPage /></Suspense>,
+            }, 
+            {
+              path: "/service/service-details",
+              element: <Suspense fallback={<PageSkeleton />}><ServiceDetailsPage /></Suspense>,
+            }, 
+            {
+              path: "/project",
+              element: <Suspense fallback={<PageSkeleton />}><CaseStudyPage /></Suspense>,
+            }, 
+            {
+              path: "/project/project-details",
+              element: <Suspense fallback={<PageSkeleton />}><CaseStudyDetailsPage /></Suspense>,
+            },   
+            {
+              path: "/blog-sidebar",
+              element: <Suspense fallback={<PageSkeleton />}><BlogRightSidebar /></Suspense>,
+            },      
+            {
+              path: "/blog",
+              element: <Suspense fallback={<PageSkeleton />}><BlogPage /></Suspense>,
+            }, 
+            {
+              path: "/blog/blog-details",
+              element: <Suspense fallback={<PageSkeleton />}><BlogDetailsPage /></Suspense>,
+            },                                                                             
           ],
         },
         {
           path: "/auth",
-          element: <AuthPage></AuthPage>,
+          element: <Suspense fallback={<PageSkeleton />}><AuthPage /></Suspense>,
         },
         {
           path: "/admin",
@@ -107,39 +111,39 @@ export const router = createBrowserRouter([
           children: [
             {
               path: "dashboard",
-              element: <Dashboard></Dashboard>,
+              element: <Suspense fallback={<AdminSkeleton />}><Dashboard /></Suspense>,
             },
             {
               path: "services",
-              element: <Services></Services>,
+              element: <Suspense fallback={<AdminSkeleton />}><Services /></Suspense>,
             },
             {
               path: "projects",
-              element: <Projects></Projects>,
+              element: <Suspense fallback={<AdminSkeleton />}><Projects /></Suspense>,
             },
             {
               path: "blog",
-              element: <Blog></Blog>,
+              element: <Suspense fallback={<AdminSkeleton />}><Blog /></Suspense>,
             },
             {
               path: "team",
-              element: <Team></Team>,
+              element: <Suspense fallback={<AdminSkeleton />}><Team /></Suspense>,
             },
             {
               path: "faq",
-              element: <FAQ></FAQ>,
+              element: <Suspense fallback={<AdminSkeleton />}><FAQ /></Suspense>,
             },
             {
               path: "media",
-              element: <Media></Media>,
+              element: <Suspense fallback={<AdminSkeleton />}><Media /></Suspense>,
             },
             {
               path: "leads",
-              element: <Leads></Leads>,
+              element: <Suspense fallback={<AdminSkeleton />}><Leads /></Suspense>,
             },
             {
               path: "settings",
-              element: <Settings></Settings>,
+              element: <Suspense fallback={<AdminSkeleton />}><Settings /></Suspense>,
             },
           ],
         },
