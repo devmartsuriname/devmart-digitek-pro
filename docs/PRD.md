@@ -167,14 +167,14 @@ Devmart Digtek Pro is a modern, responsive website and admin dashboard built on 
 
 ## 10) Data Model (Initial)
 
-**services**(id, slug*, title, summary, body, icon, seo_title, seo_desc, order, status, created_at, updated_at)  
-**projects**(id, slug*, title, client, date, cover_url, gallery[], tech[], summary, body, seo_title, seo_desc, featured, status, created_at, updated_at)  
-**blog_posts**(id, slug*, title, author_id, date, cover_url, tags[], summary, body_mdx, seo_title, seo_desc, featured, status, created_at, updated_at)  
-**team**(id, slug*, name, role, bio, photo_url, socials jsonb, order, created_at, updated_at)  
-**faqs**(id, category, question, answer, order, created_at, updated_at)  
+**services**(id, slug*, title, summary, body, icon_url, seo_title, seo_desc, order_num, status, created_by, updated_by, created_at, updated_at)  
+**projects**(id, slug*, title, client, date, cover_url, gallery[], tech[], summary, body, seo_title, seo_desc, featured, status, created_by, updated_by, created_at, updated_at)  
+**blog_posts**(id, slug*, title, author_id, date, cover_url, tags[], summary, body_mdx, seo_title, seo_desc, featured, status, views, created_by, updated_by, created_at, updated_at)  
+**team**(id, slug*, name, role, bio, photo_url, socials jsonb, order_num, created_by, updated_by, created_at, updated_at)  
+**faqs**(id, category, question, answer, order_num, created_by, updated_by, created_at, updated_at)  
 **media**(id, url, alt, width, height, type, created_at)  
 **leads**(id, name, email, phone, subject, message, source, status, created_at)  
-**settings**(id/singleton, site_name, logo, theme, primary_color, contact_email, social jsonb, analytics jsonb)
+**settings**(id/singleton, site_name, logo_url, theme, primary_color, contact_email, social jsonb, analytics jsonb)
 
 > Migration‑friendly note: expose all CRUD via typed repositories; never import provider SDKs directly in UI components.
 

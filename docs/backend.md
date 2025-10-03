@@ -106,6 +106,8 @@ create table public.services (
   seo_desc text,
   order_num integer default 0,
   status text check (status in ('draft', 'published')) default 'draft',
+  created_by uuid references auth.users(id) on delete set null,
+  updated_by uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
@@ -132,6 +134,8 @@ create table public.projects (
   seo_desc text,
   featured boolean default false,
   status text check (status in ('draft', 'published')) default 'draft',
+  created_by uuid references auth.users(id) on delete set null,
+  updated_by uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
@@ -159,6 +163,8 @@ create table public.blog_posts (
   featured boolean default false,
   status text check (status in ('draft', 'published')) default 'draft',
   views integer default 0,
+  created_by uuid references auth.users(id) on delete set null,
+  updated_by uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
@@ -181,6 +187,8 @@ create table public.team (
   photo_url text,
   socials jsonb default '{}'::jsonb,
   order_num integer default 0,
+  created_by uuid references auth.users(id) on delete set null,
+  updated_by uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
@@ -197,6 +205,8 @@ create table public.faqs (
   question text not null,
   answer text,
   order_num integer default 0,
+  created_by uuid references auth.users(id) on delete set null,
+  updated_by uuid references auth.users(id) on delete set null,
   created_at timestamp with time zone default now(),
   updated_at timestamp with time zone default now()
 );
