@@ -11,10 +11,10 @@ const Services2 = () => {
     return (
         <section className="service-section fix section-padding">
             <div className="bg-shape-2">
-                <img src="/assets/img/service/bg-shape-2.png" alt="img" />
+                <img src="/assets/img/service/bg-shape-2.png" alt="img" loading="lazy" />
             </div>
             <div className="right-shape-3">
-                <img src="/assets/img/service/right-shape-3.png" alt="img" />
+                <img src="/assets/img/service/right-shape-3.png" alt="img" loading="lazy" />
             </div>
             <div className="container">
                 <div className="section-title text-center">
@@ -30,7 +30,7 @@ const Services2 = () => {
                     <div key={i} className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
                         <div className="service-card-items style-2">
                             <div className="service-thumb">
-                                <img src={item.img} alt="img" />
+                                <img src={item.img} alt="img" loading="lazy" />
                             </div>
                             <div className="content">
                                 <h3 className="title-2">

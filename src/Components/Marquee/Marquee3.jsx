@@ -5,28 +5,28 @@ const Marquee3 = () => {
             <div className="mycustom-marque theme-blue-bg">
                 <div className="scrolling-wrap">
                     <div className="comm">
-                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />Business Grow</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Digital Marketing </div>
-                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />SEO Marketing</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Email Marketingimg</div>
+                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />Business Grow</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Digital Marketing </div>
+                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />SEO Marketing</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Email Marketingimg</div>
                     </div>
                     <div className="comm">
-                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />Business Grow</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Digital Marketing </div>
-                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />SEO Marketing</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Email Marketingimg</div>
+                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />Business Grow</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Digital Marketing </div>
+                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />SEO Marketing</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Email Marketingimg</div>
                     </div>
                     <div className="comm">
-                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />Business Grow</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Digital Marketing </div>
-                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />SEO Marketing</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Email Marketingimg</div>
+                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />Business Grow</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Digital Marketing </div>
+                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />SEO Marketing</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Email Marketingimg</div>
                     </div>
                     <div className="comm">
-                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />Business Grow</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Digital Marketing </div>
-                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" />SEO Marketing</div>
-                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" />Email Marketingimg</div>
+                    <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />Business Grow</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Digital Marketing </div>
+                        <div className="cmn-textslide stroke-text"><img src="/assets/img/has.png" alt="img" loading="lazy" />SEO Marketing</div>
+                        <div className="cmn-textslide"><img src="/assets/img/has.png" alt="img" loading="lazy" />Email Marketingimg</div>
                     </div>
                 </div>
             </div>

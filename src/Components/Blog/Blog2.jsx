@@ -27,7 +27,7 @@ const Blog2 = () => {
                 <div key={i} className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
                     <div className="news-card-items">
                         <div className="news-image">
-                            <img src={item.img} alt="img" />
+                            <img src={item.img} alt="img" loading="lazy" />
                         </div>
                         <div className="news-content">
                             <ul className="post-cat">

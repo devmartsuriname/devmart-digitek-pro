@@ -55,7 +55,7 @@ const Counter2 = () => {
                         </div>
                     </div>
                     <div className="cta-video-image wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s">
-                        <img src="/assets/img/cta-video.jpg" alt="img" />
+                        <img src="/assets/img/cta-video.jpg" alt="img" loading="lazy" />
                         <a onClick={handelClick} className="video-icon video-popup">
                             <i className="bi bi-play-fill"></i>
                         </a>

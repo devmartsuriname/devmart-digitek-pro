@@ -62,7 +62,7 @@ const CaseStudy3 = () => {
                     <div key={i} className="swiper-slide">
                         <div className="case-studies-card-items">
                             <div className="thumb">
-                                <img src={item.img} alt="img" />
+                                <img src={item.img} alt="img" loading="lazy" />
                             </div>
                             <div className="content">
                                 <div className="title">
