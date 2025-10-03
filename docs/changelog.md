@@ -9,11 +9,116 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Phase 2.1 - Services CRUD Module (Next)
-- [ ] Create service management UI with list/create/edit forms
-- [ ] Implement useServices hook with repository integration
+### Phase 2.2 - Projects CRUD Module (Next)
+- [ ] Create project management UI with gallery upload
+- [ ] Implement useProjects hook with repository integration
 - [ ] Build admin forms with Digtek styling
-- [ ] Add image upload for service icons
+
+---
+
+## [0.6.0] - 2025-01-03
+
+### Phase 2.1 - Services CRUD Module ✅
+
+**Services Admin Module Complete**
+- Full CRUD interface for managing services with list/create/edit views
+- Professional admin UI with Digtek styling (#6A47ED primary, #17012C background)
+- Comprehensive form validation using Zod + React Hook Form
+- Real-time preview mode for content review before saving
+
+**Custom Hooks Created**
+- `useServices` hook with repository integration
+  - Auto-refreshing service list with filters
+  - Create, update, delete operations
+  - Error handling and loading states
+  - Count tracking for pagination
+- `useService` hook for fetching single service by ID
+
+**UI Components Built**
+- **ServicesList**: Main list page with search and status filters
+  - Service count display
+  - "Add Service" CTA button
+  - Status dropdown (All/Draft/Published)
+  - Search input with live filtering
+  
+- **ServiceForm**: Create/edit form component
+  - All fields: title, slug, summary, body, icon_url, seo_title, seo_desc, order_num, status
+  - Auto-slug generation from title (lowercase, hyphenated)
+  - Preview mode toggle (edit ↔ preview)
+  - Zod validation with inline error messages
+  - Save/Cancel actions with loading states
+  - Dark theme form inputs with Digtek colors
+  
+- **ServiceTable**: Reusable data table component
+  - Columns: Title, Slug, Status, Order, Updated Date, Actions
+  - Status badges (green for published, yellow for draft)
+  - Inline edit/delete actions
+  - Delete confirmation dialog
+  - Empty state with helpful message
+  - Loading spinner
+
+**Toast Notifications**
+- Integrated `react-hot-toast` for user feedback
+- Success: "Service created/updated/deleted successfully"
+- Error: Display error messages from repository
+
+**Repository Integration**
+- Services page consumes `SupabaseServiceRepository`
+- RLS policies enforced (admin/editor/viewer roles)
+- Type-safe end-to-end (Zod → Repository → Supabase)
+- User tracking (created_by, updated_by) automatic
+
+**Routing Updates**
+- Fixed duplicate import in `Routes.jsx`
+- Services route fully functional at `/admin/services`
+- Admin index route now points to Dashboard
+
+**Validation Features**
+- Title: Required, 1-200 characters
+- Slug: Required, lowercase with hyphens only (regex validated)
+- Summary: Optional, max 500 characters
+- Body: Optional (rich text in Phase 3)
+- Icon URL: Optional, must be valid URL
+- SEO Title: Optional, max 200 characters
+- SEO Description: Optional, max 300 characters
+- Order: Integer, min 0, default 0
+- Status: Enum (draft/published)
+
+**UX Enhancements**
+- Auto-slug generation prevents manual errors
+- Preview mode shows formatted content before save
+- Inline validation with instant feedback
+- Responsive design (mobile/tablet/desktop)
+- Keyboard navigation support
+- Loading states prevent double submissions
+
+**Testing Confirmed**
+- [x] Create service flow (form → validation → submit → list refresh)
+- [x] Update service flow (edit → preview → save → list refresh)
+- [x] Delete service flow (confirmation → delete → list refresh)
+- [x] Search filtering works
+- [x] Status filtering works (All/Draft/Published)
+- [x] Slug auto-generation works
+- [x] Validation errors display correctly
+- [x] Toast notifications display
+- [x] Empty state displays when no services
+- [x] Loading states work correctly
+- [x] RLS policies enforce role-based access
+
+**What's Working**
+- Complete Services CRUD with professional UI
+- Type-safe data flow (Zod → Repository → Supabase)
+- Role-based access control (RLS enforced)
+- User feedback via toast notifications
+- Auto-refresh on CRUD operations
+- Responsive design across devices
+- Pixel-perfect Digtek styling
+
+**Next Steps**
+- Phase 2.2: Projects CRUD Module (gallery upload, tech stack)
+- Phase 2.3: Blog CRUD Module (MDX editor, tags)
+- Rich text editor integration (TipTap/ReactQuill)
+- Image upload for service icons (Media Library integration)
 
 ---
 

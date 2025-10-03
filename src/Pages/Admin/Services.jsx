@@ -1,65 +1,148 @@
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useServices } from '@/lib/hooks/useServices';
+import ServiceTable from '@/Components/Admin/Tables/ServiceTable';
+import ServiceForm from '@/Components/Admin/Forms/ServiceForm';
+
 const Services = () => {
+  const [view, setView] = useState('list'); // 'list' | 'create' | 'edit'
+  const [selectedService, setSelectedService] = useState(null);
+  const [filters, setFilters] = useState({ status: undefined, search: '' });
+  const [formLoading, setFormLoading] = useState(false);
+
+  const { services, loading, error, count, createService, updateService, deleteService } = useServices(filters);
+
+  const handleCreate = async (data) => {
+    try {
+      setFormLoading(true);
+      await createService(data);
+      toast.success('Service created successfully!');
+      setView('list');
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleUpdate = async (data) => {
+    try {
+      setFormLoading(true);
+      await updateService(selectedService.id, data);
+      toast.success('Service updated successfully!');
+      setView('list');
+      setSelectedService(null);
+    } catch (err) {
+      toast.error(err.message);
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteService(id);
+      toast.success('Service deleted successfully!');
+    } catch (err) {
+      toast.error(err.message);
+    }
+  };
+
+  const handleEdit = (service) => {
+    setSelectedService(service);
+    setView('edit');
+  };
+
+  const handleCancel = () => {
+    setView('list');
+    setSelectedService(null);
+  };
+
+  if (view === 'create') {
+    return (
+      <div className="container py-5">
+        <ServiceForm
+          onSubmit={handleCreate}
+          onCancel={handleCancel}
+          loading={formLoading}
+        />
+      </div>
+    );
+  }
+
+  if (view === 'edit') {
+    return (
+      <div className="container py-5">
+        <ServiceForm
+          service={selectedService}
+          onSubmit={handleUpdate}
+          onCancel={handleCancel}
+          loading={formLoading}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="container py-5">
-      <div className="row">
-        <div className="col-12">
-          <div className="card bg-dark border-0 shadow-lg">
-            <div className="card-body p-5">
-              <div className="text-center mb-4">
-                <i className="bi bi-gear" style={{ fontSize: '3rem', color: '#6A47ED' }}></i>
-              </div>
-              <h2 className="text-center mb-3 text-white">Services Management</h2>
-              <p className="text-center text-white-50 mb-4">
-                This module will allow you to create, edit, and manage your service offerings.
-              </p>
-              
-              <div className="row g-4 mt-4">
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-list-ul me-2"></i>
-                      Services List
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      View all services with search, filter, and sort capabilities
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-pencil-square me-2"></i>
-                      Create & Edit
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Rich text editor for service descriptions and details
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="col-md-4">
-                  <div className="p-4 rounded" style={{ background: 'rgba(106, 71, 237, 0.1)' }}>
-                    <h5 className="text-white mb-3">
-                      <i className="bi bi-eye me-2"></i>
-                      SEO Optimization
-                    </h5>
-                    <p className="text-white-50 small mb-0">
-                      Meta titles, descriptions, and slug management
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="text-center mt-5">
-                <span className="badge px-4 py-2" style={{ background: '#6A47ED', fontSize: '14px' }}>
-                  Coming in Phase 2.1
-                </span>
-              </div>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 className="text-white mb-2">Services Management</h2>
+          <p className="text-white-50 mb-0">
+            {count} {count === 1 ? 'service' : 'services'} found
+          </p>
+        </div>
+        <button
+          className="btn"
+          style={{ background: '#6A47ED', color: 'white' }}
+          onClick={() => setView('create')}
+        >
+          <i className="bi bi-plus-circle me-2"></i>
+          Add Service
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="card bg-dark border-0 shadow-lg mb-4">
+        <div className="card-body p-3">
+          <div className="row g-3">
+            <div className="col-md-6">
+              <input
+                type="text"
+                className="form-control bg-dark text-white border-secondary"
+                placeholder="Search services..."
+                value={filters.search}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+              />
+            </div>
+            <div className="col-md-3">
+              <select
+                className="form-select bg-dark text-white border-secondary"
+                value={filters.status || ''}
+                onChange={(e) => setFilters({ ...filters, status: e.target.value || undefined })}
+              >
+                <option value="">All Status</option>
+                <option value="draft">Draft</option>
+                <option value="published">Published</option>
+              </select>
             </div>
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          <i className="bi bi-exclamation-triangle me-2"></i>
+          {error}
+        </div>
+      )}
+
+      <ServiceTable
+        services={services}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        loading={loading}
+      />
     </div>
   );
 };
