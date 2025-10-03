@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
+import { useSettings } from "@/lib/hooks/useSettings";
 
 const Footer2 = () => {
+    const { settings } = useSettings();
 
-        useEffect(() => {
-            loadBackgroudImages();
-        }, []);
+    useEffect(() => {
+        loadBackgroudImages();
+    }, []);
 
     return (
         <div>
@@ -47,10 +49,26 @@ const Footer2 = () => {
                                         curabitur lacinia mollis
                                     </p>
                                     <div className="social-icon d-flex align-items-center">
-                                        <a href="#"><i className="bi bi-facebook"></i></a>
-                                        <a href="#"><i className="bi bi-twitter"></i></a>
-                                        <a href="#"><i className="bi bi-youtube"></i></a>
-                                        <a href="#"><i className="bi bi-linkedin"></i></a>
+                                        {settings?.social?.facebook && (
+                                            <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer">
+                                                <i className="bi bi-facebook"></i>
+                                            </a>
+                                        )}
+                                        {settings?.social?.twitter && (
+                                            <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer">
+                                                <i className="bi bi-twitter"></i>
+                                            </a>
+                                        )}
+                                        {settings?.social?.youtube && (
+                                            <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer">
+                                                <i className="bi bi-youtube"></i>
+                                            </a>
+                                        )}
+                                        {settings?.social?.linkedin && (
+                                            <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer">
+                                                <i className="bi bi-linkedin"></i>
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -148,14 +166,22 @@ const Footer2 = () => {
                                 </div>
                                 <div className="footer-content">
                                     <ul className="contact-info">
-                                        <li>
-                                            <i className="fa-regular fa-envelope"></i>
-                                            <a href="mailto:info@example.com">info@example.com</a>
-                                        </li>
-                                        <li>
-                                            <i className="fa-solid fa-phone-volume"></i>
-                                            <a href="tel:2086660112">+208-666-0112</a>
-                                        </li>
+                                        {settings?.contact_email && (
+                                            <li>
+                                                <i className="fa-regular fa-envelope"></i>
+                                                <a href={`mailto:${settings.contact_email}`}>
+                                                    {settings.contact_email}
+                                                </a>
+                                            </li>
+                                        )}
+                                        {settings?.contact_phone && (
+                                            <li>
+                                                <i className="fa-solid fa-phone-volume"></i>
+                                                <a href={`tel:${settings.contact_phone.replace(/\s/g, '')}`}>
+                                                    {settings.contact_phone}
+                                                </a>
+                                            </li>
+                                        )}
                                     </ul>
                                     <div className="footer-input">
                                         <input type="email" id="email2" placeholder="Your email address" /> 

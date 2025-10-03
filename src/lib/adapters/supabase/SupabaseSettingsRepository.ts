@@ -15,6 +15,8 @@ export class SupabaseSettingsRepository implements ISettingsRepository {
       primary_color: row.primary_color,
       contact_email: row.contact_email,
       contact_phone: row.contact_phone,
+      address: row.address,
+      google_maps_url: row.google_maps_url,
       social: row.social as Record<string, string> | null,
       analytics: row.analytics as Record<string, string> | null,
       meta_title: row.meta_title,

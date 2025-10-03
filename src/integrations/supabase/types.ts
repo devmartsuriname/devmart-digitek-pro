@@ -322,10 +322,12 @@ export type Database = {
       }
       settings: {
         Row: {
+          address: string | null
           analytics: Json | null
           contact_email: string | null
           contact_phone: string | null
           created_at: string
+          google_maps_url: string | null
           id: string
           logo_url: string | null
           meta_desc: string | null
@@ -337,10 +339,12 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          address?: string | null
           analytics?: Json | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          google_maps_url?: string | null
           id?: string
           logo_url?: string | null
           meta_desc?: string | null
@@ -352,10 +356,12 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          address?: string | null
           analytics?: Json | null
           contact_email?: string | null
           contact_phone?: string | null
           created_at?: string
+          google_maps_url?: string | null
           id?: string
           logo_url?: string | null
           meta_desc?: string | null

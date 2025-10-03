@@ -1,6 +1,9 @@
 import ContactForm from "./ContactForm";
+import { useSettings } from "@/lib/hooks/useSettings";
 
 const ContactInfo2 = () => {
+    const { settings } = useSettings();
+    
     return (
         <div>
         <section className="contact-info-section fix section-padding">
@@ -14,7 +17,7 @@ const ContactInfo2 = () => {
                             <div className="content">
                                 <h3>Our Address</h3>
                                 <p>
-                                    2464 Royal Ln. Mesa, New Jersey <br/> 45463.
+                                    {settings?.address || '2464 Royal Ln. Mesa, New Jersey 45463.'}
                                 </p>
                             </div>
                         </div>
@@ -25,10 +28,14 @@ const ContactInfo2 = () => {
                             <i className="bi bi-envelope-fill"></i>
                             </div>
                             <div className="content">
-                                <h3><a href="mailto:info@example.com">info@example.com</a></h3>
+                                <h3>
+                                    <a href={`mailto:${settings?.contact_email || 'info@example.com'}`}>
+                                        {settings?.contact_email || 'info@example.com'}
+                                    </a>
+                                </h3>
                                 <p>
-                                    Email us anytime for anykind <br/>
-                                    ofquety.
+                                    Email us anytime for any kind <br/>
+                                    of query.
                                 </p>
                             </div>
                         </div>
@@ -39,9 +46,13 @@ const ContactInfo2 = () => {
                             <i className="bi bi-telephone-fill"></i>
                             </div>
                             <div className="content">
-                                <h3>Hot:<a href="tel:+2086660112">+208-666-0112</a></h3>
+                                <h3>
+                                    Hot: <a href={`tel:${settings?.contact_phone?.replace(/\s/g, '') || '+2086660112'}`}>
+                                        {settings?.contact_phone || '+208-666-0112'}
+                                    </a>
+                                </h3>
                                 <p>
-                                    Call us any kind suppor,we <br/>
+                                    Call us for any kind of support, we <br/>
                                     will wait for it.
                                 </p>
                             </div>
@@ -58,7 +69,11 @@ const ContactInfo2 = () => {
                         <div className="col-lg-6">
                             <div className="map-items">
                                 <div className="googpemap">
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6678.7619084840835!2d144.9618311901502!3d-37.81450084255415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4758afc1d%3A0x3119cc820fdfc62e!2sEnvato!5e0!3m2!1sen!2sbd!4v1641984054261!5m2!1sen!2sbd" loading="lazy"></iframe>
+                                    <iframe 
+                                        src={settings?.google_maps_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6678.7619084840835!2d144.9618311901502!3d-37.81450084255415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4758afc1d%3A0x3119cc820fdfc62e!2sEnvato!5e0!3m2!1sen!2sbd!4v1641984054261!5m2!1sen!2sbd"} 
+                                        loading="lazy"
+                                        title="Location Map"
+                                    ></iframe>
                                 </div>
                             </div>
                         </div>
