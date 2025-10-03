@@ -19,6 +19,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.2.1] - 2025-10-03
+
+### Removed - Home Variants Cleanup
+- **Home Variants:**
+  - Deleted Home Version 1 (`src/Pages/Home.jsx`)
+  - Deleted Home Version 2 (`src/Pages/Home2.jsx`)
+  - Removed `Main` layout (`src/Layout/Main.jsx`)
+  - Removed `Header1` and `Footer1` components (used only by Home 1 & 2)
+  - Removed variant-specific components:
+    - `HeroBanner1.jsx`, `HeroBanner2.jsx`
+    - `About1.jsx`
+    - `Brand1.jsx`
+    - `CaseStudy1.jsx`, `CaseStudy2.jsx`
+    - `Marquee1.jsx`
+    - `Services1.jsx`
+    - `SuccessStories.jsx`
+    - `Testimonial1.jsx`
+    - `WhatWeDo.jsx`, `WhatWeDo2.jsx`
+    - `WhyChoose1.jsx`
+  - Removed duplicate routing configurations (`/home2`, `/home3`)
+  - Removed Home dropdown from navigation menu
+
+### Changed
+- **Routing:**
+  - Home-3 now serves as the default root page at `/`
+  - All pages use consistent `Layout2` (Header2 + Footer2)
+  - Removed conflicting `/` route definitions
+- **Navigation:**
+  - Simplified Home menu - removed version dropdown
+  - Direct link to `/` (Home-3)
+
+### Kept
+- Shared components still used by other pages:
+  - `About2` (used in AboutPage)
+  - `Services3` (used in ServicesPage)
+  - `Team2` (used in AboutPage)
+  - `Testimonial2` (used in ServicesPage)
+
+---
+
 ## [0.2.0] - 2025-10-03
 
 ### Added - Phase 0: Documentation & Architecture Foundation
@@ -191,7 +231,7 @@ Use conventional commit format:
 
 ## Status
 
-**Current Version:** 0.2.0  
-**Current Phase:** Phase 0 Complete ✅  
+**Current Version:** 0.2.1  
+**Current Phase:** Phase 0 Complete ✅ (Home variants cleanup complete)  
 **Next Phase:** Phase 1 - Backend Setup & Authentication  
 **Last Updated:** 2025-10-03

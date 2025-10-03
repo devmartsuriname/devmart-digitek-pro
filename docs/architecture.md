@@ -6,6 +6,17 @@
 
 ---
 
+## Active Home Page
+
+**Primary Landing Page:** Home-3 (Digtek React Template Home-3 variant)
+- **Route:** `/` (root)
+- **Layout:** Layout2 (Header2 + Footer2)
+- **Components:** HeroBanner3, Services2, WhyChoose2, WhyChoose3, Marquee2, Marquee3, CaseStudy3, Team1, Testimonial3, Counter2, Cta1, Blog1
+
+**Note:** Home Version 1 and Home Version 2 have been removed from the codebase. Only Home-3 remains as the authoritative landing page per PRD requirements.
+
+---
+
 ## Core Principles
 
 1. **Separation of Concerns:** UI, business logic, and data access are strictly separated
@@ -67,10 +78,8 @@ src/
 │   ├── Testimonial/
 │   └── ...
 │
-├── Pages/                   # Public pages (Home, About, Services, etc.)
-│   ├── Home.jsx
-│   ├── Home2.jsx
-│   ├── Home3.jsx            # Primary template (Home-3)
+├── Pages/                   # Public pages (Home-3, About, Services, etc.)
+│   ├── Home3.jsx            # Primary landing page (root)
 │   ├── AboutPage.jsx
 │   ├── ServicesPage.jsx
 │   ├── BlogPage.jsx
