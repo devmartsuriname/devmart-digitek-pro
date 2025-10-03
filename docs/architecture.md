@@ -44,9 +44,21 @@
                                ↓
 ┌─────────────────────────────────────────────────────────────┐
 │           Admin Routes (/admin/*)                            │
-│  - AdminLayout (header with logo, user menu, logout)         │
-│  - Dashboard (welcome, stats cards, quick actions)           │
-│  - Future: Services, Projects, Blog, Team, Leads, Settings   │
+│  ┌─────────────────┬────────────────────────────────────┐   │
+│  │  Left Sidebar   │    Main Content Area               │   │
+│  │  (250px)        │    (Dynamic Width)                 │   │
+│  │                 │                                    │   │
+│  │  📊 Dashboard   │  - Dashboard (stats, actions)      │   │
+│  │  🛠️ Services    │  - Content modules (CRUD)          │   │
+│  │  📁 Projects    │  - Forms, tables, editors          │   │
+│  │  📝 Blog        │  - Media upload interfaces         │   │
+│  │  👥 Team        │  - Settings panels                 │   │
+│  │  ❓ FAQ         │                                    │   │
+│  │  🖼️ Media       │                                    │   │
+│  │  📧 Leads       │                                    │   │
+│  │  ⚙️ Settings    │                                    │   │
+│  └─────────────────┴────────────────────────────────────┘   │
+│  Top Header: Logo | View Site | User Email | Logout         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,6 +83,141 @@ AuthContext listens to `onAuthStateChange` to:
 ✅ **Email Validation:** Regex + Supabase validation  
 ✅ **Rate Limiting:** Built-in Supabase Auth rate limiting  
 ✅ **Role Separation:** Roles stored in `user_roles` table with RLS  
+
+---
+
+## Admin Layout Architecture
+
+### Admin Interface Structure (Phase 1.3.1 Complete)
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│                        Top Header (Fixed)                         │
+│  [☰] [Logo] Devmart Admin    [🌐 View Site] [User] [Logout]      │
+└───────────────────────────────────────────────────────────────────┘
+        ↓                                    ↓
+┌──────────────────┬────────────────────────────────────────────────┐
+│  Left Sidebar    │         Main Content Area                      │
+│  (250px, Fixed)  │         (Dynamic, Scrollable)                  │
+│                  │                                                │
+│  📊 Dashboard    │  ┌──────────────────────────────────────────┐ │
+│  🛠️ Services     │  │  <Outlet />                              │ │
+│  📁 Projects     │  │  - Current route component renders here │ │
+│  📝 Blog         │  │  - Dashboard, Forms, Tables, Editors    │ │
+│  👥 Team         │  │  - Full height, scrollable content      │ │
+│  ❓ FAQ          │  └──────────────────────────────────────────┘ │
+│  🖼️ Media        │                                                │
+│  📧 Leads        │                                                │
+│  ⚙️ Settings     │                                                │
+│                  │                                                │
+└──────────────────┴────────────────────────────────────────────────┘
+```
+
+### Responsive Behavior
+
+**Desktop (≥992px):**
+- Sidebar: Fixed, always visible, 250px wide
+- Main content: Dynamic width, left margin 250px
+- Toggle: Not visible
+
+**Tablet (768-991px):**
+- Sidebar: Overlay drawer, hidden by default
+- Main content: Full width, no margin
+- Toggle: Hamburger button visible in header
+- Overlay: Semi-transparent backdrop with blur
+
+**Mobile (<768px):**
+- Sidebar: Full-screen drawer (280px), hidden by default
+- Main content: Full width
+- Toggle: Hamburger button visible in header
+- Overlay: Full-screen backdrop with blur
+- Auto-close: Sidebar closes on navigation click
+
+### Sidebar Navigation Items
+
+| Route | Icon | Label | Phase |
+|-------|------|-------|-------|
+| `/admin/dashboard` | `bi-speedometer2` | Dashboard | 1.3 ✅ |
+| `/admin/services` | `bi-gear` | Services | 2.1 |
+| `/admin/projects` | `bi-folder` | Projects | 2.2 |
+| `/admin/blog` | `bi-file-text` | Blog | 2.3 |
+| `/admin/team` | `bi-people` | Team | 2.4 |
+| `/admin/faq` | `bi-question-circle` | FAQ | 2.5 |
+| `/admin/media` | `bi-image` | Media | 2.6 |
+| `/admin/leads` | `bi-envelope` | Leads | 2.7 |
+| `/admin/settings` | `bi-gear-fill` | Settings | 2.8 |
+
+### Styling Tokens (Digtek Theme)
+
+```css
+/* Sidebar */
+background: #17012C;           /* var(--header) */
+border-right: 1px solid rgba(255, 255, 255, 0.1);
+
+/* Navigation Links */
+color: #FFFFFF;                /* Default text */
+font-size: 15px;
+padding: 12px 20px;
+transition: all 0.3s ease;
+
+/* Active Link */
+background: rgba(106, 71, 237, 0.15);  /* var(--theme) with alpha */
+color: #6A47ED;                         /* var(--theme) */
+border-left: 3px solid #6A47ED;
+box-shadow: 0 0 15px rgba(106, 71, 237, 0.3);
+
+/* Hover Link */
+background: rgba(106, 71, 237, 0.1);
+color: #FFFFFF;
+
+/* Mobile Overlay */
+background: rgba(0, 0, 0, 0.5);
+backdrop-filter: blur(5px);
+z-index: 1030;
+
+/* Sidebar Z-Index */
+z-index: 1040;
+```
+
+### Component Files
+
+- **AdminLayout:** `src/Layout/AdminLayout.jsx`
+  - Main container with flex layout
+  - Top header (logo, toggle, user menu)
+  - Sidebar integration
+  - Main content area with `<Outlet />`
+  - Responsive state management
+
+- **AdminSidebar:** `src/Components/Admin/AdminSidebar.jsx`
+  - Navigation menu with 9 items
+  - Active route highlighting via `NavLink`
+  - Mobile overlay with click-to-close
+  - Custom scrollbar styling
+  - Bootstrap Icons integration
+
+### State Management
+
+```jsx
+// AdminLayout.jsx
+const [sidebarOpen, setSidebarOpen] = useState(false);
+
+// Toggle sidebar
+const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+// Close sidebar (mobile)
+const closeSidebar = () => setSidebarOpen(false);
+
+// Auto-close on desktop resize
+useEffect(() => {
+  const handleResize = () => {
+    if (window.innerWidth >= 992 && sidebarOpen) {
+      setSidebarOpen(false);
+    }
+  };
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, [sidebarOpen]);
+```
 
 ---
 
@@ -849,6 +996,7 @@ After every implementation step:
 
 ## Status
 
-**Phase:** Phase 0 - Documentation Complete ✅  
-**Next Steps:** Phase 1 - Implement folder structure & repositories  
+**Current Version:** 0.4.1  
+**Phase:** Phase 1.3 Complete ✅ (Authentication + Admin Sidebar Complete)  
+**Next Steps:** Phase 1.4 - Repository Pattern & Admin CMS Modules  
 **Last Updated:** 2025-10-03
