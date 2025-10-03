@@ -61,10 +61,39 @@ const ContactForm = () => {
       };
 
       // Create lead in database
-      await repository.create(leadData);
+      const newLead = await repository.create(leadData);
 
       // Store submission time
       localStorage.setItem(RATE_LIMIT_KEY, new Date().toISOString());
+
+      // Send email notification (non-blocking)
+      try {
+        const response = await fetch(
+          'https://ujevbkwzywuuslmsckzh.supabase.co/functions/v1/send-lead-notification',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name: data.name,
+              email: data.email,
+              phone: data.phone,
+              subject: data.subject,
+              message: data.message,
+              source: 'contact_form',
+              leadId: newLead.id,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          console.warn('Email notification failed, but lead was saved');
+        }
+      } catch (emailError) {
+        // Don't block submission if email fails
+        console.warn('Email notification error:', emailError);
+      }
 
       // Show success
       setSuccess(true);
