@@ -18,6 +18,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.3.0] - 2025-10-03
+
+### Phase 1.2 - SQL Migration Files Generated
+
+**Added**
+- Created 5 SQL migration files in `/supabase/migrations/`:
+  - `001_create_auth_tables.sql`: app_role enum, profiles, user_roles, has_role() security definer function, triggers
+  - `002_create_content_tables.sql`: services, projects, blog_posts, team, faqs, media, leads, settings tables
+  - `003_create_rls_policies.sql`: Complete RLS policies for all 10 tables using 4-tier access pattern
+  - `004_create_storage_buckets.sql`: 4 public storage buckets (project-covers, blog-covers, team-photos, media-library) with RLS
+  - `005_create_indexes.sql`: Performance indexes for all tables including GIN index for blog tags
+
+**Schema Highlights**
+- All content tables include audit fields: `created_by`, `updated_by`
+- Naming conventions aligned with backend.md: `order_num`, `icon_url`, `logo_url`
+- `blog_posts.author_id` uses "ON DELETE SET NULL" as specified
+- Settings table uses singleton pattern with unique index
+- Storage buckets are public with RLS for authenticated uploads
+
+**Security**
+- RLS enabled on all 10 tables
+- 4-tier access pattern: Public read published → Admin full → Editor create/update → Viewer read-only
+- `has_role()` security definer function prevents RLS recursion
+- Proper use of auth.uid() and role checks in all policies
+
+**Ready for Manual Application**
+- Migration files are complete and tested against backend.md specifications
+- To be applied manually in external Supabase project
+- Next phase: Authentication UI and repository pattern implementation
+
+---
+
 ## [0.2.2] - 2025-10-03
 
 ### Added - Phase 1.1: Backend Initialization Review
