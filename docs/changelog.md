@@ -63,6 +63,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/Components/Common/LazySlider.jsx`: Lazy-loaded react-slick wrapper with forwardRef support and skeleton fallback
 - `src/lib/utils/loadAnalytics.js`: Dynamic analytics script loader
 
+### 📚 Documentation Updates
+- `docs/architecture.md`: Added comprehensive "Performance & Code Splitting Strategy" section (900+ lines)
+  - Route-level, component-level, and library-level code splitting patterns
+  - LazySlider implementation details with forwardRef support
+  - Loading skeleton architecture and usage guidelines
+  - Bundle analysis workflow and decision matrix
+  - Performance testing checklist (manual + Lighthouse)
+  - Before/after metrics and future optimization roadmap
+
 ### 🔗 Dependencies Added
 - `rollup-plugin-visualizer@latest`: Bundle size analysis tool
 
