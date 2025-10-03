@@ -6,6 +6,74 @@
 
 ---
 
+## Authentication Flow
+
+### Authentication System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  Public Routes (/)                           │
+│  - Home, About, Services, Portfolio, Blog, Contact, etc.    │
+│  - Header shows "Login" button when not authenticated        │
+└─────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────┐
+│                  Auth Page (/auth)                           │
+│  - Login Form (email + password)                             │
+│  - Signup Form (email + password + confirm)                  │
+│  - Tab toggle between Login/Signup                           │
+│  - Redirects authenticated users to /admin/dashboard         │
+└─────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────┐
+│              AuthContext (Session Management)                │
+│  - useAuth hook provides: user, session, loading             │
+│  - signIn(email, password) → authenticate user               │
+│  - signUp(email, password) → register new user               │
+│  - signOut() → clear session, redirect to /auth              │
+│  - onAuthStateChange listener → auto-refresh tokens          │
+└─────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────┐
+│              ProtectedRoute (Route Guard)                    │
+│  - Checks auth state using useAuth hook                      │
+│  - Shows loading spinner while checking session              │
+│  - Redirects unauthenticated users to /auth                  │
+│  - Allows authenticated users to access protected routes     │
+└─────────────────────────────────────────────────────────────┘
+                               ↓
+┌─────────────────────────────────────────────────────────────┐
+│           Admin Routes (/admin/*)                            │
+│  - AdminLayout (header with logo, user menu, logout)         │
+│  - Dashboard (welcome, stats cards, quick actions)           │
+│  - Future: Services, Projects, Blog, Team, Leads, Settings   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Session Persistence
+
+The Supabase client is pre-configured with:
+- **localStorage storage:** Sessions persist across page reloads
+- **persistSession: true:** Maintains session state
+- **autoRefreshToken: true:** Automatically refreshes expired tokens
+
+AuthContext listens to `onAuthStateChange` to:
+- Update user/session state when tokens refresh
+- Handle `SIGNED_OUT` event to clear state
+- Sync auth state across browser tabs
+
+### Security Features
+
+✅ **Input Validation:** Zod schemas prevent injection attacks  
+✅ **Session Management:** Handled by Supabase (secure, httpOnly tokens)  
+✅ **Password Storage:** Bcrypt hashing via Supabase Auth  
+✅ **HTTPS Required:** Enforced in production  
+✅ **Email Validation:** Regex + Supabase validation  
+✅ **Rate Limiting:** Built-in Supabase Auth rate limiting  
+✅ **Role Separation:** Roles stored in `user_roles` table with RLS  
+
+---
+
 ## Active Home Page
 
 **Primary Landing Page:** Home-3 (Digtek React Template Home-3 variant)

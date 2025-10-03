@@ -1,6 +1,7 @@
 import {
     createBrowserRouter,
   } from "react-router-dom";
+import RootProvider from "../RootProvider";
 import Layout2 from "../Layout/Layout2";
 import Home3 from "../Pages/Home3";
 import AboutPage from "../Pages/AboutPage";
@@ -16,16 +17,24 @@ import CaseStudyDetailsPage from "../Pages/CaseStudyDetailsPage";
 import BlogRightSidebar from "../Pages/BlogRightSidebar";
 import BlogPage from "../Pages/BlogPage";
 import BlogDetailsPage from "../Pages/BlogDetailsPage";
+import AuthPage from "../Pages/AuthPage";
+import AdminLayout from "../Layout/AdminLayout";
+import Dashboard from "../Pages/Admin/Dashboard";
+import ProtectedRoute from "../Components/Auth/ProtectedRoute";
 
 export const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout2></Layout2>,
+      element: <RootProvider />,
       children: [
         {
-          index: true,
-          element: <Home3></Home3>,
-        },       
+          path: "/",
+          element: <Layout2></Layout2>,
+          children: [
+            {
+              index: true,
+              element: <Home3></Home3>,
+            },
         {
             path: "/about",
             element: <AboutPage></AboutPage>,
@@ -78,6 +87,22 @@ export const router = createBrowserRouter([
           path: "/blog/blog-details",
           element: <BlogDetailsPage></BlogDetailsPage>,
         },                                                                             
+          ],
+        },
+        {
+          path: "/auth",
+          element: <AuthPage></AuthPage>,
+        },
+        {
+          path: "/admin",
+          element: <ProtectedRoute><AdminLayout /></ProtectedRoute>,
+          children: [
+            {
+              path: "dashboard",
+              element: <Dashboard></Dashboard>,
+            },
+          ],
+        },
       ],
     },
   ]);

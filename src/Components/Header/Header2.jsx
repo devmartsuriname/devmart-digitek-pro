@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Nav from './Nav';
+import { useAuth } from '@/lib/contexts/AuthContext';
+
 export default function Header2({ variant }) {
   const [mobileToggle, setMobileToggle] = useState(false);
   const [isSticky, setIsSticky] = useState();
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [searchToggle, setSearchToggle] = useState(false);
+  const { user, loading } = useAuth();
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/auth';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,8 +70,23 @@ export default function Header2({ variant }) {
               <a onClick={() => setSearchToggle(!searchToggle)} className="search-trigger search-icon"><i className="bi bi-search"></i></a>
 
                 <div className="main-button main-btn-area2">
-                <Link to="/contact">
-                <span className="theme-btn"> Get Started </span><span className="arrow-btn"><i className="bi bi-arrow-right"></i></span></Link>
+                {!loading && !isAuthPage && (
+                  user ? (
+                    <Link to="/admin/dashboard">
+                      <span className="theme-btn">
+                        <i className="bi bi-speedometer2 me-2"></i>
+                        Dashboard
+                      </span>
+                    </Link>
+                  ) : (
+                    <Link to="/auth">
+                      <span className="theme-btn">
+                        <i className="bi bi-box-arrow-in-right me-2"></i>
+                        Login
+                      </span>
+                    </Link>
+                  )
+                )}
                   </div>
 
               </div>
