@@ -1,5 +1,6 @@
 import { Modal } from 'react-bootstrap';
 import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
 
 const STATUS_COLORS = {
   new: { bg: 'rgba(106, 71, 237, 0.1)', text: '#6A47ED', label: 'New' },
@@ -8,6 +9,20 @@ const STATUS_COLORS = {
 };
 
 const LeadDetailModal = ({ lead, show, onHide, onStatusChange }) => {
+  // Handle Esc key to close modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        onHide();
+      }
+    };
+
+    if (show) {
+      document.addEventListener('keydown', handleEsc);
+      return () => document.removeEventListener('keydown', handleEsc);
+    }
+  }, [show, onHide]);
+
   if (!lead) return null;
 
   const statusConfig = STATUS_COLORS[lead.status];
@@ -18,9 +33,15 @@ const LeadDetailModal = ({ lead, show, onHide, onStatusChange }) => {
   };
 
   return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
+    <Modal 
+      show={show} 
+      onHide={onHide} 
+      size="lg" 
+      centered
+      aria-labelledby="lead-detail-modal-title"
+    >
       <Modal.Header className="bg-dark border-secondary" closeButton closeVariant="white">
-        <Modal.Title className="text-white">
+        <Modal.Title id="lead-detail-modal-title" className="text-white">
           <i className="bi bi-person-badge me-2" style={{ color: '#6A47ED' }}></i>
           Lead Details
         </Modal.Title>

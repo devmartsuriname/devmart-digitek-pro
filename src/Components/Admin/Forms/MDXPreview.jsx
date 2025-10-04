@@ -1,17 +1,56 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useRef } from 'react';
+import FocusTrap from 'focus-trap-react';
 
 // Lazy load react-markdown (only loads when preview is opened)
 const ReactMarkdown = lazy(() => import('react-markdown'));
 
 const MDXPreview = ({ content, show, onClose }) => {
+  const previousFocusRef = useRef(null);
+
+  // Store previously focused element
+  useEffect(() => {
+    if (show) {
+      previousFocusRef.current = document.activeElement;
+    }
+    
+    return () => {
+      if (previousFocusRef.current && !show) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [show]);
+
+  // Handle Esc key to close modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    if (show) {
+      document.addEventListener('keydown', handleEsc);
+      return () => document.removeEventListener('keydown', handleEsc);
+    }
+  }, [show, onClose]);
+
   if (!show) return null;
 
   return (
-    <>
+    <FocusTrap
+      focusTrapOptions={{
+        allowOutsideClick: true,
+        escapeDeactivates: false, // We handle Esc manually
+        initialFocus: () => document.querySelector('.modal-content .btn-close'),
+      }}
+    >
       <div
         className="modal show d-block"
         style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}
         onClick={onClose}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mdx-preview-modal-title"
       >
         <div
           className="modal-dialog modal-lg modal-dialog-scrollable"
@@ -19,7 +58,7 @@ const MDXPreview = ({ content, show, onClose }) => {
         >
           <div className="modal-content bg-dark border-secondary">
             <div className="modal-header border-secondary">
-              <h5 className="modal-title text-white">
+              <h5 id="mdx-preview-modal-title" className="modal-title text-white">
                 <i className="bi bi-eye me-2"></i>
                 Content Preview
               </h5>
@@ -27,7 +66,7 @@ const MDXPreview = ({ content, show, onClose }) => {
                 type="button"
                 className="btn-close btn-close-white"
                 onClick={onClose}
-                aria-label="Close"
+                aria-label="Close preview dialog"
               />
             </div>
             <div className="modal-body text-white">
@@ -84,7 +123,7 @@ const MDXPreview = ({ content, show, onClose }) => {
           </div>
         </div>
       </div>
-    </>
+    </FocusTrap>
   );
 };
 

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import FocusTrap from 'focus-trap-react';
 
 const MediaEditModal = ({ media, onSave, onClose, show }) => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,35 @@ const MediaEditModal = ({ media, onSave, onClose, show }) => {
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const previousFocusRef = useRef(null);
+
+  // Store previously focused element on mount
+  useEffect(() => {
+    if (show) {
+      previousFocusRef.current = document.activeElement;
+    }
+    
+    return () => {
+      // Return focus when unmounting
+      if (previousFocusRef.current && !show) {
+        previousFocusRef.current.focus();
+      }
+    };
+  }, [show]);
+
+  // Handle Esc key to close modal
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && !saving) {
+        onClose();
+      }
+    };
+
+    if (show) {
+      document.addEventListener('keydown', handleEsc);
+      return () => document.removeEventListener('keydown', handleEsc);
+    }
+  }, [show, saving, onClose]);
 
   useEffect(() => {
     if (media) {
@@ -63,24 +93,34 @@ const MediaEditModal = ({ media, onSave, onClose, show }) => {
   const charLimit = 200;
 
   return (
-    <div
-      className="modal fade show d-block"
-      style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
-      tabIndex="-1"
+    <FocusTrap
+      focusTrapOptions={{
+        allowOutsideClick: true,
+        escapeDeactivates: false, // We handle Esc manually
+        initialFocus: () => document.querySelector('.modal-content input[name="alt"]'),
+      }}
     >
-      <div className="modal-dialog modal-dialog-centered">
-        <div className="modal-content bg-dark border-secondary">
-          <div className="modal-header border-secondary">
-            <h5 className="modal-title text-white">Edit Media</h5>
-            <button
-              type="button"
-              className="btn-close btn-close-white"
-              onClick={onClose}
-              disabled={saving}
-            >
-              <X size={20} />
-            </button>
-          </div>
+      <div
+        className="modal fade show d-block"
+        style={{ backgroundColor: 'rgba(0,0,0,0.7)' }}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="media-edit-modal-title"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content bg-dark border-secondary">
+            <div className="modal-header border-secondary">
+              <h5 id="media-edit-modal-title" className="modal-title text-white">Edit Media</h5>
+              <button
+                type="button"
+                className="btn-close btn-close-white"
+                onClick={onClose}
+                disabled={saving}
+                aria-label="Close dialog"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
@@ -176,7 +216,7 @@ const MediaEditModal = ({ media, onSave, onClose, show }) => {
           </form>
         </div>
       </div>
-    </div>
+    </FocusTrap>
   );
 };
 

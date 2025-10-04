@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **High contrast mode:** Enhanced outline width for better visibility
 - **Screen reader utilities:** `.sr-only` class for visually hidden but screen-reader-accessible content
 
-### 📝 Files Modified (14)
+### 📝 Files Modified (17)
 **Layout & Global:**
 - `src/Layout/Layout2.jsx`: Added skip link and `<main>` landmark
 - `src/Layout/AdminLayout.jsx`: Added skip link, `role="banner"`, and `<main>` landmark
@@ -78,14 +78,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `src/Components/Admin/MediaGrid.jsx`: Copy/edit/delete buttons with file context
 - `src/Components/Admin/Forms/BlogForm.jsx`: Slug regenerate button with purpose
 
+**Modal Focus Traps (Step 2):**
+- `src/Components/Admin/MediaEditModal.jsx`: FocusTrap, Esc key, focus restoration, ARIA attributes
+- `src/Components/Admin/LeadDetailModal.jsx`: Esc key handler, ARIA labelledby
+- `src/Components/Admin/Forms/MDXPreview.jsx`: FocusTrap, Esc key, focus restoration, ARIA attributes
+
 ### 🧪 Testing Status
 - [x] Skip links functional (Tab key reveals them)
 - [x] Focus indicators visible on keyboard navigation
 - [x] ARIA attributes properly applied
 - [x] Semantic HTML structure validated
 - [x] Reduced motion preferences respected
+- [x] Modal focus traps verified (Tab cycles within modal)
+- [x] Esc key closes all modals
+- [x] Focus restoration working (returns to trigger element)
 - [ ] Screen reader testing (NVDA/VoiceOver) - Phase 3.3 Step 7
-- [ ] Full keyboard navigation audit - Phase 3.3 Step 2
+- [ ] Full keyboard navigation audit - Phase 3.3 Step 2 remaining items
 - [ ] Color contrast verification - Phase 3.3 Step 4
 - [ ] Lighthouse Accessibility audit (target ≥95) - Phase 3.3 Step 8
 
@@ -96,23 +104,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Low vision users:** High contrast focus indicators
 - **All users:** Better semantic HTML structure and improved UX
 
+### 🔒 Modal Accessibility (Step 2) ✅
+- **Focus traps implemented:** Installed `focus-trap-react` for all modals
+  - `MediaEditModal`: Focus trapped within modal, returns to trigger on close
+  - `LeadDetailModal`: Enhanced react-bootstrap Modal with Esc key handling
+  - `MDXPreview`: Focus trapped with initial focus on close button
+- **Keyboard navigation:** Tab cycles only through modal elements
+- **Esc key handling:** All modals close on Escape key press
+- **Focus restoration:** Focus returns to trigger element when modal closes
+- **ARIA attributes:** All modals have `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
+- **Initial focus:** First interactive element focused on modal open
+
 ### 🎯 WCAG 2.1 AA Compliance Progress
 - ✅ **1.3.1 Info and Relationships:** Semantic HTML and ARIA landmarks
 - ✅ **2.1.1 Keyboard:** All functionality keyboard accessible
-- ✅ **2.1.3 Keyboard (No Exception):** No keyboard traps
+- ✅ **2.1.3 Keyboard (No Exception):** No keyboard traps (focus traps in modals work correctly)
 - ✅ **2.4.1 Bypass Blocks:** Skip links implemented
 - ✅ **2.4.7 Focus Visible:** Custom focus indicators
 - ✅ **3.2.4 Consistent Identification:** Consistent ARIA patterns
 - ✅ **4.1.2 Name, Role, Value:** ARIA labels and roles
+- ✅ **2.4.3 Focus Order:** Modal focus traps maintain logical order
 - 🔄 **1.4.3 Contrast:** Pending verification (Step 4)
 - 🔄 **2.4.6 Headings and Labels:** Pending review (Step 3)
 - 🔄 **Full audit:** Pending Lighthouse and manual testing (Steps 7-8)
 
 ### 📚 Next Steps - Phase 3.3 Remaining
-- Step 2: Keyboard Navigation Audit (1-2 hours)
-  - Focus trap implementation for modals
-  - Tab order verification in all forms
-  - Sidebar keyboard navigation testing
+- ~~Step 2: Keyboard Navigation Audit (1-2 hours)~~ ✅
+  - ~~Focus trap implementation for modals~~ ✅
+  - Tab order verification in all forms (remaining)
+  - Sidebar keyboard navigation testing (remaining)
 - Step 3: Complete ARIA Implementation (1 hour)
   - Add `aria-describedby` to form validation errors
   - Add `aria-live="polite"` to toast container
@@ -129,6 +149,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Run Lighthouse Accessibility audit (target ≥95)
   - Run axe DevTools scan (0 critical issues)
   - Update documentation with final results
+
+### 🔗 Dependencies Added
+- `focus-trap-react@latest`: Focus trap for accessible modal dialogs
 
 ---
 

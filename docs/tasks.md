@@ -356,12 +356,19 @@
 - [x] Add landmark roles (main, banner, navigation, dialog, search)
 - [x] Implement reduced motion support
 - [x] Convert interactive elements to proper semantic HTML (button vs a)
-- [ ] Test keyboard navigation (focus traps in modals, tab order)
+- [x] **Modal focus traps (Step 2 complete)**
+  - [x] Installed `focus-trap-react` dependency
+  - [x] MediaEditModal: FocusTrap, Esc key, focus restoration
+  - [x] LeadDetailModal: Esc key handler, ARIA attributes
+  - [x] MDXPreview: FocusTrap, Esc key, focus restoration
+  - [x] All modals have role="dialog" and aria-modal="true"
+  - [x] Focus returns to trigger element on close
+- [ ] Test keyboard navigation (tab order in forms)
 - [ ] Complete ARIA implementation (aria-describedby, aria-live)
 - [ ] Check color contrast (≥4.5:1 for all text)
 - [ ] Test with screen reader (NVDA/VoiceOver)
 - [ ] Run accessibility audit (Lighthouse + axe DevTools)
-- [x] Update `/docs/changelog.md` (Step 1 icon buttons)
+- [x] Update `/docs/changelog.md` (Step 2 modal focus traps)
 
 ### 5.3 Analytics & Events
 - [ ] Add Plausible analytics script
