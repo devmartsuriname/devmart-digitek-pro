@@ -241,8 +241,13 @@ const Footer2 = () => {
                         </ul>
                     </div>
                 </div>
-                <a href="#" id="scrollUp" className="scroll-icon">
-                <i className="bi bi-arrow-up"></i>
+                <a 
+                    href="#" 
+                    id="scrollUp" 
+                    className="scroll-icon"
+                    aria-label="Scroll to top"
+                >
+                    <i className="bi bi-arrow-up" aria-hidden="true"></i>
                 </a>
             </div>
         </section>

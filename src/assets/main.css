@@ -8253,14 +8253,3 @@ select:focus-visible {
     transition: none;
   }
 }
-
-/* Accessibility: Prevent hidden slider elements from being focusable */
-.slick-slide[aria-hidden="true"] a,
-.slick-slide[aria-hidden="true"] button,
-.slick-slide[aria-hidden="true"] input,
-.slick-slide[aria-hidden="true"] textarea,
-.slick-slide[aria-hidden="true"] select,
-.slick-slide[aria-hidden="true"] [tabindex] {
-  tabindex: -1 !important;
-  pointer-events: none;
-}
