@@ -184,15 +184,35 @@ const Footer2 = () => {
                                         )}
                                     </ul>
                                     <div className="footer-input">
-                                        <input type="email" id="email2" placeholder="Your email address" /> 
-                                        <button className="newsletter-btn" type="submit">
-                                        <i className="bi bi-arrow-right"></i>
+                                        <label htmlFor="newsletter-email" className="visually-hidden">
+                                            Email address for newsletter
+                                        </label>
+                                        <input 
+                                            type="email" 
+                                            id="newsletter-email" 
+                                            placeholder="Your email address"
+                                            aria-required="true"
+                                            aria-describedby="newsletter-privacy-notice"
+                                        /> 
+                                        <button 
+                                            className="newsletter-btn" 
+                                            type="submit"
+                                            aria-label="Subscribe to newsletter"
+                                        >
+                                            <i className="bi bi-arrow-right" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                     <div className="form-check">
-                                        <input className="form-check-input" type="checkbox"  id="flexCheckChecked"  />
-                                        <label className="form-check-label" htmlFor="flexCheckChecked">
-                                            I agree to the <a href="#">Privacy Policy.</a>
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox"  
+                                            id="newsletter-privacy-consent"
+                                            aria-required="true"
+                                        />
+                                        <label className="form-check-label" htmlFor="newsletter-privacy-consent">
+                                            <span id="newsletter-privacy-notice">
+                                                I agree to the <a href="#">Privacy Policy.</a>
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
