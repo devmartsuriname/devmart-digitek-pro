@@ -1,13 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useFAQs } from "@/lib/hooks/useFAQ";
+import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const Faq1 = ({addclass}) => {
-
-    const faqContent = [
-        {title:'Why Is SEO Important For Small Business?', content:'Nullam faucibus eleifend mi eu varius. Integer vel tincidunt massa, quis semper odio.Mauris et mollis quam. Nullam fringilla erat id ante commodo maximus'},
-        {title:'How do I choose the best SEO Agency?', content:'Nullam faucibus eleifend mi eu varius. Integer vel tincidunt massa, quis semper odio.Mauris et mollis quam. Nullam fringilla erat id ante commodo maximus'},
-        {title:'Better Security And Faster Server?', content:'Nullam faucibus eleifend mi eu varius. Integer vel tincidunt massa, quis semper odio.Mauris et mollis quam. Nullam fringilla erat id ante commodo maximus'},
-        {title:'Deployment Within Few Minutes', content:'Nullam faucibus eleifend mi eu varius. Integer vel tincidunt massa, quis semper odio.Mauris et mollis quam. Nullam fringilla erat id ante commodo maximus'},
-      ]; 
+    const { faqs, loading, error } = useFAQs();
 
       const accordionContentRef = useRef(null);
       const [openItemIndex, setOpenItemIndex] = useState(-1);
@@ -21,11 +17,47 @@ const Faq1 = ({addclass}) => {
         }
       };
       useEffect(() => {
-        if (firstItemOpen) {
+        if (firstItemOpen && faqs.length > 0) {
           setOpenItemIndex(0);
           setFirstItemOpen(false);
         }
-      }, [firstItemOpen]);
+      }, [firstItemOpen, faqs]);
+
+      if (loading) {
+        return (
+            <section className={addclass}>
+                <div className="container">
+                    <div className="row g-4">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="col-12">
+                                <LoadingSkeleton />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+      }
+
+      if (error) {
+        return (
+            <section className={addclass}>
+                <div className="container">
+                    <div className="alert alert-danger">Failed to load FAQs. Please try again later.</div>
+                </div>
+            </section>
+        );
+      }
+
+      if (faqs.length === 0) {
+        return (
+            <section className={addclass}>
+                <div className="container">
+                    <div className="alert alert-info">No FAQs available at this time.</div>
+                </div>
+            </section>
+        );
+      }
 
     return (
         <section className={addclass}>
@@ -69,16 +101,16 @@ const Faq1 = ({addclass}) => {
                             <div className="faq-accordion-items">
                                 <div className="faq-accordion">
                                     <div className="accordion" id="accordion">
-                                    {faqContent.map((item, index) => (
-                                        <div key={index} className={`accordion-item mb-3 ${index === openItemIndex ? "active" : "" }`}  data-wow-delay=".3s">
+                                    {faqs.map((faq, index) => (
+                                        <div key={faq.id} className={`accordion-item mb-3 ${index === openItemIndex ? "active" : "" }`}  data-wow-delay=".3s">
                                             <h5 onClick={() => handleItemClick(index)} className="accordion-header">
-                                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true" aria-controls="faq1">
-                                                {item.title}
+                                                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target={`#faq${faq.id}`} aria-expanded={index === openItemIndex} aria-controls={`faq${faq.id}`}>
+                                                {faq.question}
                                                 </button>
                                             </h5>
-                                            <div ref={accordionContentRef} id="faq1" className="accordion-collapse collapse" data-bs-parent="#accordion">
+                                            <div ref={index === openItemIndex ? accordionContentRef : null} id={`faq${faq.id}`} className={`accordion-collapse collapse ${index === openItemIndex ? "show" : ""}`} data-bs-parent="#accordion">
                                                 <div className="accordion-body">
-                                                {item.content}
+                                                {faq.answer}
                                                 </div>
                                             </div>
                                         </div>

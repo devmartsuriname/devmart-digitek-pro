@@ -1,35 +1,65 @@
 import { Link } from "react-router-dom";
+import { useProjects } from "@/lib/hooks/useProjects";
+import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const CaseStudy4 = () => {
+    const { projects, loading, error } = useProjects({ status: 'published' });
 
-    const chooseContent = [
-        {subtitle:'Marketing', title:'Digital Marketing', img:'/assets/img/case-studies/02.jpg'},
-        {subtitle:'Seo Design', title:'PPC Advertising', img:'/assets/img/case-studies/03.jpg'},
-        {subtitle:'Designer', title:'Construction Planning', img:'/assets/img/case-studies/04.jpg'},
-        {subtitle:'Marketing', title:'Digital Marketing', img:'/assets/img/case-studies/06.jpg'},
-        {subtitle:'Seo Design', title:'PPC Advertising', img:'/assets/img/case-studies/07.jpg'},
-        {subtitle:'Designer', title:'Construction Planning', img:'/assets/img/case-studies/08.jpg'},        
-      ]; 
+    if (loading) {
+        return (
+            <section className="case-studies-section-4 fix section-padding">
+                <div className="container">
+                    <div className="row g-4">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                            <div key={i} className="col-xl-6 col-lg-6 col-md-6">
+                                <LoadingSkeleton />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section className="case-studies-section-4 fix section-padding">
+                <div className="container">
+                    <div className="alert alert-danger">Failed to load projects. Please try again later.</div>
+                </div>
+            </section>
+        );
+    }
+
+    if (projects.length === 0) {
+        return (
+            <section className="case-studies-section-4 fix section-padding">
+                <div className="container">
+                    <div className="alert alert-info">No projects available at this time.</div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="case-studies-section-4 fix section-padding">
         <div className="container">
             <div className="row g-4">
-            {chooseContent.map((item, i) => (
-                <div key={i} className="col-xl-6 col-lg-6 col-md-6">
+            {projects.map((project) => (
+                <div key={project.id} className="col-xl-6 col-lg-6 col-md-6">
                     <div className="case-studies-card-items mt-0">
                         <div className="thumb">
-                            <img src={item.img} alt="img" />
+                            <img src={project.cover_url || '/assets/img/case-studies/02.jpg'} alt={project.title} />
                         </div>
                         <div className="content">
                             <div className="title">
-                                <h3><Link to="/project/project-details">{item.title}</Link></h3>
-                                <p>{item.subtitle}</p>
+                                <h3><Link to={`/portfolio/${project.slug}`}>{project.title}</Link></h3>
+                                <p>{project.tech?.[0] || 'PROJECT'}</p>
                             </div>
                             <Link 
-                                to="/project/project-details" 
+                                to={`/portfolio/${project.slug}`}
                                 className="icon"
-                                aria-label={`View ${item.title} project details`}
+                                aria-label={`View ${project.title} project details`}
                             >
                                 <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
                             </Link>
