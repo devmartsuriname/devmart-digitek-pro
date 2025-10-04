@@ -123,78 +123,121 @@ const ContactForm = () => {
         <div className="row g-4">
           <div className="col-md-6">
             <div className="form-clt">
-              <span>Your Name *</span>
+              <label htmlFor="contact-name">Your Name *</label>
               <input
                 type="text"
-                id="name"
+                id="contact-name"
                 placeholder="Enter your name"
                 {...register('name')}
                 className={errors.name ? 'error' : ''}
+                aria-required="true"
+                aria-invalid={errors.name ? 'true' : 'false'}
+                aria-describedby={errors.name ? 'contact-name-error' : undefined}
               />
               {errors.name && (
-                <small className="text-danger d-block mt-1">{errors.name.message}</small>
+                <small 
+                  id="contact-name-error" 
+                  className="text-danger d-block mt-1" 
+                  role="alert"
+                >
+                  {errors.name.message}
+                </small>
               )}
             </div>
           </div>
 
           <div className="col-md-6">
             <div className="form-clt">
-              <span>Your Email *</span>
+              <label htmlFor="contact-email">Your Email *</label>
               <input
                 type="email"
-                id="email"
+                id="contact-email"
                 placeholder="Enter your email"
                 {...register('email')}
                 className={errors.email ? 'error' : ''}
+                aria-required="true"
+                aria-invalid={errors.email ? 'true' : 'false'}
+                aria-describedby={errors.email ? 'contact-email-error' : undefined}
               />
               {errors.email && (
-                <small className="text-danger d-block mt-1">{errors.email.message}</small>
+                <small 
+                  id="contact-email-error" 
+                  className="text-danger d-block mt-1" 
+                  role="alert"
+                >
+                  {errors.email.message}
+                </small>
               )}
             </div>
           </div>
 
           <div className="col-md-6">
             <div className="form-clt">
-              <span>Phone Number</span>
+              <label htmlFor="contact-phone">Phone Number</label>
               <input
                 type="tel"
-                id="phone"
+                id="contact-phone"
                 placeholder="Enter your phone"
                 {...register('phone')}
+                aria-invalid={errors.phone ? 'true' : 'false'}
+                aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
               />
               {errors.phone && (
-                <small className="text-danger d-block mt-1">{errors.phone.message}</small>
+                <small 
+                  id="contact-phone-error" 
+                  className="text-danger d-block mt-1" 
+                  role="alert"
+                >
+                  {errors.phone.message}
+                </small>
               )}
             </div>
           </div>
 
           <div className="col-md-6">
             <div className="form-clt">
-              <span>Subject</span>
+              <label htmlFor="contact-subject">Subject</label>
               <input
                 type="text"
-                id="subject"
+                id="contact-subject"
                 placeholder="What is this about?"
                 {...register('subject')}
+                aria-invalid={errors.subject ? 'true' : 'false'}
+                aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
               />
               {errors.subject && (
-                <small className="text-danger d-block mt-1">{errors.subject.message}</small>
+                <small 
+                  id="contact-subject-error" 
+                  className="text-danger d-block mt-1" 
+                  role="alert"
+                >
+                  {errors.subject.message}
+                </small>
               )}
             </div>
           </div>
 
           <div className="col-12">
             <div className="form-clt">
-              <span>Your Message *</span>
+              <label htmlFor="contact-message">Your Message *</label>
               <textarea
-                id="message"
+                id="contact-message"
                 rows={6}
                 placeholder="Write your message here..."
                 {...register('message')}
                 className={errors.message ? 'error' : ''}
+                aria-required="true"
+                aria-invalid={errors.message ? 'true' : 'false'}
+                aria-describedby={errors.message ? 'contact-message-error' : undefined}
               />
               {errors.message && (
-                <small className="text-danger d-block mt-1">{errors.message.message}</small>
+                <small 
+                  id="contact-message-error" 
+                  className="text-danger d-block mt-1" 
+                  role="alert"
+                >
+                  {errors.message.message}
+                </small>
               )}
             </div>
           </div>
@@ -206,6 +249,7 @@ const ContactForm = () => {
             style={{ display: 'none' }}
             tabIndex={-1}
             autoComplete="off"
+            aria-hidden="true"
           />
 
           <div className="col-12">

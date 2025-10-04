@@ -44,54 +44,70 @@ const FAQForm = ({ faq = null, onSubmit, onCancel, loading = false }) => {
       <div className="row g-4">
         {/* Question */}
         <div className="col-12">
-          <label className="form-label text-white">
+          <label htmlFor="faq-question" className="form-label text-white">
             Question <span className="text-danger">*</span>
           </label>
           <input
             type="text"
+            id="faq-question"
             className={`form-control bg-dark text-white border-secondary ${errors.question ? 'is-invalid' : ''}`}
             {...register('question')}
             disabled={loading}
             placeholder="What is your question?"
+            aria-required="true"
+            aria-invalid={errors.question ? 'true' : 'false'}
+            aria-describedby={errors.question ? 'faq-question-error faq-question-hint' : 'faq-question-hint'}
           />
           {errors.question && (
-            <div className="invalid-feedback">{errors.question.message}</div>
+            <div id="faq-question-error" className="invalid-feedback" role="alert">
+              {errors.question.message}
+            </div>
           )}
-          <small className="text-white-50">
+          <small id="faq-question-hint" className="text-white-50">
             {watch('question')?.length || 0}/500 characters
           </small>
         </div>
 
         {/* Category */}
         <div className="col-md-6">
-          <label className="form-label text-white">Category</label>
+          <label htmlFor="faq-category" className="form-label text-white">Category</label>
           <input
             type="text"
+            id="faq-category"
             className={`form-control bg-dark text-white border-secondary ${errors.category ? 'is-invalid' : ''}`}
             {...register('category')}
             disabled={loading}
             placeholder="e.g., General, Pricing, Technical"
+            aria-invalid={errors.category ? 'true' : 'false'}
+            aria-describedby={errors.category ? 'faq-category-error faq-category-hint' : 'faq-category-hint'}
           />
           {errors.category && (
-            <div className="invalid-feedback">{errors.category.message}</div>
+            <div id="faq-category-error" className="invalid-feedback" role="alert">
+              {errors.category.message}
+            </div>
           )}
-          <small className="text-white-50">Optional. Used for grouping FAQs.</small>
+          <small id="faq-category-hint" className="text-white-50">Optional. Used for grouping FAQs.</small>
         </div>
 
         {/* Order */}
         <div className="col-md-6">
-          <label className="form-label text-white">Display Order</label>
+          <label htmlFor="faq-order" className="form-label text-white">Display Order</label>
           <input
             type="number"
+            id="faq-order"
             className={`form-control bg-dark text-white border-secondary ${errors.order_num ? 'is-invalid' : ''}`}
             {...register('order_num', { valueAsNumber: true })}
             disabled={loading}
             min="0"
+            aria-invalid={errors.order_num ? 'true' : 'false'}
+            aria-describedby={errors.order_num ? 'faq-order-error faq-order-hint' : 'faq-order-hint'}
           />
           {errors.order_num && (
-            <div className="invalid-feedback">{errors.order_num.message}</div>
+            <div id="faq-order-error" className="invalid-feedback" role="alert">
+              {errors.order_num.message}
+            </div>
           )}
-          <small className="text-white-50">Lower numbers appear first.</small>
+          <small id="faq-order-hint" className="text-white-50">Lower numbers appear first.</small>
         </div>
 
         {/* Answer (Rich Text) */}

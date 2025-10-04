@@ -61,120 +61,168 @@ const ServiceForm = ({ service, onSubmit, onCancel, loading }) => {
             <div className="row g-3">
               {/* Title */}
               <div className="col-md-6">
-                <label className="form-label text-white">Title *</label>
+                <label htmlFor="service-title" className="form-label text-white">Title *</label>
                 <input
                   type="text"
+                  id="service-title"
                   className={`form-control bg-dark text-white border-secondary ${errors.title ? 'is-invalid' : ''}`}
                   {...register('title')}
+                  aria-required="true"
+                  aria-invalid={errors.title ? 'true' : 'false'}
+                  aria-describedby={errors.title ? 'service-title-error' : undefined}
                 />
                 {errors.title && (
-                  <div className="invalid-feedback">{errors.title.message}</div>
+                  <div id="service-title-error" className="invalid-feedback" role="alert">
+                    {errors.title.message}
+                  </div>
                 )}
               </div>
 
               {/* Slug */}
               <div className="col-md-6">
-                <label className="form-label text-white">Slug *</label>
+                <label htmlFor="service-slug" className="form-label text-white">Slug *</label>
                 <input
                   type="text"
+                  id="service-slug"
                   className={`form-control bg-dark text-white border-secondary ${errors.slug ? 'is-invalid' : ''}`}
                   {...register('slug')}
+                  aria-required="true"
+                  aria-invalid={errors.slug ? 'true' : 'false'}
+                  aria-describedby={errors.slug ? 'service-slug-error' : undefined}
                 />
                 {errors.slug && (
-                  <div className="invalid-feedback">{errors.slug.message}</div>
+                  <div id="service-slug-error" className="invalid-feedback" role="alert">
+                    {errors.slug.message}
+                  </div>
                 )}
               </div>
 
               {/* Summary */}
               <div className="col-12">
-                <label className="form-label text-white">Summary</label>
+                <label htmlFor="service-summary" className="form-label text-white">Summary</label>
                 <textarea
+                  id="service-summary"
                   className={`form-control bg-dark text-white border-secondary ${errors.summary ? 'is-invalid' : ''}`}
                   rows="3"
                   {...register('summary')}
+                  aria-invalid={errors.summary ? 'true' : 'false'}
+                  aria-describedby={errors.summary ? 'service-summary-error' : undefined}
                 />
                 {errors.summary && (
-                  <div className="invalid-feedback">{errors.summary.message}</div>
+                  <div id="service-summary-error" className="invalid-feedback" role="alert">
+                    {errors.summary.message}
+                  </div>
                 )}
               </div>
 
               {/* Body */}
               <div className="col-12">
-                <label className="form-label text-white">Body Content</label>
+                <label htmlFor="service-body" className="form-label text-white">Body Content</label>
                 <textarea
+                  id="service-body"
                   className={`form-control bg-dark text-white border-secondary ${errors.body ? 'is-invalid' : ''}`}
                   rows="8"
                   {...register('body')}
+                  aria-invalid={errors.body ? 'true' : 'false'}
+                  aria-describedby={errors.body ? 'service-body-error' : undefined}
                 />
                 {errors.body && (
-                  <div className="invalid-feedback">{errors.body.message}</div>
+                  <div id="service-body-error" className="invalid-feedback" role="alert">
+                    {errors.body.message}
+                  </div>
                 )}
               </div>
 
               {/* Icon URL */}
               <div className="col-md-6">
-                <label className="form-label text-white">Icon URL</label>
+                <label htmlFor="service-icon-url" className="form-label text-white">Icon URL</label>
                 <input
                   type="text"
+                  id="service-icon-url"
                   className={`form-control bg-dark text-white border-secondary ${errors.icon_url ? 'is-invalid' : ''}`}
                   {...register('icon_url')}
+                  aria-invalid={errors.icon_url ? 'true' : 'false'}
+                  aria-describedby={errors.icon_url ? 'service-icon-url-error' : undefined}
                 />
                 {errors.icon_url && (
-                  <div className="invalid-feedback">{errors.icon_url.message}</div>
+                  <div id="service-icon-url-error" className="invalid-feedback" role="alert">
+                    {errors.icon_url.message}
+                  </div>
                 )}
               </div>
 
               {/* Order */}
               <div className="col-md-6">
-                <label className="form-label text-white">Order</label>
+                <label htmlFor="service-order" className="form-label text-white">Order</label>
                 <input
                   type="number"
+                  id="service-order"
                   className={`form-control bg-dark text-white border-secondary ${errors.order_num ? 'is-invalid' : ''}`}
                   {...register('order_num', { valueAsNumber: true })}
+                  aria-invalid={errors.order_num ? 'true' : 'false'}
+                  aria-describedby={errors.order_num ? 'service-order-error' : undefined}
                 />
                 {errors.order_num && (
-                  <div className="invalid-feedback">{errors.order_num.message}</div>
+                  <div id="service-order-error" className="invalid-feedback" role="alert">
+                    {errors.order_num.message}
+                  </div>
                 )}
               </div>
 
               {/* SEO Title */}
               <div className="col-md-6">
-                <label className="form-label text-white">SEO Title</label>
+                <label htmlFor="service-seo-title" className="form-label text-white">SEO Title</label>
                 <input
                   type="text"
+                  id="service-seo-title"
                   className={`form-control bg-dark text-white border-secondary ${errors.seo_title ? 'is-invalid' : ''}`}
                   {...register('seo_title')}
+                  aria-invalid={errors.seo_title ? 'true' : 'false'}
+                  aria-describedby={errors.seo_title ? 'service-seo-title-error' : undefined}
                 />
                 {errors.seo_title && (
-                  <div className="invalid-feedback">{errors.seo_title.message}</div>
+                  <div id="service-seo-title-error" className="invalid-feedback" role="alert">
+                    {errors.seo_title.message}
+                  </div>
                 )}
               </div>
 
               {/* SEO Description */}
               <div className="col-md-6">
-                <label className="form-label text-white">SEO Description</label>
+                <label htmlFor="service-seo-desc" className="form-label text-white">SEO Description</label>
                 <input
                   type="text"
+                  id="service-seo-desc"
                   className={`form-control bg-dark text-white border-secondary ${errors.seo_desc ? 'is-invalid' : ''}`}
                   {...register('seo_desc')}
+                  aria-invalid={errors.seo_desc ? 'true' : 'false'}
+                  aria-describedby={errors.seo_desc ? 'service-seo-desc-error' : undefined}
                 />
                 {errors.seo_desc && (
-                  <div className="invalid-feedback">{errors.seo_desc.message}</div>
+                  <div id="service-seo-desc-error" className="invalid-feedback" role="alert">
+                    {errors.seo_desc.message}
+                  </div>
                 )}
               </div>
 
               {/* Status */}
               <div className="col-md-6">
-                <label className="form-label text-white">Status *</label>
+                <label htmlFor="service-status" className="form-label text-white">Status *</label>
                 <select
+                  id="service-status"
                   className={`form-select bg-dark text-white border-secondary ${errors.status ? 'is-invalid' : ''}`}
                   {...register('status')}
+                  aria-required="true"
+                  aria-invalid={errors.status ? 'true' : 'false'}
+                  aria-describedby={errors.status ? 'service-status-error' : undefined}
                 >
                   <option value="draft">Draft</option>
                   <option value="published">Published</option>
                 </select>
                 {errors.status && (
-                  <div className="invalid-feedback">{errors.status.message}</div>
+                  <div id="service-status-error" className="invalid-feedback" role="alert">
+                    {errors.status.message}
+                  </div>
                 )}
               </div>
             </div>

@@ -49,42 +49,63 @@ export default function SignupForm() {
 
       <div className="col-lg-12">
         <div className="form-clt">
+          <label htmlFor="signup-email" className="visually-hidden">Email Address</label>
           <input
             type="email"
+            id="signup-email"
             placeholder="Email Address*"
             {...register('email')}
             className={errors.email ? 'is-invalid' : ''}
+            aria-required="true"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            aria-describedby={errors.email ? 'signup-email-error' : undefined}
           />
           {errors.email && (
-            <div className="invalid-feedback d-block">{errors.email.message}</div>
+            <div id="signup-email-error" className="invalid-feedback d-block" role="alert">
+              {errors.email.message}
+            </div>
           )}
         </div>
       </div>
 
       <div className="col-lg-12">
         <div className="form-clt">
+          <label htmlFor="signup-password" className="visually-hidden">Password</label>
           <input
             type="password"
+            id="signup-password"
             placeholder="Password*"
             {...register('password')}
             className={errors.password ? 'is-invalid' : ''}
+            aria-required="true"
+            aria-invalid={errors.password ? 'true' : 'false'}
+            aria-describedby={errors.password ? 'signup-password-error' : undefined}
           />
           {errors.password && (
-            <div className="invalid-feedback d-block">{errors.password.message}</div>
+            <div id="signup-password-error" className="invalid-feedback d-block" role="alert">
+              {errors.password.message}
+            </div>
           )}
         </div>
       </div>
 
       <div className="col-lg-12">
         <div className="form-clt">
+          <label htmlFor="signup-confirm-password" className="visually-hidden">Confirm Password</label>
           <input
             type="password"
+            id="signup-confirm-password"
             placeholder="Confirm Password*"
             {...register('confirmPassword')}
             className={errors.confirmPassword ? 'is-invalid' : ''}
+            aria-required="true"
+            aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+            aria-describedby={errors.confirmPassword ? 'signup-confirm-password-error' : undefined}
           />
           {errors.confirmPassword && (
-            <div className="invalid-feedback d-block">{errors.confirmPassword.message}</div>
+            <div id="signup-confirm-password-error" className="invalid-feedback d-block" role="alert">
+              {errors.confirmPassword.message}
+            </div>
           )}
         </div>
       </div>

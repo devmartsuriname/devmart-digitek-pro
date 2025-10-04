@@ -37,44 +37,59 @@ const SettingsGeneralForm = ({ settings, onSave, saving }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row g-4">
         <div className="col-12">
-          <label className="form-label text-white">Site Name</label>
+          <label htmlFor="settings-site-name" className="form-label text-white">Site Name</label>
           <input
             type="text"
+            id="settings-site-name"
             className={`form-control bg-dark text-white border-secondary ${errors.site_name ? 'is-invalid' : ''}`}
             placeholder="Devmart Suriname"
             {...register('site_name')}
+            aria-invalid={errors.site_name ? 'true' : 'false'}
+            aria-describedby={errors.site_name ? 'settings-site-name-error' : undefined}
           />
           {errors.site_name && (
-            <div className="invalid-feedback">{errors.site_name.message}</div>
+            <div id="settings-site-name-error" className="invalid-feedback" role="alert">
+              {errors.site_name.message}
+            </div>
           )}
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">Meta Title (Global SEO)</label>
+          <label htmlFor="settings-meta-title" className="form-label text-white">Meta Title (Global SEO)</label>
           <input
             type="text"
+            id="settings-meta-title"
             className={`form-control bg-dark text-white border-secondary ${errors.meta_title ? 'is-invalid' : ''}`}
             placeholder="Devmart - Digital Marketing & Web Development"
             {...register('meta_title')}
+            aria-invalid={errors.meta_title ? 'true' : 'false'}
+            aria-describedby={errors.meta_title ? 'settings-meta-title-error settings-meta-title-hint' : 'settings-meta-title-hint'}
           />
           {errors.meta_title && (
-            <div className="invalid-feedback">{errors.meta_title.message}</div>
+            <div id="settings-meta-title-error" className="invalid-feedback" role="alert">
+              {errors.meta_title.message}
+            </div>
           )}
-          <small className="text-white-50">Used as default page title for SEO</small>
+          <small id="settings-meta-title-hint" className="text-white-50">Used as default page title for SEO</small>
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">Meta Description (Global SEO)</label>
+          <label htmlFor="settings-meta-desc" className="form-label text-white">Meta Description (Global SEO)</label>
           <textarea
+            id="settings-meta-desc"
             className={`form-control bg-dark text-white border-secondary ${errors.meta_desc ? 'is-invalid' : ''}`}
             rows="3"
             placeholder="Leading digital marketing agency in Suriname..."
             {...register('meta_desc')}
+            aria-invalid={errors.meta_desc ? 'true' : 'false'}
+            aria-describedby={errors.meta_desc ? 'settings-meta-desc-error settings-meta-desc-hint' : 'settings-meta-desc-hint'}
           />
           {errors.meta_desc && (
-            <div className="invalid-feedback">{errors.meta_desc.message}</div>
+            <div id="settings-meta-desc-error" className="invalid-feedback" role="alert">
+              {errors.meta_desc.message}
+            </div>
           )}
-          <small className="text-white-50">Used as default meta description for SEO (max 300 chars)</small>
+          <small id="settings-meta-desc-hint" className="text-white-50">Used as default meta description for SEO (max 300 chars)</small>
         </div>
 
         <div className="col-12">

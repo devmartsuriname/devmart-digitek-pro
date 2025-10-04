@@ -38,17 +38,22 @@ const SettingsBrandingForm = ({ settings, onSave, saving }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row g-4">
         <div className="col-12">
-          <label className="form-label text-white">Logo URL</label>
+          <label htmlFor="settings-logo-url" className="form-label text-white">Logo URL</label>
           <input
             type="text"
+            id="settings-logo-url"
             className={`form-control bg-dark text-white border-secondary ${errors.logo_url ? 'is-invalid' : ''}`}
             placeholder="https://example.com/logo.png"
             {...register('logo_url')}
+            aria-invalid={errors.logo_url ? 'true' : 'false'}
+            aria-describedby={errors.logo_url ? 'settings-logo-url-error settings-logo-url-hint' : 'settings-logo-url-hint'}
           />
           {errors.logo_url && (
-            <div className="invalid-feedback">{errors.logo_url.message}</div>
+            <div id="settings-logo-url-error" className="invalid-feedback" role="alert">
+              {errors.logo_url.message}
+            </div>
           )}
-          <small className="text-white-50">Upload logo via Media Library and paste URL here</small>
+          <small id="settings-logo-url-hint" className="text-white-50">Upload logo via Media Library and paste URL here</small>
         </div>
 
         <div className="col-12">
@@ -68,17 +73,22 @@ const SettingsBrandingForm = ({ settings, onSave, saving }) => {
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">Theme</label>
+          <label htmlFor="settings-theme" className="form-label text-white">Theme</label>
           <select
+            id="settings-theme"
             className={`form-select bg-dark text-white border-secondary ${errors.theme ? 'is-invalid' : ''}`}
             {...register('theme')}
+            aria-invalid={errors.theme ? 'true' : 'false'}
+            aria-describedby={errors.theme ? 'settings-theme-error' : undefined}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
             <option value="auto">Auto (System)</option>
           </select>
           {errors.theme && (
-            <div className="invalid-feedback">{errors.theme.message}</div>
+            <div id="settings-theme-error" className="invalid-feedback" role="alert">
+              {errors.theme.message}
+            </div>
           )}
         </div>
 

@@ -121,11 +121,12 @@ const ProjectForm = ({ project, onSubmit, onCancel, isEdit = false }) => {
       <h6 className="text-white-50 mb-3">Basic Information</h6>
 
       <div className="mb-3">
-        <label className="form-label text-white">
+        <label htmlFor="project-title" className="form-label text-white">
           Title <span className="text-danger">*</span>
         </label>
         <input
           type="text"
+          id="project-title"
           className={`form-control bg-dark text-white border-secondary ${
             errors.title ? 'is-invalid' : ''
           }`}
@@ -133,17 +134,21 @@ const ProjectForm = ({ project, onSubmit, onCancel, isEdit = false }) => {
           onChange={(e) => handleChange('title', e.target.value)}
           disabled={loading}
           maxLength={200}
+          aria-required="true"
+          aria-invalid={errors.title ? 'true' : 'false'}
+          aria-describedby={errors.title ? 'project-title-error' : undefined}
         />
-        {errors.title && <div className="invalid-feedback">{errors.title}</div>}
+        {errors.title && <div id="project-title-error" className="invalid-feedback" role="alert">{errors.title}</div>}
       </div>
 
       <div className="mb-3">
-        <label className="form-label text-white">
+        <label htmlFor="project-slug" className="form-label text-white">
           Slug <span className="text-danger">*</span>
           <small className="text-white-50 ms-2">(URL-friendly identifier)</small>
         </label>
         <input
           type="text"
+          id="project-slug"
           className={`form-control bg-dark text-white border-secondary ${
             errors.slug ? 'is-invalid' : ''
           }`}
@@ -151,22 +156,27 @@ const ProjectForm = ({ project, onSubmit, onCancel, isEdit = false }) => {
           onChange={(e) => handleChange('slug', e.target.value)}
           disabled={loading}
           maxLength={200}
+          aria-required="true"
+          aria-invalid={errors.slug ? 'true' : 'false'}
+          aria-describedby={errors.slug ? 'project-slug-error' : undefined}
         />
-        {errors.slug && <div className="invalid-feedback">{errors.slug}</div>}
+        {errors.slug && <div id="project-slug-error" className="invalid-feedback" role="alert">{errors.slug}</div>}
       </div>
 
       <div className="row">
         <div className="col-md-6">
           <div className="mb-3">
-            <label className="form-label text-white">Client</label>
+            <label htmlFor="project-client" className="form-label text-white">Client</label>
             <input
               type="text"
+              id="project-client"
               className="form-control bg-dark text-white border-secondary"
               value={formData.client}
               onChange={(e) => handleChange('client', e.target.value)}
               disabled={loading}
               maxLength={200}
               placeholder="e.g., Acme Corp"
+              aria-invalid="false"
             />
           </div>
         </div>
@@ -187,9 +197,10 @@ const ProjectForm = ({ project, onSubmit, onCancel, isEdit = false }) => {
       <h6 className="text-white-50 mb-3">Media</h6>
 
       <div className="mb-3">
-        <label className="form-label text-white">Cover Image URL</label>
+        <label htmlFor="project-cover-url" className="form-label text-white">Cover Image URL</label>
         <input
           type="url"
+          id="project-cover-url"
           className={`form-control bg-dark text-white border-secondary ${
             errors.cover_url ? 'is-invalid' : ''
           }`}
@@ -197,19 +208,11 @@ const ProjectForm = ({ project, onSubmit, onCancel, isEdit = false }) => {
           onChange={(e) => handleChange('cover_url', e.target.value)}
           disabled={loading}
           placeholder="https://example.com/cover.jpg"
+          aria-invalid={errors.cover_url ? 'true' : 'false'}
+          aria-describedby={errors.cover_url ? 'project-cover-url-error' : undefined}
         />
-        {errors.cover_url && <div className="invalid-feedback">{errors.cover_url}</div>}
-        {formData.cover_url && (
-          <img
-            src={formData.cover_url}
-            alt="Cover preview"
-            className="mt-2 rounded"
-            style={{ maxWidth: '200px', maxHeight: '150px', objectFit: 'cover' }}
-            onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/200x150?text=Invalid+URL';
-            }}
-          />
-        )}
+        {errors.cover_url && <div id="project-cover-url-error" className="invalid-feedback" role="alert">{errors.cover_url}</div>}
+...
       </div>
 
       <GalleryManager

@@ -40,67 +40,87 @@ const SettingsContactForm = ({ settings, onSave, saving }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row g-4">
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-envelope me-2"></i>Contact Email
+          <label htmlFor="settings-contact-email" className="form-label text-white">
+            <i className="bi bi-envelope me-2" aria-hidden="true"></i>Contact Email
           </label>
           <input
             type="email"
+            id="settings-contact-email"
             className={`form-control bg-dark text-white border-secondary ${errors.contact_email ? 'is-invalid' : ''}`}
             placeholder="contact@devmart.com"
             {...register('contact_email')}
+            aria-invalid={errors.contact_email ? 'true' : 'false'}
+            aria-describedby={errors.contact_email ? 'settings-contact-email-error settings-contact-email-hint' : 'settings-contact-email-hint'}
           />
           {errors.contact_email && (
-            <div className="invalid-feedback">{errors.contact_email.message}</div>
+            <div id="settings-contact-email-error" className="invalid-feedback" role="alert">
+              {errors.contact_email.message}
+            </div>
           )}
-          <small className="text-white-50">Main contact email displayed on the site</small>
+          <small id="settings-contact-email-hint" className="text-white-50">Main contact email displayed on the site</small>
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-telephone me-2"></i>Contact Phone
+          <label htmlFor="settings-contact-phone" className="form-label text-white">
+            <i className="bi bi-telephone me-2" aria-hidden="true"></i>Contact Phone
           </label>
           <input
             type="tel"
+            id="settings-contact-phone"
             className={`form-control bg-dark text-white border-secondary ${errors.contact_phone ? 'is-invalid' : ''}`}
             placeholder="+597 123 4567"
             {...register('contact_phone')}
+            aria-invalid={errors.contact_phone ? 'true' : 'false'}
+            aria-describedby={errors.contact_phone ? 'settings-contact-phone-error settings-contact-phone-hint' : 'settings-contact-phone-hint'}
           />
           {errors.contact_phone && (
-            <div className="invalid-feedback">{errors.contact_phone.message}</div>
+            <div id="settings-contact-phone-error" className="invalid-feedback" role="alert">
+              {errors.contact_phone.message}
+            </div>
           )}
-          <small className="text-white-50">Contact phone number displayed on the site</small>
+          <small id="settings-contact-phone-hint" className="text-white-50">Contact phone number displayed on the site</small>
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-geo-alt me-2"></i>Address
+          <label htmlFor="settings-address" className="form-label text-white">
+            <i className="bi bi-geo-alt me-2" aria-hidden="true"></i>Address
           </label>
           <textarea
+            id="settings-address"
             className={`form-control bg-dark text-white border-secondary ${errors.address ? 'is-invalid' : ''}`}
             placeholder="2464 Royal Ln. Mesa, New Jersey 45463"
             rows={3}
             {...register('address')}
+            aria-invalid={errors.address ? 'true' : 'false'}
+            aria-describedby={errors.address ? 'settings-address-error settings-address-hint' : 'settings-address-hint'}
           />
           {errors.address && (
-            <div className="invalid-feedback">{errors.address.message}</div>
+            <div id="settings-address-error" className="invalid-feedback" role="alert">
+              {errors.address.message}
+            </div>
           )}
-          <small className="text-white-50">Physical address displayed on the site</small>
+          <small id="settings-address-hint" className="text-white-50">Physical address displayed on the site</small>
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-map me-2"></i>Google Maps Embed URL
+          <label htmlFor="settings-google-maps" className="form-label text-white">
+            <i className="bi bi-map me-2" aria-hidden="true"></i>Google Maps Embed URL
           </label>
           <input
             type="url"
+            id="settings-google-maps"
             className={`form-control bg-dark text-white border-secondary ${errors.google_maps_url ? 'is-invalid' : ''}`}
             placeholder="https://www.google.com/maps/embed?pb=..."
             {...register('google_maps_url')}
+            aria-invalid={errors.google_maps_url ? 'true' : 'false'}
+            aria-describedby={errors.google_maps_url ? 'settings-google-maps-error settings-google-maps-hint' : 'settings-google-maps-hint'}
           />
           {errors.google_maps_url && (
-            <div className="invalid-feedback">{errors.google_maps_url.message}</div>
+            <div id="settings-google-maps-error" className="invalid-feedback" role="alert">
+              {errors.google_maps_url.message}
+            </div>
           )}
-          <small className="text-white-50">
+          <small id="settings-google-maps-hint" className="text-white-50">
             Get embed URL from Google Maps → Share → Embed a map
           </small>
         </div>

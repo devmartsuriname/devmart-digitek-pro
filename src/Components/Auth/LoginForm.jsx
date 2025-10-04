@@ -51,28 +51,42 @@ export default function LoginForm() {
 
       <div className="col-lg-12">
         <div className="form-clt">
+          <label htmlFor="login-email" className="visually-hidden">Email Address</label>
           <input
             type="email"
+            id="login-email"
             placeholder="Email Address*"
             {...register('email')}
             className={errors.email ? 'is-invalid' : ''}
+            aria-required="true"
+            aria-invalid={errors.email ? 'true' : 'false'}
+            aria-describedby={errors.email ? 'login-email-error' : undefined}
           />
           {errors.email && (
-            <div className="invalid-feedback d-block">{errors.email.message}</div>
+            <div id="login-email-error" className="invalid-feedback d-block" role="alert">
+              {errors.email.message}
+            </div>
           )}
         </div>
       </div>
 
       <div className="col-lg-12">
         <div className="form-clt">
+          <label htmlFor="login-password" className="visually-hidden">Password</label>
           <input
             type="password"
+            id="login-password"
             placeholder="Password*"
             {...register('password')}
             className={errors.password ? 'is-invalid' : ''}
+            aria-required="true"
+            aria-invalid={errors.password ? 'true' : 'false'}
+            aria-describedby={errors.password ? 'login-password-error' : undefined}
           />
           {errors.password && (
-            <div className="invalid-feedback d-block">{errors.password.message}</div>
+            <div id="login-password-error" className="invalid-feedback d-block" role="alert">
+              {errors.password.message}
+            </div>
           )}
         </div>
       </div>

@@ -112,29 +112,34 @@ const BlogForm = ({ initialData, onSubmit, onCancel, loading }) => {
           </h5>
 
           <div className="mb-3">
-            <label className="form-label text-white">
+            <label htmlFor="blog-title" className="form-label text-white">
               Title <span className="text-danger">*</span>
             </label>
             <input
               type="text"
+              id="blog-title"
               className={`form-control bg-dark text-white border-secondary ${errors.title ? 'is-invalid' : ''}`}
               value={formData.title}
               onChange={(e) => handleChange('title', e.target.value)}
               disabled={loading}
               maxLength={200}
+              aria-required="true"
+              aria-invalid={errors.title ? 'true' : 'false'}
+              aria-describedby={errors.title ? 'blog-title-error blog-title-hint' : 'blog-title-hint'}
             />
-            {errors.title && <div className="invalid-feedback">{errors.title}</div>}
-            <small className="text-white-50">{formData.title.length}/200</small>
+            {errors.title && <div id="blog-title-error" className="invalid-feedback" role="alert">{errors.title}</div>}
+            <small id="blog-title-hint" className="text-white-50">{formData.title.length}/200</small>
           </div>
 
           <div className="mb-3">
-            <label className="form-label text-white">
+            <label htmlFor="blog-slug" className="form-label text-white">
               Slug <span className="text-danger">*</span>
               <small className="text-white-50 ms-2">(URL-friendly identifier)</small>
             </label>
             <div className="input-group">
               <input
                 type="text"
+                id="blog-slug"
                 className={`form-control bg-dark text-white border-secondary ${errors.slug ? 'is-invalid' : ''}`}
                 value={formData.slug}
                 onChange={(e) => {
@@ -143,6 +148,9 @@ const BlogForm = ({ initialData, onSubmit, onCancel, loading }) => {
                 }}
                 disabled={loading}
                 maxLength={200}
+                aria-required="true"
+                aria-invalid={errors.slug ? 'true' : 'false'}
+                aria-describedby={errors.slug ? 'blog-slug-error blog-slug-hint' : 'blog-slug-hint'}
               />
               <button
                 type="button"
@@ -155,20 +163,22 @@ const BlogForm = ({ initialData, onSubmit, onCancel, loading }) => {
                 aria-label="Regenerate slug from title"
                 title="Regenerate slug"
               >
-                <i className="bi bi-arrow-clockwise"></i>
+                <i className="bi bi-arrow-clockwise" aria-hidden="true"></i>
               </button>
             </div>
-            {errors.slug && <div className="invalid-feedback d-block">{errors.slug}</div>}
-            <small className="text-white-50">Preview: /blog/{formData.slug || 'your-slug'}</small>
+            {errors.slug && <div id="blog-slug-error" className="invalid-feedback d-block" role="alert">{errors.slug}</div>}
+            <small id="blog-slug-hint" className="text-white-50">Preview: /blog/{formData.slug || 'your-slug'}</small>
           </div>
 
           <div className="mb-3">
-            <label className="form-label text-white">Author</label>
+            <label htmlFor="blog-author" className="form-label text-white">Author</label>
             <select
+              id="blog-author"
               className="form-select bg-dark text-white border-secondary"
               value={formData.author_id}
               onChange={(e) => handleChange('author_id', e.target.value)}
               disabled={loading}
+              aria-invalid="false"
             >
               <option value="">Select Author</option>
               {authors.map((author) => (
@@ -197,16 +207,19 @@ const BlogForm = ({ initialData, onSubmit, onCancel, loading }) => {
           </h5>
 
           <div className="mb-3">
-            <label className="form-label text-white">Cover Image URL</label>
+            <label htmlFor="blog-cover-url" className="form-label text-white">Cover Image URL</label>
             <input
               type="url"
+              id="blog-cover-url"
               className={`form-control bg-dark text-white border-secondary ${errors.cover_url ? 'is-invalid' : ''}`}
               value={formData.cover_url}
               onChange={(e) => handleChange('cover_url', e.target.value)}
               disabled={loading}
               placeholder="https://example.com/image.jpg"
+              aria-invalid={errors.cover_url ? 'true' : 'false'}
+              aria-describedby={errors.cover_url ? 'blog-cover-url-error' : undefined}
             />
-            {errors.cover_url && <div className="invalid-feedback">{errors.cover_url}</div>}
+            {errors.cover_url && <div id="blog-cover-url-error" className="invalid-feedback" role="alert">{errors.cover_url}</div>}
           </div>
 
           {formData.cover_url && (

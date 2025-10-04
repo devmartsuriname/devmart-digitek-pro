@@ -41,35 +41,45 @@ const SettingsAnalyticsForm = ({ settings, onSave, saving }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="row g-4">
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-graph-up me-2"></i>Plausible Site ID
+          <label htmlFor="settings-plausible" className="form-label text-white">
+            <i className="bi bi-graph-up me-2" aria-hidden="true"></i>Plausible Site ID
           </label>
           <input
             type="text"
+            id="settings-plausible"
             className={`form-control bg-dark text-white border-secondary ${errors.plausible_site_id ? 'is-invalid' : ''}`}
             placeholder="devmart.com"
             {...register('plausible_site_id')}
+            aria-invalid={errors.plausible_site_id ? 'true' : 'false'}
+            aria-describedby={errors.plausible_site_id ? 'settings-plausible-error settings-plausible-hint' : 'settings-plausible-hint'}
           />
           {errors.plausible_site_id && (
-            <div className="invalid-feedback">{errors.plausible_site_id.message}</div>
+            <div id="settings-plausible-error" className="invalid-feedback" role="alert">
+              {errors.plausible_site_id.message}
+            </div>
           )}
-          <small className="text-white-50">Your Plausible Analytics domain/site ID</small>
+          <small id="settings-plausible-hint" className="text-white-50">Your Plausible Analytics domain/site ID</small>
         </div>
 
         <div className="col-12">
-          <label className="form-label text-white">
-            <i className="bi bi-google me-2"></i>Google Analytics ID
+          <label htmlFor="settings-google-analytics" className="form-label text-white">
+            <i className="bi bi-google me-2" aria-hidden="true"></i>Google Analytics ID
           </label>
           <input
             type="text"
+            id="settings-google-analytics"
             className={`form-control bg-dark text-white border-secondary ${errors.google_analytics_id ? 'is-invalid' : ''}`}
             placeholder="G-XXXXXXXXXX"
             {...register('google_analytics_id')}
+            aria-invalid={errors.google_analytics_id ? 'true' : 'false'}
+            aria-describedby={errors.google_analytics_id ? 'settings-google-analytics-error settings-google-analytics-hint' : 'settings-google-analytics-hint'}
           />
           {errors.google_analytics_id && (
-            <div className="invalid-feedback">{errors.google_analytics_id.message}</div>
+            <div id="settings-google-analytics-error" className="invalid-feedback" role="alert">
+              {errors.google_analytics_id.message}
+            </div>
           )}
-          <small className="text-white-50">Google Analytics 4 Measurement ID (optional)</small>
+          <small id="settings-google-analytics-hint" className="text-white-50">Google Analytics 4 Measurement ID (optional)</small>
         </div>
 
         <div className="col-12">
