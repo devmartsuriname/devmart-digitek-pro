@@ -69,7 +69,13 @@ const CaseStudy3 = () => {
                                     <h3><Link to="/project/project-details">{item.title}</Link></h3>
                                     <p>{item.subtitle}</p>
                                 </div>
-                                <Link to="/project/project-details" className="icon"><i className="bi bi-arrow-up-right"></i></Link>
+                                <Link 
+                                    to="/project/project-details" 
+                                    className="icon"
+                                    aria-label={`View ${item.title} project details`}
+                                >
+                                    <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
+                                </Link>
                             </div>
                         </div>
                     </div>

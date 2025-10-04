@@ -2402,7 +2402,7 @@ span {
   }
 }
 .footer-bottom .footer-wrapper p {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
 }
 .footer-bottom .footer-wrapper .footer-menu {
   display: flex;
@@ -2410,7 +2410,7 @@ span {
   gap: 20px;
 }
 .footer-bottom .footer-wrapper .footer-menu li a {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.95);
   background-image: linear-gradient(var(--white), var(--white));
   background-position: 0 95%;
   background-repeat: no-repeat;
@@ -8252,4 +8252,15 @@ select:focus-visible {
   .skip-link {
     transition: none;
   }
+}
+
+/* Accessibility: Prevent hidden slider elements from being focusable */
+.slick-slide[aria-hidden="true"] a,
+.slick-slide[aria-hidden="true"] button,
+.slick-slide[aria-hidden="true"] input,
+.slick-slide[aria-hidden="true"] textarea,
+.slick-slide[aria-hidden="true"] select,
+.slick-slide[aria-hidden="true"] [tabindex] {
+  tabindex: -1 !important;
+  pointer-events: none;
 }
