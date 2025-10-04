@@ -40,7 +40,6 @@ const HeroBanner3 = () => {
                                 <div className="main-button wow fadeInUp" data-wow-delay=".3s">
                                     <Link to={heroContent.btnurl}> <span className="theme-btn">{heroContent.btnname} </span><span className="arrow-btn"><i className="bi bi-arrow-right"></i></span></Link>
                                 </div>
-                                <Link to={heroContent.btnurl} className="link-btn wow fadeInUp" data-wow-delay=".5s">{heroContent.btnname}</Link>
                             </div>
                         </div>
                     </div>
