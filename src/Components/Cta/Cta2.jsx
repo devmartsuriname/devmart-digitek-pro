@@ -19,12 +19,12 @@ const Cta2 = () => {
                         <div className="sub-title bg-color-3 wow fadeInUp">
                             <span>Contact US</span>
                         </div>
-                        <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
-                            24/7 Expert Hosting Support <br/> Our Customers Love
+                        <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                            24/7 Professional Support <br/> Our Clients Love
                         </h2>
                     </div>
                     <div className="main-button wow fadeInUp" data-wow-delay=".5s">
-                        <Link to="/contact"> <span className="theme-btn">Talk to a Specialist </span><span className="arrow-btn"><i className="bi bi-arrow-up-right"></i></span></Link>
+                        <Link to="/contact"> <span className="theme-btn">Get in Touch</span><span className="arrow-btn"><i className="bi bi-arrow-up-right"></i></span></Link>
                     </div>
                 </div>
             </div>

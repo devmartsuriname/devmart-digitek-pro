@@ -22,10 +22,10 @@ const Footer2 = () => {
                         <img src="/assets/img/cta-img.png" alt="img" />
                     </div>
                     <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                        Stay Connected With <br/> Cutting Edge IT
+                        Ready to Transform <br/> Your Digital Presence?
                     </h2>
                     <div className="main-button wow fadeInUp" data-wow-delay=".5s">
-                        <Link to="/contact"> <span className="theme-btn"> talk TO  A SPECIALIST </span><span className="arrow-btn"> <i className="bi bi-arrow-right"></i></span></Link>
+                        <Link to="/contact"> <span className="theme-btn"> GET IN TOUCH </span><span className="arrow-btn"> <i className="bi bi-arrow-right"></i></span></Link>
                     </div>
                 </div>
             </div>
@@ -44,31 +44,18 @@ const Footer2 = () => {
                                 </div>
                                 <div className="footer-content">
                                     <p>
-                                        Phasellus ultricies aliquam volutpat 
-                                        ullamcorper laoreet neque, a lacinia
-                                        curabitur lacinia mollis
+                                        Devmart - Your partner in digital innovation. We combine creativity and technology to deliver customized solutions for businesses in Suriname.
                                     </p>
                                     <div className="social-icon d-flex align-items-center">
-                                        {settings?.social?.facebook && (
-                                            <a href={settings.social.facebook} target="_blank" rel="noopener noreferrer">
-                                                <i className="bi bi-facebook"></i>
-                                            </a>
-                                        )}
-                                        {settings?.social?.twitter && (
-                                            <a href={settings.social.twitter} target="_blank" rel="noopener noreferrer">
-                                                <i className="bi bi-twitter"></i>
-                                            </a>
-                                        )}
-                                        {settings?.social?.youtube && (
-                                            <a href={settings.social.youtube} target="_blank" rel="noopener noreferrer">
-                                                <i className="bi bi-youtube"></i>
-                                            </a>
-                                        )}
-                                        {settings?.social?.linkedin && (
-                                            <a href={settings.social.linkedin} target="_blank" rel="noopener noreferrer">
-                                                <i className="bi bi-linkedin"></i>
-                                            </a>
-                                        )}
+                                        <a href="https://www.facebook.com/DevmartSuriname" target="_blank" rel="noopener noreferrer">
+                                            <i className="bi bi-facebook"></i>
+                                        </a>
+                                        <a href="https://www.tiktok.com/@devmartsr" target="_blank" rel="noopener noreferrer">
+                                            <i className="bi bi-tiktok"></i>
+                                        </a>
+                                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                                            <i className="bi bi-instagram"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -76,13 +63,13 @@ const Footer2 = () => {
                         <div className="col-xl-3 col-lg-4 col-md-6 ps-lg-5 wow fadeInUp" data-wow-delay=".4s">
                             <div className="single-footer-widget">
                                 <div className="widget-head">
-                                    <h3>Quick Links</h3>
+                                    <h3>Devmart About</h3>
                                 </div>
                                 <ul className="list-area">
                                     <li>
                                         <Link to="/about">
                                         <i className="bi bi-arrow-right"></i>
-                                            Digtek About
+                                            Devmart About
                                         </Link>
                                     </li>
                                     <li>
@@ -165,24 +152,24 @@ const Footer2 = () => {
                                     <h3>Contact Us</h3>
                                 </div>
                                 <div className="footer-content">
-                                    <ul className="contact-info">
-                                        {settings?.contact_email && (
+                                        <ul className="contact-info">
                                             <li>
                                                 <i className="fa-regular fa-envelope"></i>
-                                                <a href={`mailto:${settings.contact_email}`}>
-                                                    {settings.contact_email}
+                                                <a href="mailto:info@devmart.sr">
+                                                    info@devmart.sr
                                                 </a>
                                             </li>
-                                        )}
-                                        {settings?.contact_phone && (
                                             <li>
                                                 <i className="fa-solid fa-phone-volume"></i>
-                                                <a href={`tel:${settings.contact_phone.replace(/\s/g, '')}`}>
-                                                    {settings.contact_phone}
+                                                <a href="tel:+5978541211">
+                                                    +597 854 1211
                                                 </a>
                                             </li>
-                                        )}
-                                    </ul>
+                                            <li>
+                                                <i className="fa-solid fa-location-dot"></i>
+                                                Jaggernath Lachmonstraat 152, Paramaribo
+                                            </li>
+                                        </ul>
                                     <div className="footer-input">
                                         <label htmlFor="newsletter-email" className="visually-hidden">
                                             Email address for newsletter
@@ -225,7 +212,7 @@ const Footer2 = () => {
                 <div className="container">
                     <div className="footer-wrapper d-flex align-items-center justify-content-between">
                         <p className="wow fadeInLeft color-2" data-wow-delay=".3s">
-                            © All Copyright 2024 by Digtek
+                            © All Copyright 2025 by Devmart Suriname
                         </p>
                         <ul className="footer-menu wow fadeInRight" data-wow-delay=".5s">
                             <li>

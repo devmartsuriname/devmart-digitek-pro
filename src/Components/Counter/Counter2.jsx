@@ -27,39 +27,39 @@ const Counter2 = () => {
                     <div className="section-title-area">
                         <div className="section-title">
                             <div className="sub-title bg-color-3 wow fadeInUp">
-                                <span>Counter</span>
+                                <span>Our Success Story</span>
                             </div>
                             <h2 id="stats-heading" className="text-white wow fadeInUp" data-wow-delay=".3s">
-                                Make your marketing <br/> more effective
+                                Building Digital Excellence <br/> in Suriname
                             </h2>
                         </div>
                         <div className="counter-box-area">
                             <div className="counter-text wow fadeInUp" data-wow-delay=".3s">
                                 <div className="counter-number">
-                                    <span className="count">19.4</span>K
+                                    <span className="count">380</span>+
                                 </div>
-                                <p>Projects Done</p>
+                                <p>Completed Projects</p>
                             </div>
                             <div className="counter-text wow fadeInUp" data-wow-delay=".5s">
                                 <div className="counter-number">
-                                    <span className="count">95.2</span>K
+                                    <span className="count">426</span>+
                                 </div>
-                                <p>Happy Clients</p>
+                                <p>Satisfied Clients</p>
                             </div>
                             <div className="counter-text wow fadeInUp" data-wow-delay=".7s">
                                 <div className="counter-number">
-                                    <span className="count">142.6</span>K
+                                    <span className="count">45</span>+
                                 </div>
                                 <p>Team Members</p>
                             </div>
                         </div>
                     </div>
                     <div className="cta-video-image wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s">
-                        <img src="/assets/img/cta-video.jpg" alt="Marketing success video thumbnail" loading="lazy" />
+                        <img src="/assets/img/cta-video.jpg" alt="Devmart success story video thumbnail" loading="lazy" />
                         <button 
                             onClick={handelClick} 
                             className="video-icon video-popup"
-                            aria-label="Play video about marketing effectiveness"
+                            aria-label="Play video about Devmart success story"
                         >
                             <i className="bi bi-play-fill" aria-hidden="true"></i>
                         </button>

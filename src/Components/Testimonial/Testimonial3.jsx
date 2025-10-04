@@ -34,9 +34,10 @@ const Testimonial3 = () => {
       };  
 
     const testimonialContent = [
-        {img:'/assets/img/testimonial/05.png', subtitle:'Trader, USA', title:'Esther Howard', content:' Lorem ipsum dolor sit amet consectetur adipiscing elit. Mauris nullam the as integer quam dolor nunc semper.  faucibus pulvinar neque. The as Suscipit tristique mauris consectetur platea.'},
-        {img:'/assets/img/testimonial/05.png', subtitle:'Trader, USA', title:'Esther Howard', content:' Lorem ipsum dolor sit amet consectetur adipiscing elit. Mauris nullam the as integer quam dolor nunc semper.  faucibus pulvinar neque. The as Suscipit tristique mauris consectetur platea.'},
-      ]; 
+        {img:'/assets/img/testimonial/05.png', subtitle:'Technical Manager, AppTec', title:'Alex Jansen', content:'For AppTec, finding the right partner for app development was crucial. Devmart exceeded every expectation with their technical expertise, fast communication, and ability to solve complex problems simply. We are proud of the end product.'},
+        {img:'/assets/img/testimonial/05.png', subtitle:'CEO, InnovatieStart', title:'Janine de Vries', content:'Devmart brought our vision to life with a custom-made website that not only exceeded our expectations but also significantly improved our online visibility. Their attention to detail and dedication to quality makes them an indispensable partner.'},
+        {img:'/assets/img/testimonial/05.png', subtitle:'Marketing Director, GroenEnergie', title:'Lucas Meijer', content:'Working with Devmart on our digital marketing strategy was a game changer. Their expertise in SEO and social media has doubled our leads and significantly increased our brand awareness. True professionals!'},
+      ];
 
     return (
         <section className="testimonial-section-3 section-padding pt-0" aria-labelledby="testimonials-heading">

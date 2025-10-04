@@ -36,10 +36,10 @@ const CaseStudy3 = () => {
 
 
     const chooseContent = [
-        {subtitle:'Marketing', title:'Digital Marketing', img:'/assets/img/case-studies/02.jpg'},
-        {subtitle:'Seo Design', title:'PPC Advertising', img:'/assets/img/case-studies/03.jpg'},
-        {subtitle:'Designer', title:'Construction Planning', img:'/assets/img/case-studies/04.jpg'},
-      ]; 
+        {subtitle:'Web Development', title:'Quality Performers', img:'/assets/img/case-studies/02.jpg'},
+        {subtitle:'App Development', title:'Planify Suriname', img:'/assets/img/case-studies/03.jpg'},
+        {subtitle:'Web Development', title:'Car Rental City', img:'/assets/img/case-studies/04.jpg'},
+      ];
 
     return (
         <section className="case-studies-section-3 fix section-padding" aria-labelledby="projects-heading">
@@ -49,8 +49,8 @@ const CaseStudy3 = () => {
                     <span>Case Studies</span>
                 </div>
                 <h2 id="projects-heading" className="wow fadeInUp" data-wow-delay=".3s">
-                    We Are A Creative Digital <br/>
-                    Marketing Agency
+                    Discover Our Recent <br/>
+                    Projects & Success Stories
                 </h2>
             </div>
         </div>

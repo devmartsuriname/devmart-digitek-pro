@@ -5,14 +5,14 @@ import loadBackgroudImages from "../Common/loadBackgroudImages";
 const WhyChoose2 = () => {
 
     const chooseContent = {  
-        subtitle:"OUR EXPERT TEAM",
-        title:'Let’s make something awesome together',
-        content:'Every pleasure is to be welcomed and every pain avoided. certain circumstances and owing to the claims welcomed and every pain avoided certain circumstances',  
+        subtitle:"ABOUT DEVMART",
+        title:'Your Partner in Digital Innovation',
+        content:'Welcome to Devmart, where we deliver customized digital solutions for your unique business needs. Our expertise enables you to fully utilize your digital potential and stay ahead of competitors in Suriname and beyond.',  
         img:'/assets/img/team/02.png',         
-        list1:'30-day money back guarantee', 
-        list2:'Web site Marketing Solutions', 
-        list3:'Unlimited Application', 
-        list4:'24/7 system Monitoring', 
+        list1:'Custom solutions tailored to your needs', 
+        list2:'Experienced team based in Suriname', 
+        list3:'380+ completed projects', 
+        list4:'426+ satisfied clients', 
       } 
 
           useEffect(() => {
@@ -92,7 +92,7 @@ const WhyChoose2 = () => {
                                 </ul>
                             </div>
                             <div className="main-button wow fadeInUp" data-wow-delay=".5s">
-                                <Link to="/team"> <span className="theme-btn"> EXPLORE MORE </span><span className="arrow-btn"> <i className="bi bi-arrow-up-right"></i></span></Link>
+                                <Link to="/about"> <span className="theme-btn"> LEARN MORE </span><span className="arrow-btn"> <i className="bi bi-arrow-up-right"></i></span></Link>
                             </div>
                         </div>
                     </div>

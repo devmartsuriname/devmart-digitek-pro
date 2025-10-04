@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 const Services2 = () => {
 
     const chooseContent = [
-        {img:'/assets/img/service/01.png', title:'SEO Marketing', content:'Collaboratively formulate principle capital doing progressively evolve user'},
-        {img:'/assets/img/service/05.png', title:'Social Media Marketing', content:'Collaboratively formulate principle capital doing progressively evolve user'},
-        {img:'/assets/img/service/06.png', title:'Email Marketing', content:'Collaboratively formulate principle capital doing progressively evolve user'},
+        {img:'/assets/img/service/01.png', title:'Web Development', content:'We build custom websites that strengthen your brand and attract customers. User-friendly, fast and visually impressive.'},
+        {img:'/assets/img/service/05.png', title:'App Development', content:'From concept to launch, we develop innovative apps that strengthen your business in the digital world.'},
+        {img:'/assets/img/service/06.png', title:'Graphic Design', content:'Make your brand stand out with visual designs that speak. We create imagery that powerfully conveys your story.'},
       ]; 
 
     return (
@@ -22,7 +22,7 @@ const Services2 = () => {
                         <span>OUR SERVICES</span>
                     </div>
                     <h2 id="services-heading" className="wow fadeInUp" data-wow-delay=".3s">
-                        Use SEO to Drive Growth <br/> at Your Business
+                        Services We Offer <br/> to Accelerate Your Growth
                     </h2>
                 </div>
                 <div className="row">

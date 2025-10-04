@@ -9,11 +9,11 @@ const ContactInfo1 = () => {
                             <span className="wow fadeInUp">Contact us</span>
                         </div>
                         <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
-                            How can we help you today?
+                            We'd Love to Hear From You
                         </h2>
                     </div>
                     <p className="white-text wow fadeInUp" data-wow-delay=".5s">
-                        The a long established fact that a reader will be <br/> distracted the readable content of page when <br/> looking at layout the point.
+                        Have a project in mind or need expert advice on digital solutions? <br/> Get in touch with Devmart's team today and let's build <br/> something amazing together.
                     </p>
                 </div>
                 <div className="contact-wrapper">
@@ -59,7 +59,7 @@ const ContactInfo1 = () => {
                                             <div className="form-check">
                                                 <input className="form-check-input" type="checkbox" value="" id="flexCheckChecked"  />
                                                 <label className="form-check-label" htmlFor="flexCheckChecked">
-                                                    Collaboratively formulate principle capital. Progressively evolve user 
+                                                    I agree to the Privacy Policy and Terms & Conditions
                                                 </label>
                                             </div>
                                         </div>
@@ -76,7 +76,7 @@ const ContactInfo1 = () => {
                         </div>
                         <div className="col-xl-6">
                             <div className="contact-map">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6678.7619084840835!2d144.9618311901502!3d-37.81450084255415!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642b4758afc1d%3A0x3119cc820fdfc62e!2sEnvato!5e0!3m2!1sen!2sbd!4v1641984054261!5m2!1sen!2sbd"  loading="lazy"></iframe>
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3967.2677429806!2d-55.16785!3d5.82513!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8d31fb0fb80e7a11%3A0x7fb93f9f0f8c8a93!2sJaggernath%20Lachmonstraat%2C%20Paramaribo%2C%20Suriname!5e0!3m2!1sen!2s!4v1641984054261!5m2!1sen!2s" loading="lazy"></iframe>
            
                                 <div className="contact-info-wrapper">
                                    <h2>Contact Info</h2>
@@ -96,31 +96,31 @@ const ContactInfo1 = () => {
                                       <div className="icon">
                                       <i className="bi bi-geo-alt-fill"></i>
                                       </div>
-                                      <div className="content">
-                                         <h3>
-                                            Gregory Cartwright, 4059 <br/> Carling Avenue, Ugglebarnby
-                                         </h3>
-                                      </div>
+                                       <div className="content">
+                                          <h3>
+                                             Jaggernath Lachmonstraat 152, <br/> Paramaribo, Suriname
+                                          </h3>
+                                       </div>
                                    </div>
                                    <div className="contact-info style2">
                                       <div className="icon">
                                       <i className="bi bi-telephone-fill"></i>
                                       </div>
-                                      <div className="content">
-                                         <h3>
-                                            <a href="tel:61086660112">+6108-666-0112</a>
-                                         </h3>
-                                      </div>
+                                       <div className="content">
+                                          <h3>
+                                             <a href="tel:+5978541211">+597 854 1211</a>
+                                          </h3>
+                                       </div>
                                    </div>
                                    <div className="contact-info style2 border-none">
                                       <div className="icon">
                                       <i className="bi bi-envelope-fill"></i>
                                       </div>
-                                      <div className="content">
-                                         <h3>
-                                            <a href="mailto::info@example.com">info@example.com</a>
-                                         </h3>
-                                      </div>
+                                       <div className="content">
+                                          <h3>
+                                             <a href="mailto:info@devmart.sr">info@devmart.sr</a>
+                                          </h3>
+                                       </div>
                                    </div>
                                 </div>
                              </div>

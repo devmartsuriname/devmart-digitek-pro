@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 const Blog2 = () => {
 
     const blogContent = [
-        {img:'/assets/img/news/05.jpg', title:'About Personal Finance You Need to Stop Believing'},
-        {img:'/assets/img/news/06.jpg', title:'Ways to Unnecessary Expenses and Save Money'},
-        {img:'/assets/img/news/07.jpg', title:'Budgeting Hacks for a Stress-Free Financial Life'},
-        {img:'/assets/img/news/08.jpg', title:'Things You Must Quit Believing About Finances'},
-      ]; 
+        {img:'/assets/img/news/05.jpg', title:'Why Every Surinamese Business Needs a Website in 2025'},
+        {img:'/assets/img/news/06.jpg', title:'Mobile App Development: Native vs Cross-Platform'},
+        {img:'/assets/img/news/07.jpg', title:'SEO Basics: How to Rank Higher on Google in Suriname'},
+        {img:'/assets/img/news/08.jpg', title:'Branding Tips for Small Businesses and Startups'},
+      ];
 
     return (
         <section className="news-section pt-0 section-padding" aria-labelledby="blog-heading">
