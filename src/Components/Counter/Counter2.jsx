@@ -21,7 +21,7 @@ const Counter2 = () => {
       };   
 
     return (
-        <section className="cta-counter-section-2 section-padding bg-cover" data-background="/assets/img/cta-counter-bg.jpg">
+        <section className="cta-counter-section-2 section-padding bg-cover" data-background="/assets/img/cta-counter-bg.jpg" aria-labelledby="stats-heading">
             <div className="container">
                 <div className="cta-counter-wrapper-2">
                     <div className="section-title-area">
@@ -29,7 +29,7 @@ const Counter2 = () => {
                             <div className="sub-title bg-color-3 wow fadeInUp">
                                 <span>Counter</span>
                             </div>
-                            <h2 className="text-white wow fadeInUp" data-wow-delay=".3s">
+                            <h2 id="stats-heading" className="text-white wow fadeInUp" data-wow-delay=".3s">
                                 Make your marketing <br/> more effective
                             </h2>
                         </div>
@@ -55,10 +55,14 @@ const Counter2 = () => {
                         </div>
                     </div>
                     <div className="cta-video-image wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s">
-                        <img src="/assets/img/cta-video.jpg" alt="img" loading="lazy" />
-                        <a onClick={handelClick} className="video-icon video-popup">
-                            <i className="bi bi-play-fill"></i>
-                        </a>
+                        <img src="/assets/img/cta-video.jpg" alt="Marketing success video thumbnail" loading="lazy" />
+                        <button 
+                            onClick={handelClick} 
+                            className="video-icon video-popup"
+                            aria-label="Play video about marketing effectiveness"
+                        >
+                            <i className="bi bi-play-fill" aria-hidden="true"></i>
+                        </button>
                     </div>
                 </div>
             </div>

@@ -8268,57 +8268,80 @@ select:focus-visible {
   }
 }
 
-/* Accessibility: Touch target size ≥48x48px (WCAG 2.5.5 Level AAA, 2.5.8 Level AA minimum) */
-/* Apply to all interactive elements */
+/* ==========================================
+   WCAG 2.5.5 Level AAA + 2.5.8 Level AA: Touch Target Size
+   All interactive elements MUST be ≥48x48px
+   ========================================== */
 
-/* Link buttons */
-a.link-btn, 
-a.service-btn {
+/* Universal touch target base */
+a:not(.navbar-brand):not([class*="slick"]),
+button:not(.navbar-toggler):not(.btn-close):not([class*="slick"]),
+input[type="button"],
+input[type="submit"],
+[role="button"],
+[onclick] {
   min-height: 48px !important;
+  min-width: 48px !important;
+}
+
+/* Specific button types */
+.link-btn, 
+.service-btn,
+.theme-btn,
+a.theme-btn,
+a.link-btn,
+a.service-btn,
+.main-button .theme-btn,
+.main-button a {
+  min-height: 48px !important;
+  min-width: auto !important;
   padding: 14px 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
+  line-height: 1.2 !important;
 }
 
-/* Theme buttons */
-a.theme-btn,
-.theme-btn {
-  min-height: 48px !important;
-  padding: 18px 30px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Arrow and icon buttons */
+/* Arrow buttons and icons */
 .arrow-btn,
 .main-button .arrow-btn,
 a.icon,
+.icon a,
+.case-studies-card-items .icon,
 .case-studies-card-items a.icon,
 .circle-button,
-a[aria-label*="View"],
-a[aria-label*="view"] {
-  min-height: 48px !important;
-  min-width: 48px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* Form buttons */
-button:not(.navbar-toggler):not(.close):not(.btn-close):not(.slick-arrow),
-button[type="submit"],
-button[type="button"]:not(.slick-arrow) {
-  min-height: 48px !important;
-}
-
-/* Video and scroll icons */
-.scroll-icon,
 .video-icon,
 .video-popup,
 a.video-icon,
-a.video-popup {
+a.video-popup,
+.scroll-icon,
+[class*="icon-button"],
+[aria-label*="View"],
+[aria-label*="view"],
+[aria-label*="Play"] {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 8px !important;
+}
+
+/* Navigation links */
+.header-section a,
+.main-menu a,
+nav a:not(.navbar-brand),
+.footer-section a {
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 12px 16px !important;
+}
+
+/* Social icons */
+.social-icon a,
+.social-link,
+[class*="social"] a {
   min-height: 48px !important;
   min-width: 48px !important;
   display: inline-flex !important;
@@ -8326,30 +8349,71 @@ a.video-popup {
   justify-content: center !important;
 }
 
-/* Navigation links */
-.header-section nav a,
-.main-menu li a {
+/* Card clickable areas */
+.news-card-items a,
+.service-card-items a,
+.case-studies-card-items a,
+[class*="card"] a:not(.theme-btn):not(.link-btn) {
   min-height: 48px !important;
   display: inline-flex !important;
   align-items: center !important;
-  padding: 14px 16px !important;
 }
 
-/* Mobile specific adjustments */
-@media (max-width: 767px) {
-  a.link-btn, 
-  a.service-btn,
-  a.theme-btn,
-  .theme-btn {
-    min-height: 48px !important;
-    padding: 14px 20px !important;
-  }
-  
-  .video-icon,
-  .video-popup {
+/* Mobile adjustments - maintain 48px minimum */
+@media (max-width: 991px) {
+  a:not(.navbar-brand),
+  button:not(.navbar-toggler),
+  .theme-btn,
+  .link-btn,
+  .service-btn {
     min-height: 48px !important;
     min-width: 48px !important;
   }
+}
+
+@media (max-width: 767px) {
+  /* Even on mobile, maintain 48x48px minimum */
+  .video-icon,
+  .video-popup,
+  a.video-icon {
+    width: 70px !important;
+    height: 70px !important;
+    min-width: 70px !important;
+    min-height: 70px !important;
+    line-height: 70px !important;
+  }
+  
+  .circle-button,
+  .arrow-btn,
+  .main-button .arrow-btn {
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+}
+
+/* Prevent conflicting mobile styles */
+@media (max-width: 767px) {
+  .cta-counter-wrapper-2 .cta-video-image .video-icon {
+    width: 70px !important;
+    height: 70px !important;
+    line-height: 70px !important;
+  }
+}
+
+/* Ensure spacing between touch targets (WCAG 2.5.8) */
+.main-button,
+.hero-button,
+.about-button,
+[class*="button-group"],
+[class*="btn-group"] {
+  gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.main-button > *,
+.hero-button > * {
+  margin: 4px;
 }
 
 /* Visually hidden class for accessibility */

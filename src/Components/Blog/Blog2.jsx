@@ -10,13 +10,13 @@ const Blog2 = () => {
       ]; 
 
     return (
-        <section className="news-section pt-0 section-padding">
+        <section className="news-section pt-0 section-padding" aria-labelledby="blog-heading">
         <div className="container">
             <div className="section-title text-center">
                 <div className="sub-title bg-color-2 wow fadeInUp">
                     <span>BLOG & NEWS</span>
                 </div>
-                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                <h2 id="blog-heading" className="wow fadeInUp" data-wow-delay=".3s">
                     Featured News And Insights
                 </h2>
             </div>

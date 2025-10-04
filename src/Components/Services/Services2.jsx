@@ -9,19 +9,19 @@ const Services2 = () => {
       ]; 
 
     return (
-        <section className="service-section fix section-padding">
+        <section className="service-section fix section-padding" aria-labelledby="services-heading">
             <div className="bg-shape-2">
-                <img src="/assets/img/service/bg-shape-2.png" alt="img" loading="lazy" />
+                <img src="/assets/img/service/bg-shape-2.png" alt="" role="presentation" loading="lazy" />
             </div>
             <div className="right-shape-3">
-                <img src="/assets/img/service/right-shape-3.png" alt="img" loading="lazy" />
+                <img src="/assets/img/service/right-shape-3.png" alt="" role="presentation" loading="lazy" />
             </div>
             <div className="container">
                 <div className="section-title text-center">
                     <div className="sub-title bg-color-2 wow fadeInUp">
                         <span>OUR SERVICES</span>
                     </div>
-                    <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                    <h2 id="services-heading" className="wow fadeInUp" data-wow-delay=".3s">
                         Use SEO to Drive Growth <br/> at Your Business
                     </h2>
                 </div>

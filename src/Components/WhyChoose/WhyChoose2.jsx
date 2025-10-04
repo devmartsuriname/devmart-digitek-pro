@@ -20,28 +20,32 @@ const WhyChoose2 = () => {
           }, []);
 
     return ( 
-        <section className="team-section fix section-padding bg-cover" data-background="/assets/img/team/team-bg.jpg">
+        <section className="team-section fix section-padding bg-cover" data-background="/assets/img/team/team-bg.jpg" aria-labelledby="team-heading">
         <div className="shape-img float-bob-y">
-            <img src="/assets/img/service/rocket-shape.png" alt="img" />
+            <img src="/assets/img/service/rocket-shape.png" alt="" role="presentation" />
         </div>
         <div className="container">
             <div className="team-wrapper style-3">
                 <div className="row g-4">
                     <div className="col-lg-6">
                         <div className="team-image-2">
-                            <img src={chooseContent.img} alt="img" className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s" />
+                            <img src={chooseContent.img} alt="Team collaboration" className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s" />
                             <div className="client-shape float-bob-x">
-                                <img src="/assets/img/team/client-shape.png" alt="img" />
+                                <img src="/assets/img/team/client-shape.png" alt="" role="presentation" />
                             </div>
                             <div className="box-shape float-bob-y">
-                                <img src="/assets/img/team/box-shape.png" alt="img" />
+                                <img src="/assets/img/team/box-shape.png" alt="" role="presentation" />
                             </div>
-                            <a href="team.html" className="circle-button">
-                            <i className="bi bi-arrow-up-right"></i>
+                            <Link 
+                                to="/team" 
+                                className="circle-button"
+                                aria-label="View our team"
+                            >
+                                <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
                                 <span className="text-circle">
-                                    <img src="/assets/img/about/white-text.png" alt="img" />
+                                    <img src="/assets/img/about/white-text.png" alt="" role="presentation" />
                                 </span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-lg-6">
@@ -50,7 +54,7 @@ const WhyChoose2 = () => {
                                 <div className="sub-title bg-color-2 wow fadeInUp">
                                     <span>{chooseContent.subtitle}</span>
                                 </div>
-                                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                                <h2 id="team-heading" className="wow fadeInUp" data-wow-delay=".3s">
                                 {chooseContent.title}
                                 </h2>
                             </div>

@@ -42,13 +42,13 @@ const CaseStudy3 = () => {
       ]; 
 
     return (
-        <section className="case-studies-section-3 fix section-padding">
+        <section className="case-studies-section-3 fix section-padding" aria-labelledby="projects-heading">
         <div className="container">
             <div className="section-title text-center">
                 <div className="sub-title wow fadeInUp">
                     <span>Case Studies</span>
                 </div>
-                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                <h2 id="projects-heading" className="wow fadeInUp" data-wow-delay=".3s">
                     We Are A Creative Digital <br/>
                     Marketing Agency
                 </h2>

@@ -39,11 +39,10 @@ const Testimonial3 = () => {
       ]; 
 
     return (
-        <section className="testimonial-section-3 section-padding pt-0">
-            {/* Visually hidden heading for accessibility - maintains proper heading hierarchy */}
-            <h2 className="visually-hidden">Client Testimonials</h2>
+        <section className="testimonial-section-3 section-padding pt-0" aria-labelledby="testimonials-heading">
+            <h2 id="testimonials-heading" className="visually-hidden">Client Testimonials</h2>
             <div className="overlay-shape">
-                <img src="/assets/img/testimonial/overlay-shape.png" alt="img" loading="lazy" />
+                <img src="/assets/img/testimonial/overlay-shape.png" alt="" role="presentation" loading="lazy" />
             </div>
             <div className="overlay-shape-2">
                 <img src="/assets/img/testimonial/overlay-shape-2.png" alt="img" loading="lazy" />
