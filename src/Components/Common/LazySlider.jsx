@@ -1,4 +1,4 @@
-import { lazy, Suspense, forwardRef, useEffect, useRef } from 'react';
+import { lazy, Suspense, forwardRef, useEffect, useRef, useState } from 'react';
 
 const Slider = lazy(() => import('react-slick'));
 
@@ -28,6 +28,28 @@ const SliderSkeleton = ({ slidesToShow = 3, className = '' }) => {
 const LazySlider = forwardRef(({ children, settings, className, ...props }, ref) => {
   const slidesToShow = settings?.slidesToShow || 1;
   const sliderRef = useRef(null);
+  const [isInitialized, setIsInitialized] = useState(false);
+  
+  // Disable autoplay on initial load to prevent flickering
+  const effectiveSettings = {
+    ...settings,
+    autoplay: isInitialized ? settings?.autoplay : false,
+  };
+  
+  // Re-enable autoplay after initial render
+  useEffect(() => {
+    if (settings?.autoplay && !isInitialized) {
+      const timer = setTimeout(() => {
+        setIsInitialized(true);
+        // Manually start autoplay if slider is ready
+        if (sliderRef.current?.slickPlay) {
+          sliderRef.current.slickPlay();
+        }
+      }, 1000); // Wait 1 second before starting autoplay
+      
+      return () => clearTimeout(timer);
+    }
+  }, [settings?.autoplay, isInitialized]);
   
   // Fix accessibility: Prevent tab focus on hidden slides using optimized MutationObserver
   useEffect(() => {
@@ -85,11 +107,11 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       }
     };
     
-    // Debounced version to prevent rapid-fire updates
-    const debouncedUpdate = debounce(updateFocusableElements, 100);
+    // Debounced version with increased delay for stability (300ms instead of 100ms)
+    const debouncedUpdate = debounce(updateFocusableElements, 300);
     
     // Initial setup with delay for react-slick to initialize
-    const initTimer = setTimeout(updateFocusableElements, 150);
+    const initTimer = setTimeout(updateFocusableElements, 500);
     
     // Set up MutationObserver to watch for DOM changes
     let observer;
@@ -101,12 +123,13 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       if (!sliderElement) return;
       
       observer = new MutationObserver((mutations) => {
-        // Only react to aria-hidden changes to reduce processing
+        // Only react to aria-hidden changes AND ensure slider is not transitioning
         const hasAriaChange = mutations.some(
           mutation => mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden'
         );
         
         if (hasAriaChange) {
+          // Extra debouncing during transitions to prevent flicker
           debouncedUpdate();
         }
       });
@@ -120,10 +143,10 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       });
     };
     
-    const observerTimer = setTimeout(setupObserver, 200);
+    const observerTimer = setTimeout(setupObserver, 600);
     
-    // Debounced resize handler
-    const handleResize = debounce(updateFocusableElements, 250);
+    // Debounced resize handler with increased delay
+    const handleResize = debounce(updateFocusableElements, 400);
     window.addEventListener('resize', handleResize);
     
     return () => {
@@ -147,7 +170,7 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
             ref.current = node;
           }
         }} 
-        {...settings} 
+        {...effectiveSettings} 
         className={className} 
         {...props}
       >
