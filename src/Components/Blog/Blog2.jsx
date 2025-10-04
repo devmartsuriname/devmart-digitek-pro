@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
-import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const Blog2 = () => {
     const { blogPosts, loading } = useBlogPosts({ 
@@ -23,7 +22,25 @@ const Blog2 = () => {
         <div className="container-fluid">
             <div className="row">
                 {loading ? (
-                    <LoadingSkeleton count={4} />
+                    <>
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="col-xl-3 col-lg-4 col-md-6">
+                                <div className="news-card-items">
+                                    <div className="news-image placeholder-glow">
+                                        <div className="placeholder bg-secondary" style={{width: '100%', height: '250px'}}></div>
+                                    </div>
+                                    <div className="news-content">
+                                        <ul className="post-cat placeholder-glow">
+                                            <li><span className="placeholder bg-secondary col-6"></span></li>
+                                        </ul>
+                                        <h3 className="placeholder-glow">
+                                            <span className="placeholder bg-secondary col-10"></span>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </>
                 ) : blogPosts.length === 0 ? (
                     <div className="col-12 text-center py-5">
                         <p className="text-white">No blog posts available at the moment.</p>

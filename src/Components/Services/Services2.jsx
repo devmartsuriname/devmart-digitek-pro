@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useServices } from "@/lib/hooks/useServices";
-import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const Services2 = () => {
     const { services, loading } = useServices({ 
@@ -27,7 +26,26 @@ const Services2 = () => {
                 </div>
                 <div className="row">
                     {loading ? (
-                        <LoadingSkeleton count={3} />
+                        <>
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="col-xl-4 col-lg-6 col-md-6">
+                                    <div className="service-card-items style-2">
+                                        <div className="service-thumb placeholder-glow">
+                                            <div className="placeholder bg-secondary" style={{width: '80px', height: '80px'}}></div>
+                                        </div>
+                                        <div className="content">
+                                            <h3 className="title-2 placeholder-glow">
+                                                <span className="placeholder bg-secondary col-8"></span>
+                                            </h3>
+                                            <p className="placeholder-glow">
+                                                <span className="placeholder bg-secondary col-12"></span>
+                                                <span className="placeholder bg-secondary col-10"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
                     ) : services.length === 0 ? (
                         <div className="col-12 text-center py-5">
                             <p className="text-white">No services available at the moment.</p>

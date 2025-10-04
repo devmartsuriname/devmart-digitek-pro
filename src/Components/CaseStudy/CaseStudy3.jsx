@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import LazySlider from "../Common/LazySlider";
 import { useProjects } from "@/lib/hooks/useProjects";
-import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const CaseStudy3 = () => {
     const { projects, loading } = useProjects({ 
@@ -58,7 +57,23 @@ const CaseStudy3 = () => {
         <div className="container-fluid">
             {loading ? (
                 <div className="container">
-                    <LoadingSkeleton count={3} />
+                    <div className="row">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="col-xl-4 col-lg-4 col-md-6">
+                                <div className="case-studies-card-items">
+                                    <div className="thumb placeholder-glow">
+                                        <div className="placeholder bg-secondary" style={{width: '100%', height: '300px'}}></div>
+                                    </div>
+                                    <div className="content">
+                                        <div className="title placeholder-glow">
+                                            <h3><span className="placeholder bg-secondary col-8"></span></h3>
+                                            <p><span className="placeholder bg-secondary col-6"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ) : projects.length === 0 ? (
                 <div className="container">
