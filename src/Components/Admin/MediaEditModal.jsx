@@ -122,98 +122,99 @@ const MediaEditModal = ({ media, onSave, onClose, show }) => {
               </button>
             </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="modal-body">
-              {isImage && (
+            <form onSubmit={handleSubmit}>
+              <div className="modal-body">
+                {isImage && (
+                  <div className="mb-3">
+                    <img
+                      src={media.url}
+                      alt={media.alt || 'Preview'}
+                      className="img-fluid rounded"
+                      style={{ maxHeight: '200px', objectFit: 'contain' }}
+                    />
+                  </div>
+                )}
+
+                {error && (
+                  <div className="alert alert-danger" role="alert">
+                    {error}
+                  </div>
+                )}
+
                 <div className="mb-3">
-                  <img
-                    src={media.url}
-                    alt={media.alt || 'Preview'}
-                    className="img-fluid rounded"
-                    style={{ maxHeight: '200px', objectFit: 'contain' }}
+                  <label className="form-label text-white">
+                    Alt Text <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white border-secondary"
+                    name="alt"
+                    value={formData.alt}
+                    onChange={handleChange}
+                    placeholder="Descriptive text for this media"
+                    required
+                    maxLength={200}
+                    disabled={saving}
+                  />
+                  <small className={`${charCount > charLimit ? 'text-danger' : 'text-white-50'}`}>
+                    {charCount} / {charLimit} characters
+                  </small>
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label text-white">Folder (optional)</label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white border-secondary"
+                    name="folder"
+                    value={formData.folder}
+                    onChange={handleChange}
+                    placeholder="e.g., blog, products, team"
+                    maxLength={100}
+                    disabled={saving}
+                  />
+                  <small className="text-white-50">Organize media into folders</small>
+                </div>
+
+                <div className="mb-0">
+                  <label className="form-label text-white-50 small">URL</label>
+                  <input
+                    type="text"
+                    className="form-control bg-dark text-white-50 border-secondary"
+                    value={media.url}
+                    readOnly
+                    disabled
                   />
                 </div>
-              )}
+              </div>
 
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
-
-              <div className="mb-3">
-                <label className="form-label text-white">
-                  Alt Text <span className="text-danger">*</span>
-                </label>
-                <input
-                  type="text"
-                  className="form-control bg-dark text-white border-secondary"
-                  name="alt"
-                  value={formData.alt}
-                  onChange={handleChange}
-                  placeholder="Descriptive text for this media"
-                  required
-                  maxLength={200}
+              <div className="modal-footer border-secondary">
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={onClose}
                   disabled={saving}
-                />
-                <small className={`${charCount > charLimit ? 'text-danger' : 'text-white-50'}`}>
-                  {charCount} / {charLimit} characters
-                </small>
-              </div>
-
-              <div className="mb-3">
-                <label className="form-label text-white">Folder (optional)</label>
-                <input
-                  type="text"
-                  className="form-control bg-dark text-white border-secondary"
-                  name="folder"
-                  value={formData.folder}
-                  onChange={handleChange}
-                  placeholder="e.g., blog, products, team"
-                  maxLength={100}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
                   disabled={saving}
-                />
-                <small className="text-white-50">Organize media into folders</small>
+                  style={{ backgroundColor: '#6A47ED', borderColor: '#6A47ED' }}
+                >
+                  {saving ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" />
+                      Saving...
+                    </>
+                  ) : (
+                    'Save Changes'
+                  )}
+                </button>
               </div>
-
-              <div className="mb-0">
-                <label className="form-label text-white-50 small">URL</label>
-                <input
-                  type="text"
-                  className="form-control bg-dark text-white-50 border-secondary"
-                  value={media.url}
-                  readOnly
-                  disabled
-                />
-              </div>
-            </div>
-
-            <div className="modal-footer border-secondary">
-              <button
-                type="button"
-                className="btn btn-outline-secondary"
-                onClick={onClose}
-                disabled={saving}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary"
-                disabled={saving}
-                style={{ backgroundColor: '#6A47ED', borderColor: '#6A47ED' }}
-              >
-                {saving ? (
-                  <>
-                    <span className="spinner-border spinner-border-sm me-2" />
-                    Saving...
-                  </>
-                ) : (
-                  'Save Changes'
-                )}
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </FocusTrap>
