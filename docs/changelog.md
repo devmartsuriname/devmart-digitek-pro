@@ -28,67 +28,76 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
    - **Fix:** Added descriptive `aria-label` attributes and `aria-hidden="true"` to icons
    - **Files:** `src/Components/CaseStudy/CaseStudy3.jsx`, `src/Components/CaseStudy/CaseStudy4.jsx`
 
-**Round 2 Fixes (Fixed remaining 7 → 0 axe issues):**
+**Round 2 Fixes (Fixed 7 → 0 axe issues):**
 
 3. **ARIA Hidden Focusable Elements (6 instances) - CRITICAL** ✅
-   - **Issue:** Hidden slick-carousel slides with `aria-hidden="true"` contained focusable links (CSS can't set HTML attributes)
+   - **Issue:** Hidden slick-carousel slides with `aria-hidden="true"` contained focusable links
    - **Fix:** Added JavaScript in `LazySlider` component to dynamically manage `tabindex="-1"` on focusable elements
-   - **Implementation:**
-     - `useEffect` hook monitors slider state and detects hidden slides
-     - Sets `tabindex="-1"` on all `<a>`, `<button>`, `<input>`, etc. in hidden slides
-     - Removes `tabindex` when slides become visible
-     - Updates on mount, slide change, and periodically (500ms interval)
-   - **Impact:** Keyboard users can no longer tab into off-screen carousel items
    - **File:** `src/Components/Common/LazySlider.jsx` - Added accessibility management logic
 
 4. **Scroll Button Missing Text (1 instance) - SERIOUS** ✅
-   - **Issue:** `#scrollUp` link (scroll-to-top button) had no accessible name
-   - **Fix:** Added `aria-label="Scroll to top"` and `aria-hidden="true"` to icon
+   - **Issue:** `#scrollUp` link had no accessible name
+   - **Fix:** Added `aria-label="Scroll to top"`
    - **File:** `src/Components/Footer/Footer2.jsx`
 
-**Round 3 Fixes (Target ≥95% Lighthouse Accessibility):**
+**Round 3 Fixes (Target 95%+ Accessibility - Initial Attempt):**
 
 5. **Heading Elements Not in Sequentially-Descending Order** ✅
-   - **Issue:** Heading hierarchy skipped levels (H2 → H6 in testimonials, H2 → H5 in blog cards)
-   - **Fix:** Corrected heading levels for proper document outline
-   - **Changes:**
-     - `src/Components/Testimonial/Testimonial3.jsx`: Changed `<h6>` to `<h4>` for client names
-     - `src/Components/Blog/Blog2.jsx`: Changed `<h5>` to `<h3>` for blog post titles
-     - `src/assets/main.css`: Updated CSS selectors from `h6` to `h4` and `h5` to `h3`
-   - **Impact:** Screen readers can now navigate document outline correctly
-   - **WCAG Criterion:** 1.3.1 Info and Relationships (Level A)
+   - **Issue:** Heading hierarchy skipped levels (H2 → H6, H2 → H5)
+   - **Fix:** Corrected heading levels
+     - `src/Components/Testimonial/Testimonial3.jsx`: `<h6>` → `<h4>` for client names
+     - `src/Components/Blog/Blog2.jsx`: `<h5>` → `<h3>` for blog post titles
+     - `src/assets/main.css`: Updated CSS selectors
 
-6. **Touch Targets Do Not Have Sufficient Size or Spacing** ✅
-   - **Issue:** Some interactive elements (icon buttons, links) smaller than 44x44px minimum
-   - **Fix:** Increased touch target sizes across the application
-   - **Changes:**
-     - Project card arrow icons: 52px → 56px with `min-width: 44px; min-height: 44px`
-     - Global button padding: Added `min-height: 44px; padding: 12px 16px` to all `.link-btn`, `.service-btn`, `.theme-btn`
-     - Icon-only buttons: Enforced `min-width: 44px; min-height: 44px` on all icon elements
-   - **Impact:** All interactive elements now meet WCAG AAA touch target size requirement
-   - **WCAG Criterion:** 2.5.5 Target Size (Level AAA - exceeds AA requirement)
-   - **File:** `src/assets/main.css` - Added comprehensive touch target rules
+6. **Touch Targets Do Not Have Sufficient Size** ✅
+   - **Issue:** Interactive elements < 44x44px
+   - **Fix:** Increased touch target sizes
+     - Project card icons: 52px → 56px with `min-width: 44px; min-height: 44px`
+     - Global button rules with `!important` to override template styles
 
-**Expected Accessibility Score Improvement:**
-- **Before Round 1:** 78/100 (11 axe issues)
-- **After Round 2:** ~85/100 (0 axe issues, 2 Lighthouse warnings)
-- **After Round 3:** ≥95/100 (0 axe issues, 0 critical Lighthouse warnings)
+**Round 4 Fixes (Refinement After 89% Score):**
+
+**Status: Accessibility 89% → Target 95%+ (3 remaining issues)**
+
+7. **Enhanced ARIA Hidden Focus Management** ⚙️
+   - **Problem:** LazySlider useEffect wasn't running early enough or selector was incorrect
+   - **Enhanced Fix:**
+     - Improved DOM selector to handle react-slick's wrapper structure
+     - Increased initialization delay: 100ms → 300ms (give react-slick time to render)
+     - Increased polling frequency: 500ms → 200ms (catch changes faster)
+     - Added `aria-hidden="true"` to nested focusable elements as fallback
+     - Smarter tabindex removal (only remove if we added it)
+   - **File:** `src/Components/Common/LazySlider.jsx` (line 23-59)
+
+8. **Refined Touch Target CSS with !important** ⚙️
+   - **Problem:** Template CSS overriding accessibility rules
+   - **Enhanced Fix:**
+     - Added `!important` to all min-height/min-width rules
+     - Separated rules by element type for better specificity
+     - Applied to: `.link-btn`, `.service-btn`, `.theme-btn`, `.arrow-btn`, `button`, `.scroll-icon`, `.video-icon`, `.circle-button`
+     - Ensured padding rules preserve visual design while meeting 44px minimum
+   - **File:** `src/assets/main.css` (line 8260-8294)
 
 **Technical Notes:**
-- **Heading hierarchy:** Proper semantic structure improves screen reader navigation and document outline
-- **Touch targets:** Meeting AAA criteria (44x44px) exceeds AA requirement (24x24px) for better mobile UX
-- **Backwards compatible:** All CSS changes use min-width/min-height to preserve existing visual design
+- **React-slick timing:** Component needs 300ms to fully initialize DOM before accessibility hooks can run
+- **Template overrides:** Digtek template has very specific CSS that requires `!important` to override
+- **Polling strategy:** 200ms interval balances performance with responsiveness for carousel slide changes
+
+**Expected Accessibility Score After Round 4:**
+- **Current:** 89/100 (24/27 audits passed)
+- **Target:** ≥95/100 (26+/27 audits passed)
+- **Remaining potential issues:** May need to check other pages beyond homepage
 
 **Testing Checklist:**
-- [x] Re-run axe DevTools scan (verify 0 issues)
-- [x] Re-run Lighthouse audit (desktop & mobile)
-- [ ] Manual keyboard test (Tab through homepage, verify no hidden slide focus)
-- [ ] Manual screen reader test (verify heading hierarchy navigation)
-- [ ] Manual touch target test (verify all buttons easily tappable on mobile)
+- [x] Re-run axe DevTools scan
+- [x] Re-run Lighthouse audit (Round 1-3)
+- [ ] Re-run Lighthouse audit (Round 4 validation) ← **NEXT STEP**
+- [ ] Manual keyboard test (verify carousel Tab behavior)
+- [ ] Manual touch target test on actual mobile device
 
 **Remaining SEO & Performance Issues (Out of Scope for Phase 3.3):**
-- SEO: 40/100 (missing meta description, non-crawlable links) - Phase 3.6
-- Performance: 48 mobile (image sizes, render-blocking resources) - Phase 3.1/3.2 already addressed
+- SEO: 40/100 - Phase 3.6
+- Performance: 48 mobile (image optimization) - Deployment needed to see full Phase 3.1/3.2 benefits
 
 ---
 

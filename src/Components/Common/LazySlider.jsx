@@ -26,9 +26,13 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       const slider = sliderRef.current;
       if (!slider) return;
       
-      // Get all slides
-      const slides = slider.innerSlider?.list?.querySelectorAll('.slick-slide');
-      if (!slides) return;
+      // Get the actual slider DOM element - react-slick wraps everything
+      const sliderElement = slider.innerSlider?.list || document.querySelector('.slick-list');
+      if (!sliderElement) return;
+      
+      // Get all slides including cloned ones
+      const slides = sliderElement.querySelectorAll('.slick-slide');
+      if (!slides || slides.length === 0) return;
       
       slides.forEach(slide => {
         const isHidden = slide.getAttribute('aria-hidden') === 'true';
@@ -39,18 +43,23 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
         focusableElements.forEach(el => {
           if (isHidden) {
             el.setAttribute('tabindex', '-1');
+            el.setAttribute('aria-hidden', 'true');
           } else {
-            el.removeAttribute('tabindex');
+            // Only remove tabindex if we added it (don't affect intentional tabindex)
+            if (el.getAttribute('tabindex') === '-1') {
+              el.removeAttribute('tabindex');
+            }
+            el.removeAttribute('aria-hidden');
           }
         });
       });
     };
     
-    // Run on mount and after slider changes
-    const timer = setTimeout(handleSlideChange, 100);
+    // Run after mount with enough delay for react-slick to initialize
+    const timer = setTimeout(handleSlideChange, 300);
     
-    // Listen for slide changes
-    const interval = setInterval(handleSlideChange, 500);
+    // Listen for slide changes more frequently
+    const interval = setInterval(handleSlideChange, 200);
     
     return () => {
       clearTimeout(timer);
