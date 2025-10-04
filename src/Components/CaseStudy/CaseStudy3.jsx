@@ -54,28 +54,8 @@ const CaseStudy3 = () => {
                 </h2>
             </div>
         </div>
-        <div className="container-fluid">
-            {loading ? (
-                <div className="container">
-                    <div className="row">
-                        {[1, 2, 3].map((i) => (
-                            <div key={i} className="col-xl-4 col-lg-4 col-md-6">
-                                <div className="case-studies-card-items">
-                                    <div className="thumb placeholder-glow">
-                                        <div className="placeholder bg-secondary" style={{width: '100%', height: '300px'}}></div>
-                                    </div>
-                                    <div className="content">
-                                        <div className="title placeholder-glow">
-                                            <h3><span className="placeholder bg-secondary col-8"></span></h3>
-                                            <p><span className="placeholder bg-secondary col-6"></span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            ) : projects.length === 0 ? (
+        <div className="container-fluid" style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s ease-in-out' }}>
+            {projects.length === 0 && !loading ? (
                 <div className="container">
                     <div className="text-center py-5">
                         <p className="text-white">No projects available at the moment.</p>
