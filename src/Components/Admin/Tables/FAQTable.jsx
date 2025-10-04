@@ -23,8 +23,8 @@ const FAQTable = ({ faqs, loading, onEdit, onDelete }) => {
 
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
+      <div className="text-center py-5" role="status" aria-live="polite">
+        <div className="spinner-border text-primary">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -75,14 +75,14 @@ const FAQTable = ({ faqs, loading, onEdit, onDelete }) => {
         </div>
       ) : (
         <div className="table-responsive">
-          <table className="table table-dark table-hover">
+          <table className="table table-dark table-hover" role="table" aria-label="FAQs list">
             <thead>
               <tr>
-                <th style={{ width: '35%' }}>Question</th>
-                <th style={{ width: '35%' }}>Answer</th>
-                <th style={{ width: '15%' }}>Category</th>
-                <th style={{ width: '8%' }}>Order</th>
-                <th style={{ width: '7%' }}>Actions</th>
+                <th style={{ width: '35%' }} scope="col">Question</th>
+                <th style={{ width: '35%' }} scope="col">Answer</th>
+                <th style={{ width: '15%' }} scope="col">Category</th>
+                <th style={{ width: '8%' }} scope="col">Order</th>
+                <th style={{ width: '7%' }} scope="col">Actions</th>
               </tr>
             </thead>
             <tbody>

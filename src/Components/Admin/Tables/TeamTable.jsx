@@ -1,8 +1,8 @@
 const TeamTable = ({ teamMembers, loading, onEdit, onDelete }) => {
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-primary" role="status">
+      <div className="text-center py-5" role="status" aria-live="polite">
+        <div className="spinner-border text-primary">
           <span className="visually-hidden">Loading...</span>
         </div>
         <p className="text-white-50 mt-3">Loading team members...</p>
@@ -22,17 +22,17 @@ const TeamTable = ({ teamMembers, loading, onEdit, onDelete }) => {
 
   return (
     <div className="table-responsive">
-      <table className="table table-dark table-hover">
+      <table className="table table-dark table-hover" role="table" aria-label="Team members list">
         <thead>
           <tr>
-            <th style={{ color: '#C6F806' }}>Photo</th>
-            <th style={{ color: '#C6F806' }}>Name</th>
-            <th style={{ color: '#C6F806' }}>Role</th>
-            <th style={{ color: '#C6F806' }}>Slug</th>
-            <th style={{ color: '#C6F806' }}>Order</th>
-            <th style={{ color: '#C6F806' }}>Socials</th>
-            <th style={{ color: '#C6F806' }}>Updated</th>
-            <th style={{ color: '#C6F806' }}>Actions</th>
+            <th style={{ color: '#C6F806' }} scope="col">Photo</th>
+            <th style={{ color: '#C6F806' }} scope="col">Name</th>
+            <th style={{ color: '#C6F806' }} scope="col">Role</th>
+            <th style={{ color: '#C6F806' }} scope="col">Slug</th>
+            <th style={{ color: '#C6F806' }} scope="col">Order</th>
+            <th style={{ color: '#C6F806' }} scope="col">Socials</th>
+            <th style={{ color: '#C6F806' }} scope="col">Updated</th>
+            <th style={{ color: '#C6F806' }} scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>

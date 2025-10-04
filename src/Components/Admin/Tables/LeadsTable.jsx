@@ -29,8 +29,8 @@ const LeadsTable = ({ leads, loading, onStatusChange, onRowClick }) => {
 
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border" style={{ color: '#6A47ED' }} role="status">
+      <div className="text-center py-5" role="status" aria-live="polite">
+        <div className="spinner-border" style={{ color: '#6A47ED' }}>
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -49,17 +49,17 @@ const LeadsTable = ({ leads, loading, onStatusChange, onRowClick }) => {
 
   return (
     <div className="table-responsive">
-      <table className="table table-dark table-hover">
+      <table className="table table-dark table-hover" role="table" aria-label="Leads inbox">
         <thead>
           <tr style={{ borderBottom: '2px solid #6A47ED' }}>
-            <th>Name</th>
-            <th>Email</th>
-            <th className="d-none d-md-table-cell">Phone</th>
-            <th className="d-none d-lg-table-cell">Subject</th>
-            <th className="d-none d-lg-table-cell">Source</th>
-            <th>Status</th>
-            <th className="d-none d-md-table-cell">Date</th>
-            <th style={{ width: '40px' }}></th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th className="d-none d-md-table-cell" scope="col">Phone</th>
+            <th className="d-none d-lg-table-cell" scope="col">Subject</th>
+            <th className="d-none d-lg-table-cell" scope="col">Source</th>
+            <th scope="col">Status</th>
+            <th className="d-none d-md-table-cell" scope="col">Date</th>
+            <th style={{ width: '40px' }} scope="col"><span className="visually-hidden">Expand</span></th>
           </tr>
         </thead>
         <tbody>

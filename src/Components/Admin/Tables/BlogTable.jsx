@@ -19,8 +19,8 @@ const BlogTable = ({ blogPosts, onEdit, onDelete, loading }) => {
 
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border" style={{ color: '#6A47ED' }} role="status">
+      <div className="text-center py-5" role="status" aria-live="polite">
+        <div className="spinner-border" style={{ color: '#6A47ED' }}>
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -39,17 +39,17 @@ const BlogTable = ({ blogPosts, onEdit, onDelete, loading }) => {
 
   return (
     <div className="table-responsive">
-      <table className="table table-dark table-hover">
+      <table className="table table-dark table-hover" role="table" aria-label="Blog posts list">
         <thead>
           <tr>
-            <th style={{ width: '30%' }}>Title</th>
-            <th style={{ width: '12%' }}>Author</th>
-            <th style={{ width: '10%' }}>Date</th>
-            <th style={{ width: '10%' }}>Status</th>
-            <th style={{ width: '5%', textAlign: 'center' }}>Featured</th>
-            <th style={{ width: '20%' }}>Tags</th>
-            <th style={{ width: '8%', textAlign: 'center' }}>Views</th>
-            <th style={{ width: '10%', textAlign: 'right' }}>Actions</th>
+            <th style={{ width: '30%' }} scope="col">Title</th>
+            <th style={{ width: '12%' }} scope="col">Author</th>
+            <th style={{ width: '10%' }} scope="col">Date</th>
+            <th style={{ width: '10%' }} scope="col">Status</th>
+            <th style={{ width: '5%', textAlign: 'center' }} scope="col">Featured</th>
+            <th style={{ width: '20%' }} scope="col">Tags</th>
+            <th style={{ width: '8%', textAlign: 'center' }} scope="col">Views</th>
+            <th style={{ width: '10%', textAlign: 'right' }} scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>

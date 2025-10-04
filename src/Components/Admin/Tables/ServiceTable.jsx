@@ -1,7 +1,7 @@
 const ServiceTable = ({ services, onEdit, onDelete, loading }) => {
   if (loading) {
     return (
-      <div className="text-center py-5">
+      <div className="text-center py-5" role="status" aria-live="polite">
         <div className="spinner-border" style={{ color: '#6A47ED' }}></div>
         <p className="text-white-50 mt-3">Loading services...</p>
       </div>
@@ -23,15 +23,15 @@ const ServiceTable = ({ services, onEdit, onDelete, loading }) => {
   return (
     <div className="card bg-dark border-0 shadow-lg">
       <div className="table-responsive">
-        <table className="table table-dark table-hover mb-0">
+        <table className="table table-dark table-hover mb-0" role="table" aria-label="Services list">
           <thead style={{ borderBottom: '2px solid #6A47ED' }}>
             <tr>
-              <th className="text-white">Title</th>
-              <th className="text-white">Slug</th>
-              <th className="text-white">Status</th>
-              <th className="text-white">Order</th>
-              <th className="text-white">Updated</th>
-              <th className="text-white text-end">Actions</th>
+              <th className="text-white" scope="col">Title</th>
+              <th className="text-white" scope="col">Slug</th>
+              <th className="text-white" scope="col">Status</th>
+              <th className="text-white" scope="col">Order</th>
+              <th className="text-white" scope="col">Updated</th>
+              <th className="text-white text-end" scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>

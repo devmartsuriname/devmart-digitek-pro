@@ -1,8 +1,8 @@
 const ProjectTable = ({ projects, loading, onEdit, onDelete }) => {
   if (loading) {
     return (
-      <div className="text-center py-5">
-        <div className="spinner-border text-light" role="status">
+      <div className="text-center py-5" role="status" aria-live="polite">
+        <div className="spinner-border text-light">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -24,15 +24,15 @@ const ProjectTable = ({ projects, loading, onEdit, onDelete }) => {
   return (
     <div className="card bg-dark border-secondary">
       <div className="table-responsive">
-        <table className="table table-dark table-hover mb-0">
+        <table className="table table-dark table-hover mb-0" role="table" aria-label="Projects list">
           <thead>
             <tr>
-              <th>Title</th>
-              <th>Client</th>
-              <th>Date</th>
-              <th>Status</th>
-              <th className="text-center">Featured</th>
-              <th className="text-end">Actions</th>
+              <th scope="col">Title</th>
+              <th scope="col">Client</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th className="text-center" scope="col">Featured</th>
+              <th className="text-end" scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
