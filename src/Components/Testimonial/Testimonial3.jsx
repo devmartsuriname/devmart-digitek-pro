@@ -84,7 +84,7 @@ const Testimonial3 = () => {
                                             <img src={item.img} alt="img" loading="lazy" />
                                         </div>
                                         <div className="content">
-                                            <h6>{item.title}</h6>
+                                            <h4>{item.title}</h4>
                                             <span>{item.subtitle}</span>
                                         </div>
                                     </div>

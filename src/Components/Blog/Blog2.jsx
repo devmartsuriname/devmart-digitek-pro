@@ -40,7 +40,7 @@ const Blog2 = () => {
                                     Business
                                 </li>
                             </ul>
-                            <h5><Link to="/blog/blog-details">{item.title}</Link></h5>
+                            <h3><Link to="/blog/blog-details">{item.title}</Link></h3>
                             <Link to="/blog/blog-details" className="link-btn">Read More <i className="bi bi-arrow-right"></i></Link>
                             <div className="post-date">
                                 <i className="fa-light fa-calendar-days"></i>

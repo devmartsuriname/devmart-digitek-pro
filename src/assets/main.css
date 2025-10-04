@@ -4409,11 +4409,11 @@ span {
   color: var(--theme);
   margin-right: 5px;
 }
-.news-card-items .news-content h5 {
+.news-card-items .news-content h3 {
   font-size: 20px;
   font-weight: 500;
 }
-.news-card-items .news-content h5 a:hover {
+.news-card-items .news-content h3 a:hover {
   color: var(--theme);
 }
 .news-card-items .news-content .link-btn {
@@ -5731,13 +5731,16 @@ input.main-search-input::placeholder {
 }
 .case-studies-card-items .content .icon {
   display: inline-block;
-  width: 52px;
-  height: 52px;
-  line-height: 52px;
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
   background-color: var(--theme);
   color: var(--white);
   text-align: center;
   border-radius: 50%;
+  /* Accessibility: Touch target size ≥44x44px */
+  min-width: 44px;
+  min-height: 44px;
 }
 .case-studies-card-items .content .icon:hover {
   background-color: var(--header);
@@ -7115,8 +7118,9 @@ input.main-search-input::placeholder {
   justify-content: center;
   margin-top: 50px;
 }
-.testimonial-wrapper-3 .testimonial-content .client-info .content h6 {
+.testimonial-wrapper-3 .testimonial-content .client-info .content h4 {
   font-size: 16px;
+  margin-bottom: 0;
 }
 .testimonial-wrapper-3 .testimonial-content .client-info .content span {
   font-size: 15px;
@@ -8252,4 +8256,25 @@ select:focus-visible {
   .skip-link {
     transition: none;
   }
+}
+
+/* Accessibility: Touch target size ≥44x44px (WCAG 2.5.5) */
+/* Ensure interactive buttons meet minimum touch target size */
+.link-btn, 
+.service-btn,
+.theme-btn,
+.arrow-btn,
+button:not(.navbar-toggler),
+.scroll-icon,
+.video-icon,
+.circle-button {
+  min-height: 44px;
+  padding: 12px 16px;
+}
+
+/* Icon-only buttons */
+.icon:not(i):not(svg),
+[class*="-icon"]:not(i):not(svg):not(.social-icon) {
+  min-width: 44px !important;
+  min-height: 44px !important;
 }
