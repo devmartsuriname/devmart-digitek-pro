@@ -11,6 +11,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.1] - Phase 2.5 - Homepage Dynamic Data - 2025-01-04
+
+### ✅ Updated Homepage Components to Use Dynamic Data
+
+**Replaced hardcoded content with database-driven content for all homepage sections:**
+
+1. **Services2.jsx** - Homepage Services Section:
+   - Now fetches top 3 published services using `useServices()` hook
+   - Displays service icon, title, summary, and link to detail page
+   - Includes loading skeleton and empty state handling
+   - Links dynamically to `/services/${slug}` for each service
+
+2. **CaseStudy3.jsx** - Homepage Projects Carousel:
+   - Now fetches up to 6 featured published projects using `useProjects()` hook
+   - Filters for `featured: true` and `status: 'published'`
+   - Displays project cover image, title, client/summary
+   - Includes loading skeleton and empty state handling
+   - Links dynamically to `/portfolio/${slug}` for each project
+   - Maintains carousel functionality with LazySlider
+
+3. **Blog2.jsx** - Homepage Blog Section:
+   - Now fetches latest 4 published blog posts using `useBlogPosts()` hook
+   - Displays cover image, title, tags (first tag), and formatted date
+   - Includes loading skeleton and empty state handling
+   - Links dynamically to `/blog/${slug}` for each post
+   - Dynamic date formatting using `toLocaleDateString()`
+
+### 🎯 Features
+
+- **Real-time Updates**: Homepage content updates automatically when database changes
+- **Performance**: Limited queries (3 services, 6 projects, 4 blog posts)
+- **Loading States**: Skeleton loaders during data fetch for better UX
+- **Empty States**: Graceful handling when no content is available
+- **Dynamic Links**: All links use database slugs for accurate routing
+- **Fallback Images**: Default images shown if database URLs are null
+
+### 📝 Files Modified (3)
+
+- `src/Components/Services/Services2.jsx`: Dynamic services with `useServices()` hook
+- `src/Components/CaseStudy/CaseStudy3.jsx`: Dynamic projects with `useProjects()` hook
+- `src/Components/Blog/Blog2.jsx`: Dynamic blog posts with `useBlogPosts()` hook
+
+### ✅ Phase 2.5 Status: 100% Complete
+
+**All frontend pages now connected to database:**
+- ✅ Homepage (Services, Projects, Blog sections)
+- ✅ Standalone Pages (Services, Portfolio, Blog, Team, FAQ)
+- ✅ Detail Pages (Service, Project, Blog Post, Team Member)
+- ✅ Contact Form (Connected to Settings + Leads)
+- ✅ Admin CMS (All 8 modules operational)
+
+**Result:** Complete database integration across all public and admin pages. The website is now fully content-managed with no hardcoded data.
+
+---
+
 ## [0.15.0] - Phase 2.5 - Frontend Database Integration - 2025-01-04
 
 ### ✅ Connected Detail Pages to Database

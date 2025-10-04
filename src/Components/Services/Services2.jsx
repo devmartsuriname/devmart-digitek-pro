@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
+import { useServices } from "@/lib/hooks/useServices";
+import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const Services2 = () => {
-
-    const chooseContent = [
-        {img:'/assets/img/service/01.png', title:'Web Development', content:'We build custom websites that strengthen your brand and attract customers. User-friendly, fast and visually impressive.'},
-        {img:'/assets/img/service/05.png', title:'App Development', content:'From concept to launch, we develop innovative apps that strengthen your business in the digital world.'},
-        {img:'/assets/img/service/06.png', title:'Graphic Design', content:'Make your brand stand out with visual designs that speak. We create imagery that powerfully conveys your story.'},
-      ]; 
+    const { services, loading } = useServices({ 
+        status: 'published',
+        limit: 3 
+    });
 
     return (
         <section className="service-section fix section-padding" aria-labelledby="services-heading">
@@ -26,25 +26,38 @@ const Services2 = () => {
                     </h2>
                 </div>
                 <div className="row">
-                    {chooseContent.map((item, i) => (
-                    <div key={i} className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
-                        <div className="service-card-items style-2">
-                            <div className="service-thumb">
-                                <img src={item.img} alt="img" loading="lazy" />
-                            </div>
-                            <div className="content">
-                                <h3 className="title-2">
-                                    <Link to="/service/service-details">{item.title}</Link>
-                                </h3>
-                                <p>
-                                {item.content}
-                                </p>
-                                <Link to="/service/service-details" className="service-btn">Read more <i className="bi bi-arrow-right"></i></Link>
-                            </div>
+                    {loading ? (
+                        <LoadingSkeleton count={3} />
+                    ) : services.length === 0 ? (
+                        <div className="col-12 text-center py-5">
+                            <p className="text-white">No services available at the moment.</p>
                         </div>
-                    </div>
-                    ))}
-
+                    ) : (
+                        services.map((service) => (
+                            <div key={service.id} className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                                <div className="service-card-items style-2">
+                                    <div className="service-thumb">
+                                        <img 
+                                            src={service.icon_url || '/assets/img/service/01.png'} 
+                                            alt={service.title} 
+                                            loading="lazy" 
+                                        />
+                                    </div>
+                                    <div className="content">
+                                        <h3 className="title-2">
+                                            <Link to={`/services/${service.slug}`}>{service.title}</Link>
+                                        </h3>
+                                        <p>
+                                            {service.summary}
+                                        </p>
+                                        <Link to={`/services/${service.slug}`} className="service-btn">
+                                            Read more <i className="bi bi-arrow-right"></i>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </section>

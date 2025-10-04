@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom";
 import LazySlider from "../Common/LazySlider";
+import { useProjects } from "@/lib/hooks/useProjects";
+import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const CaseStudy3 = () => {
+    const { projects, loading } = useProjects({ 
+        status: 'published',
+        featured: true,
+        limit: 6 
+    });
 
     const settings = {
         dots: false,
@@ -35,12 +42,6 @@ const CaseStudy3 = () => {
       };  
 
 
-    const chooseContent = [
-        {subtitle:'Web Development', title:'Quality Performers', img:'/assets/img/case-studies/02.jpg'},
-        {subtitle:'App Development', title:'Planify Suriname', img:'/assets/img/case-studies/03.jpg'},
-        {subtitle:'Web Development', title:'Car Rental City', img:'/assets/img/case-studies/04.jpg'},
-      ];
-
     return (
         <section className="case-studies-section-3 fix section-padding" aria-labelledby="projects-heading">
         <div className="container">
@@ -55,35 +56,50 @@ const CaseStudy3 = () => {
             </div>
         </div>
         <div className="container-fluid">
-            <div className="swiper project-slider">
-                <div className="swiper-wrapper cs_slider_gap_30">
-                <LazySlider settings={settings}>
-                {chooseContent.map((item, i) => (
-                    <div key={i} className="swiper-slide">
-                        <div className="case-studies-card-items">
-                            <div className="thumb">
-                                <img src={item.img} alt="img" loading="lazy" />
-                            </div>
-                            <div className="content">
-                                <div className="title">
-                                    <h3><Link to="/project/project-details">{item.title}</Link></h3>
-                                    <p>{item.subtitle}</p>
-                                </div>
-                                <Link 
-                                    to="/project/project-details" 
-                                    className="icon"
-                                    aria-label={`View ${item.title} project details`}
-                                >
-                                    <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                    ))}
-                    </LazySlider>
-
+            {loading ? (
+                <div className="container">
+                    <LoadingSkeleton count={3} />
                 </div>
-            </div>
+            ) : projects.length === 0 ? (
+                <div className="container">
+                    <div className="text-center py-5">
+                        <p className="text-white">No projects available at the moment.</p>
+                    </div>
+                </div>
+            ) : (
+                <div className="swiper project-slider">
+                    <div className="swiper-wrapper cs_slider_gap_30">
+                        <LazySlider settings={settings}>
+                            {projects.map((project) => (
+                                <div key={project.id} className="swiper-slide">
+                                    <div className="case-studies-card-items">
+                                        <div className="thumb">
+                                            <img 
+                                                src={project.cover_url || '/assets/img/case-studies/02.jpg'} 
+                                                alt={project.title} 
+                                                loading="lazy" 
+                                            />
+                                        </div>
+                                        <div className="content">
+                                            <div className="title">
+                                                <h3><Link to={`/portfolio/${project.slug}`}>{project.title}</Link></h3>
+                                                <p>{project.client || project.summary}</p>
+                                            </div>
+                                            <Link 
+                                                to={`/portfolio/${project.slug}`}
+                                                className="icon"
+                                                aria-label={`View ${project.title} project details`}
+                                            >
+                                                <i className="bi bi-arrow-up-right" aria-hidden="true"></i>
+                                            </Link>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </LazySlider>
+                    </div>
+                </div>
+            )}
         </div>
     </section>
     );

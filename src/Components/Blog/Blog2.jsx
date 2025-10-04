@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
+import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
+import LoadingSkeleton from "../Common/LoadingSkeleton";
 
 const Blog2 = () => {
-
-    const blogContent = [
-        {img:'/assets/img/news/05.jpg', title:'Why Every Surinamese Business Needs a Website in 2025'},
-        {img:'/assets/img/news/06.jpg', title:'Mobile App Development: Native vs Cross-Platform'},
-        {img:'/assets/img/news/07.jpg', title:'SEO Basics: How to Rank Higher on Google in Suriname'},
-        {img:'/assets/img/news/08.jpg', title:'Branding Tips for Small Businesses and Startups'},
-      ];
+    const { blogPosts, loading } = useBlogPosts({ 
+        status: 'published',
+        limit: 4 
+    });
 
     return (
         <section className="news-section pt-0 section-padding" aria-labelledby="blog-heading">
@@ -23,36 +22,53 @@ const Blog2 = () => {
         </div>
         <div className="container-fluid">
             <div className="row">
-            {blogContent.map((item, i) => (
-                <div key={i} className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
-                    <div className="news-card-items">
-                        <div className="news-image">
-                            <img src={item.img} alt="img" loading="lazy" />
-                        </div>
-                        <div className="news-content">
-                            <ul className="post-cat">
-                                <li>
-                                    <i className="fa-regular fa-user"></i>
-                                    By Admin
-                                </li>
-                                <li>
-                                    <i className="fa-regular fa-tag"></i>
-                                    Business
-                                </li>
-                            </ul>
-                            <h3><Link to="/blog/blog-details">{item.title}</Link></h3>
-                            <Link to="/blog/blog-details" className="link-btn">Read More <i className="bi bi-arrow-right"></i></Link>
-                            <div className="post-date">
-                                <i className="fa-light fa-calendar-days"></i>
-                                Oct  05, 2024
+                {loading ? (
+                    <LoadingSkeleton count={4} />
+                ) : blogPosts.length === 0 ? (
+                    <div className="col-12 text-center py-5">
+                        <p className="text-white">No blog posts available at the moment.</p>
+                    </div>
+                ) : (
+                    blogPosts.map((post) => (
+                        <div key={post.id} className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                            <div className="news-card-items">
+                                <div className="news-image">
+                                    <img 
+                                        src={post.cover_url || '/assets/img/news/05.jpg'} 
+                                        alt={post.title} 
+                                        loading="lazy" 
+                                    />
+                                </div>
+                                <div className="news-content">
+                                    <ul className="post-cat">
+                                        <li>
+                                            <i className="fa-regular fa-user"></i>
+                                            By Admin
+                                        </li>
+                                        {post.tags && post.tags.length > 0 && (
+                                            <li>
+                                                <i className="fa-regular fa-tag"></i>
+                                                {post.tags[0]}
+                                            </li>
+                                        )}
+                                    </ul>
+                                    <h3><Link to={`/blog/${post.slug}`}>{post.title}</Link></h3>
+                                    <Link to={`/blog/${post.slug}`} className="link-btn">
+                                        Read More <i className="bi bi-arrow-right"></i>
+                                    </Link>
+                                    <div className="post-date">
+                                        <i className="fa-light fa-calendar-days"></i>
+                                        {new Date(post.date).toLocaleDateString('en-US', { 
+                                            month: 'short', 
+                                            day: '2-digit', 
+                                            year: 'numeric' 
+                                        })}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                ))}
-
-
-
+                    ))
+                )}
             </div>
         </div>
     </section>
