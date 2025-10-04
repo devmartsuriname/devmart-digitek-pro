@@ -114,6 +114,7 @@ const FAQTable = ({ faqs, loading, onEdit, onDelete }) => {
                         className="btn btn-outline-light"
                         onClick={() => onEdit(faq)}
                         title="Edit"
+                        aria-label={`Edit FAQ: ${faq.question}`}
                       >
                         <i className="bi bi-pencil"></i>
                       </button>
@@ -125,6 +126,7 @@ const FAQTable = ({ faqs, loading, onEdit, onDelete }) => {
                           }
                         }}
                         title="Delete"
+                        aria-label={`Delete FAQ: ${faq.question}`}
                       >
                         <i className="bi bi-trash"></i>
                       </button>

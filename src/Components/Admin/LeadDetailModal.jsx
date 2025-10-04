@@ -80,6 +80,8 @@ const LeadDetailModal = ({ lead, show, onHide, onStatusChange }) => {
                         className="btn btn-sm btn-link p-0"
                         onClick={handleCopyEmail}
                         style={{ color: '#6A47ED' }}
+                        aria-label="Copy email to clipboard"
+                        title="Copy email"
                       >
                         <i className="bi bi-clipboard"></i>
                       </button>

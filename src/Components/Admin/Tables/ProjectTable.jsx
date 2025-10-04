@@ -64,6 +64,7 @@ const ProjectTable = ({ projects, loading, onEdit, onDelete }) => {
                     className="btn btn-sm btn-outline-light me-2"
                     onClick={() => onEdit(project)}
                     title="Edit project"
+                    aria-label={`Edit project: ${project.title}`}
                   >
                     <i className="bi bi-pencil"></i>
                   </button>
@@ -75,6 +76,7 @@ const ProjectTable = ({ projects, loading, onEdit, onDelete }) => {
                       }
                     }}
                     title="Delete project"
+                    aria-label={`Delete project: ${project.title}`}
                   >
                     <i className="bi bi-trash"></i>
                   </button>

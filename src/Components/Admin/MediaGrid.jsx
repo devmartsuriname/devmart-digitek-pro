@@ -98,6 +98,7 @@ const MediaGrid = ({ media, loading, onEdit, onDelete, onCopyUrl }) => {
                     className="btn btn-sm btn-light"
                     onClick={() => onCopyUrl(item.url)}
                     title="Copy URL"
+                    aria-label={`Copy URL for ${item.alt || 'media file'}`}
                   >
                     <Copy size={16} />
                   </button>
@@ -105,6 +106,7 @@ const MediaGrid = ({ media, loading, onEdit, onDelete, onCopyUrl }) => {
                     className="btn btn-sm btn-primary"
                     onClick={() => onEdit(item)}
                     title="Edit"
+                    aria-label={`Edit ${item.alt || 'media file'}`}
                   >
                     <Edit2 size={16} />
                   </button>
@@ -112,6 +114,7 @@ const MediaGrid = ({ media, loading, onEdit, onDelete, onCopyUrl }) => {
                     className="btn btn-sm btn-danger"
                     onClick={() => onDelete(item)}
                     title="Delete"
+                    aria-label={`Delete ${item.alt || 'media file'}`}
                   >
                     <Trash2 size={16} />
                   </button>

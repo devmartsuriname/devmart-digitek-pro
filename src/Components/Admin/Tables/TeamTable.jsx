@@ -107,6 +107,7 @@ const TeamTable = ({ teamMembers, loading, onEdit, onDelete }) => {
                     style={{ background: 'rgba(106, 71, 237, 0.2)', color: '#C6F806' }}
                     onClick={() => onEdit(member)}
                     title="Edit"
+                    aria-label={`Edit team member: ${member.name}`}
                   >
                     <i className="bi bi-pencil"></i>
                   </button>
@@ -114,6 +115,7 @@ const TeamTable = ({ teamMembers, loading, onEdit, onDelete }) => {
                     className="btn btn-sm btn-outline-danger"
                     onClick={() => onDelete(member.id)}
                     title="Delete"
+                    aria-label={`Delete team member: ${member.name}`}
                   >
                     <i className="bi bi-trash"></i>
                   </button>

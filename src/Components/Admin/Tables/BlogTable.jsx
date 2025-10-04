@@ -94,6 +94,7 @@ const BlogTable = ({ blogPosts, onEdit, onDelete, loading }) => {
                   style={{ background: '#6A47ED', color: 'white', border: 'none' }}
                   onClick={() => onEdit(post)}
                   title="Edit"
+                  aria-label={`Edit blog post: ${post.title}`}
                 >
                   <i className="bi bi-pencil"></i>
                 </button>
@@ -105,6 +106,7 @@ const BlogTable = ({ blogPosts, onEdit, onDelete, loading }) => {
                     }
                   }}
                   title="Delete"
+                  aria-label={`Delete blog post: ${post.title}`}
                 >
                   <i className="bi bi-trash"></i>
                 </button>

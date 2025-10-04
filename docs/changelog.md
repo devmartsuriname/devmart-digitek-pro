@@ -20,7 +20,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Styled with theme colors and smooth transitions
 - **ARIA labels and roles:** Enhanced semantic HTML across the application
   - Added `role="banner"`, `role="main"`, `role="navigation"`, `role="dialog"`, `role="search"` attributes
-  - Icon-only buttons now have descriptive `aria-label` attributes
+  - **Icon-only buttons: Added descriptive `aria-label` attributes to 50+ buttons across admin interface**
+    - All table action buttons (edit, delete) now have contextual labels
+    - Media grid buttons (copy URL, edit, delete) describe target file
+    - Form utility buttons (regenerate slug) have clear purposes
+    - Lead detail modal copy button describes action
+    - Expand/collapse icons in leads table have state-aware labels
   - Search dialog has `aria-modal` and `aria-expanded` states
   - Admin sidebar navigation has `aria-label="Admin navigation"`
   - Form inputs have proper label associations
@@ -54,12 +59,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **High contrast mode:** Enhanced outline width for better visibility
 - **Screen reader utilities:** `.sr-only` class for visually hidden but screen-reader-accessible content
 
-### 📝 Files Modified (5)
+### 📝 Files Modified (14)
+**Layout & Global:**
 - `src/Layout/Layout2.jsx`: Added skip link and `<main>` landmark
 - `src/Layout/AdminLayout.jsx`: Added skip link, `role="banner"`, and `<main>` landmark
 - `src/Components/Header/Header2.jsx`: Converted search toggle to button, added ARIA attributes
 - `src/Components/Admin/AdminSidebar.jsx`: Added `role="navigation"` and `aria-label`
 - `src/assets/main.css`: Added comprehensive accessibility styles (skip link, focus indicators, reduced motion, screen reader utilities)
+
+**Icon Button ARIA Labels (Step 1):**
+- `src/Components/Admin/Tables/BlogTable.jsx`: Edit/delete buttons with post titles
+- `src/Components/Admin/Tables/ProjectTable.jsx`: Edit/delete buttons with project titles
+- `src/Components/Admin/Tables/ServiceTable.jsx`: Edit/delete buttons with service titles
+- `src/Components/Admin/Tables/TeamTable.jsx`: Edit/delete buttons with member names
+- `src/Components/Admin/Tables/FAQTable.jsx`: Edit/delete buttons with FAQ questions
+- `src/Components/Admin/Tables/LeadsTable.jsx`: Expand/collapse icon with state-aware label
+- `src/Components/Admin/LeadDetailModal.jsx`: Copy email button with clear action
+- `src/Components/Admin/MediaGrid.jsx`: Copy/edit/delete buttons with file context
+- `src/Components/Admin/Forms/BlogForm.jsx`: Slug regenerate button with purpose
 
 ### 🧪 Testing Status
 - [x] Skip links functional (Tab key reveals them)

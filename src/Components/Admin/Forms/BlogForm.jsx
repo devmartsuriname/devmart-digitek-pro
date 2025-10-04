@@ -152,6 +152,8 @@ const BlogForm = ({ initialData, onSubmit, onCancel, loading }) => {
                   setAutoSlug(true);
                 }}
                 disabled={loading}
+                aria-label="Regenerate slug from title"
+                title="Regenerate slug"
               >
                 <i className="bi bi-arrow-clockwise"></i>
               </button>

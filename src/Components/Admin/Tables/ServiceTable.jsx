@@ -60,6 +60,7 @@ const ServiceTable = ({ services, onEdit, onDelete, loading }) => {
                     style={{ background: 'rgba(106, 71, 237, 0.2)', color: '#C6F806' }}
                     onClick={() => onEdit(service)}
                     title="Edit"
+                    aria-label={`Edit service: ${service.title}`}
                   >
                     <i className="bi bi-pencil"></i>
                   </button>
@@ -71,6 +72,7 @@ const ServiceTable = ({ services, onEdit, onDelete, loading }) => {
                       }
                     }}
                     title="Delete"
+                    aria-label={`Delete service: ${service.title}`}
                   >
                     <i className="bi bi-trash"></i>
                   </button>

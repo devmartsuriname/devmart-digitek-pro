@@ -346,6 +346,12 @@
 ### 5.2 Accessibility (WCAG 2.1 AA)
 - [x] Add skip to content links (both layouts)
 - [x] Add ARIA labels for interactive elements (search, buttons, navigation)
+- [x] **Icon-only buttons: Added aria-label to 50+ buttons (Step 1 complete)**
+  - [x] All table action buttons (edit, delete)
+  - [x] Media grid buttons (copy URL, edit, delete)
+  - [x] Form utility buttons (slug regenerate)
+  - [x] Modal utility buttons (copy email)
+  - [x] Toggle/expand buttons (leads table)
 - [x] Add focus indicators (custom styles with theme colors)
 - [x] Add landmark roles (main, banner, navigation, dialog, search)
 - [x] Implement reduced motion support
@@ -355,7 +361,7 @@
 - [ ] Check color contrast (≥4.5:1 for all text)
 - [ ] Test with screen reader (NVDA/VoiceOver)
 - [ ] Run accessibility audit (Lighthouse + axe DevTools)
-- [x] Update `/docs/changelog.md`
+- [x] Update `/docs/changelog.md` (Step 1 icon buttons)
 
 ### 5.3 Analytics & Events
 - [ ] Add Plausible analytics script

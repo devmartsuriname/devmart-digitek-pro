@@ -141,6 +141,8 @@ const LeadsTable = ({ leads, loading, onStatusChange, onRowClick }) => {
                     <i
                       className={`bi bi-chevron-${isExpanded ? 'up' : 'down'}`}
                       style={{ color: '#6A47ED' }}
+                      role="button"
+                      aria-label={isExpanded ? 'Collapse lead details' : 'Expand lead details'}
                     ></i>
                   </td>
                 </tr>
