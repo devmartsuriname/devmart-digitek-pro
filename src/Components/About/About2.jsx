@@ -4,16 +4,16 @@ const About2 = ({addclass}) => {
 
     const aboutContent = {  
         img:'/assets/img/about/01.jpg',  
-        subtitle:"About Company",
-        title:'Lets make something awesome together',
-        content:' We are not just another agency - we are your digital growth partners. With years of industry experience and a passion for innovation, our team is dedicated to delivering measurable results propel your business forward.',  
-        icon1:'bi bi-people', 
-        title2:'Analytics Reporting', 
-        content2:'Collaboratively formulate principle capital. Progressively evolve user', 
-        icon2:'bi bi-pie-chart', 
-        title3:'Data Guard Sentinel', 
-        content3:'Collaboratively formulate principle capital. Progressively evolve user', 
-      }  
+        subtitle:"About Devmart",
+        title:'Your Partner in Digital Innovation',
+        content:'Devmart Suriname is a leading digital marketing and web development agency committed to helping businesses succeed online. We combine creativity, technology, and strategy to deliver exceptional digital solutions. With years of industry experience and a passion for innovation, our team transforms ideas into powerful digital experiences that drive real results.',  
+        icon1:'bi bi-globe', 
+        title2:'Modern Technology', 
+        content2:'Latest tools and frameworks for cutting-edge solutions that keep you ahead of the competition', 
+        icon2:'bi bi-award', 
+        title3:'Proven Results', 
+        content3:'Data-driven approach with measurable outcomes and transparent reporting for your success', 
+      }
 
     return (
         <section className={addclass}>

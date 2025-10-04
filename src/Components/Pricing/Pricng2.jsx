@@ -11,10 +11,10 @@ const Pricng2 = () => {
                 <div className="section-title-area">
                     <div className="section-title">
                         <div className="sub-title bg-color-2 wow fadeInUp">
-                            <span>OUR PRICNG PLAN</span>
+                            <span>OUR PRICING PLANS</span>
                         </div>
                         <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                            Our awesome <br/> Pricing Plan
+                            Transparent Pricing for <br/> Every Business
                         </h2>
                     </div>
                     <div className="pricing-content">
@@ -40,58 +40,58 @@ const Pricng2 = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
                                     <PricingCard
                                         addclass="pricing-box-items"
-                                        title="Premium Plans"
-                                        price="$99"
-                                        month="Month"
+                                        title="Starter"
+                                        price="$1,000 - $3,000"
+                                        month="Project"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "5-page responsive website",
+                                            "Basic SEO setup",
+                                            "Contact form integration",
+                                            "Mobile optimization",
+                                            "1 month support included",
+                                            "Fast delivery (2-4 weeks)",
+                                            "Perfect for small businesses",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
                                     <PricingCard
                                         addclass="pricing-box-items style-2"
-                                        title="Extended Plan"
-                                        price="$149"
-                                        month="Month"
+                                        title="Professional"
+                                        price="$3,000 - $7,000"
+                                        month="Project"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "10-page responsive website",
+                                            "Advanced SEO optimization",
+                                            "Blog/CMS integration",
+                                            "E-commerce (up to 50 products)",
+                                            "Analytics setup & tracking",
+                                            "3 months support included",
+                                            "Ideal for growing businesses",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
                                 <PricingCard
                                         addclass="pricing-box-items"
-                                        title="Premium Plans"
-                                        price="$299"
-                                        month="Month"
+                                        title="Enterprise"
+                                        price="$7,000+"
+                                        month="Project"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "Custom web application",
+                                            "Advanced features & integrations",
+                                            "Dedicated project manager",
+                                            "Priority support 24/7",
+                                            "6 months support included",
+                                            "Ongoing maintenance available",
+                                            "Built for large organizations",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
                             </div>
                         </div>
@@ -101,59 +101,59 @@ const Pricng2 = () => {
                             <div className="col-xl-4 col-lg-6 col-md-6">
                                     <PricingCard
                                         addclass="pricing-box-items"
-                                        title="Premium Plans"
-                                        price="$299"
-                                        month="Month"
+                                        title="Starter"
+                                        price="$900 - $2,700"
+                                        month="Year"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "5-page responsive website",
+                                            "Basic SEO setup",
+                                            "Contact form integration",
+                                            "Mobile optimization",
+                                            "12 months support included",
+                                            "Quarterly updates",
+                                            "Save 10% vs monthly",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6">
                                      <PricingCard
                                         addclass="pricing-box-items style-2"
-                                        title="Extended Plan"
-                                        price="$149"
-                                        month="Month"
+                                        title="Professional"
+                                        price="$2,700 - $6,300"
+                                        month="Year"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "10-page responsive website",
+                                            "Advanced SEO optimization",
+                                            "Blog/CMS integration",
+                                            "E-commerce (up to 50 products)",
+                                            "Analytics & monthly reports",
+                                            "12 months support included",
+                                            "Save 10% vs monthly",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
                             </div>
                             <div className="col-xl-4 col-lg-6 col-md-6">
 
                             <PricingCard
                                         addclass="pricing-box-items"
-                                        title="Premium Plans"
-                                        price="$299"
-                                        month="Month"
+                                        title="Enterprise"
+                                        price="$6,300+"
+                                        month="Year"
                                         FeatureList={[
-                                            "100 GB SSD Storage",
-                                            "Weekly Backups",
-                                            "Unlimited Free SSL",
-                                            "24/7 system Monitoring",
-                                            "Free Domain ($9.99 value)",
-                                            "Dedicated IP Address",
-                                            "20+ Payment Methods",
+                                            "Custom web application",
+                                            "Advanced features & integrations",
+                                            "Dedicated project manager",
+                                            "Priority support 24/7",
+                                            "12 months premium support",
+                                            "Ongoing maintenance & updates",
+                                            "Save 10% vs monthly",
                                         ]}
-                                        btnurl="/pricing"
-                                        btnname="Get Started Now"
+                                        btnurl="/contact"
+                                        btnname="Get Started"
                                     ></PricingCard>
 
                             </div>
