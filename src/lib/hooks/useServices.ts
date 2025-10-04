@@ -102,3 +102,38 @@ export function useService(id: string) {
 
   return { service, loading, error };
 }
+
+/**
+ * Hook to fetch a single service by slug
+ */
+export function useServiceBySlug(slug: string | undefined) {
+  const [service, setService] = useState<Service | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchService = async () => {
+      try {
+        setLoading(true);
+        const repo = new SupabaseServiceRepository();
+        const data = await repo.findBySlug(slug);
+        setService(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch service');
+        setService(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchService();
+  }, [slug]);
+
+  return { service, loading, error };
+}

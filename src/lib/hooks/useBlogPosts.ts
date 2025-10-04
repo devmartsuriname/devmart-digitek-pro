@@ -91,3 +91,42 @@ export const useBlogPost = (id: string | undefined) => {
 
   return { blogPost, loading, error };
 };
+
+/**
+ * Hook to fetch a single blog post by slug and increment views
+ */
+export function useBlogPostBySlug(slug: string | undefined) {
+  const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchBlogPost = async () => {
+      try {
+        setLoading(true);
+        const data = await repository.findBySlug(slug);
+        setBlogPost(data);
+        setError(null);
+        
+        // Increment views
+        if (data?.id) {
+          await repository.incrementViews(data.id);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch blog post');
+        setBlogPost(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogPost();
+  }, [slug]);
+
+  return { blogPost, loading, error };
+}

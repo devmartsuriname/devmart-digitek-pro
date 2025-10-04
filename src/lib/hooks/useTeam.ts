@@ -88,3 +88,37 @@ export function useTeamMember(id: string | null) {
 
   return { teamMember, loading, error, refresh: loadTeamMember };
 }
+
+/**
+ * Hook to fetch a single team member by slug
+ */
+export function useTeamMemberBySlug(slug: string | undefined) {
+  const [teamMember, setTeamMember] = useState<TeamMember | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchTeamMember = async () => {
+      try {
+        setLoading(true);
+        const data = await teamRepo.findBySlug(slug);
+        setTeamMember(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch team member');
+        setTeamMember(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeamMember();
+  }, [slug]);
+
+  return { teamMember, loading, error };
+}

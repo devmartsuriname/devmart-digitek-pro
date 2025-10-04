@@ -22,6 +22,7 @@ const BlogRightSidebar = lazy(() => import("../Pages/BlogRightSidebar"));
 const BlogPage = lazy(() => import("../Pages/BlogPage"));
 const BlogDetailsPage = lazy(() => import("../Pages/BlogDetailsPage"));
 const AuthPage = lazy(() => import("../Pages/AuthPage"));
+const NotFound = lazy(() => import("../Pages/NotFound"));
 
 // Admin pages
 const Dashboard = lazy(() => import("../Pages/Admin/Dashboard"));
@@ -76,15 +77,15 @@ export const router = createBrowserRouter([
               element: <Suspense fallback={<PageSkeleton />}><ServicesPage /></Suspense>,
             }, 
             {
-              path: "/service/service-details",
+              path: "/services/:slug",
               element: <Suspense fallback={<PageSkeleton />}><ServiceDetailsPage /></Suspense>,
             }, 
             {
-              path: "/project",
+              path: "/portfolio",
               element: <Suspense fallback={<PageSkeleton />}><CaseStudyPage /></Suspense>,
             }, 
             {
-              path: "/project/project-details",
+              path: "/portfolio/:slug",
               element: <Suspense fallback={<PageSkeleton />}><CaseStudyDetailsPage /></Suspense>,
             },   
             {
@@ -96,9 +97,17 @@ export const router = createBrowserRouter([
               element: <Suspense fallback={<PageSkeleton />}><BlogPage /></Suspense>,
             }, 
             {
-              path: "/blog/blog-details",
+              path: "/blog/:slug",
               element: <Suspense fallback={<PageSkeleton />}><BlogDetailsPage /></Suspense>,
-            },                                                                             
+            },
+            {
+              path: "/team/:slug",
+              element: <Suspense fallback={<PageSkeleton />}><TeamDetailsPage /></Suspense>,
+            },
+            {
+              path: "*",
+              element: <Suspense fallback={<PageSkeleton />}><NotFound /></Suspense>,
+            },
           ],
         },
         {

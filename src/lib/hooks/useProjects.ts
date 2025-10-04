@@ -94,3 +94,38 @@ export function useProject(id: string) {
 
   return { project, loading, error };
 }
+
+/**
+ * Hook to fetch a single project by slug
+ */
+export function useProjectBySlug(slug: string | undefined) {
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!slug) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchProject = async () => {
+      try {
+        setLoading(true);
+        const repo = new SupabaseProjectRepository();
+        const data = await repo.findBySlug(slug);
+        setProject(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch project');
+        setProject(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [slug]);
+
+  return { project, loading, error };
+}
