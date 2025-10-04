@@ -78,6 +78,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
      - Ensured padding rules preserve visual design while meeting 44px minimum
    - **File:** `src/assets/main.css` (line 8260-8294)
 
+**Round 5 Fixes (Final Push to 95%+ - Heading Hierarchy & Touch Targets):**
+
+**Status: Accessibility 93% → Target 95%+ (2 remaining issues)**
+
+9. **Fixed Heading Hierarchy in Counter2 Component** ✅
+   - **Problem:** Counter numbers incorrectly used `<h2>` tags, causing heading order issue (H2 section title → H2 counter numbers)
+   - **Fix:**
+     - Changed counter number displays from `<h2>` to `<div class="counter-number">`
+     - Updated CSS selectors to style both `.counter-text h2` and `.counter-text .counter-number`
+     - Ensures sequential heading order throughout page: H1 → H2 → H3 (no skipped levels)
+   - **Files:** 
+     - `src/Components/Counter/Counter2.jsx` (lines 36-55)
+     - `src/assets/main.css` (lines 1527-1531, 1830-1834)
+
+10. **Final Touch Target Enhancements with Specific Selectors** ✅
+    - **Problem:** Generic selectors still being overridden by template CSS
+    - **Enhanced Fix:**
+      - Created highly specific selectors: `a.theme-btn`, `button.theme-btn`, `.main-button .theme-btn`, `.main-button .arrow-btn`
+      - Added explicit rules for icon-only buttons: `.case-studies-card-items a.icon`, `a[aria-label*="View"]`
+      - Separated link buttons from theme buttons for better control
+      - All interactive elements guaranteed to meet 44x44px minimum (WCAG 2.5.5)
+    - **File:** `src/assets/main.css` (lines 8261-8312)
+
 **Technical Notes:**
 - **React-slick timing:** Component needs 300ms to fully initialize DOM before accessibility hooks can run
 - **Template overrides:** Digtek template has very specific CSS that requires `!important` to override

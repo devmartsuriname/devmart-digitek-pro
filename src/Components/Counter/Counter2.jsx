@@ -35,21 +35,21 @@ const Counter2 = () => {
                         </div>
                         <div className="counter-box-area">
                             <div className="counter-text wow fadeInUp" data-wow-delay=".3s">
-                                <h2>
+                                <div className="counter-number">
                                     <span className="count">19.4</span>K
-                                </h2>
+                                </div>
                                 <p>Projects Done</p>
                             </div>
                             <div className="counter-text wow fadeInUp" data-wow-delay=".5s">
-                                <h2>
+                                <div className="counter-number">
                                     <span className="count">95.2</span>K
-                                </h2>
+                                </div>
                                 <p>Happy Clients</p>
                             </div>
                             <div className="counter-text wow fadeInUp" data-wow-delay=".7s">
-                                <h2>
+                                <div className="counter-number">
                                     <span className="count">142.6</span>K
-                                </h2>
+                                </div>
                                 <p>Team Members</p>
                             </div>
                         </div>
