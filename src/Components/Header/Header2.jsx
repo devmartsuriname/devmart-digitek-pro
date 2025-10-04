@@ -67,7 +67,14 @@ export default function Header2({ variant }) {
             <div className="cs_main_header_right">
               <div className="header-btn d-flex align-items-center">
 
-              <a onClick={() => setSearchToggle(!searchToggle)} className="search-trigger search-icon"><i className="bi bi-search"></i></a>
+              <button 
+                onClick={() => setSearchToggle(!searchToggle)} 
+                className="search-trigger search-icon"
+                aria-label="Toggle search"
+                aria-expanded={searchToggle}
+              >
+                <i className="bi bi-search"></i>
+              </button>
 
                 <div className="main-button main-btn-area2">
                 {!loading && !isAuthPage && (
@@ -96,13 +103,24 @@ export default function Header2({ variant }) {
       </div>
     </header>
 
-    <div className={`search-wrap ${searchToggle ? 'active' : ''}`} >
+    <div className={`search-wrap ${searchToggle ? 'active' : ''}`} role="dialog" aria-label="Search dialog" aria-modal={searchToggle}>
             <div className="search-inner">
-                <i onClick={() => setSearchToggle(!searchToggle)} className="bi bi-x-lg search-close" id="search-close"></i>
+                <button 
+                  onClick={() => setSearchToggle(!searchToggle)} 
+                  className="bi bi-x-lg search-close" 
+                  id="search-close"
+                  aria-label="Close search"
+                  style={{ background: 'transparent', border: 'none', cursor: 'pointer' }}
+                ></button>
                 <div className="search-cell">
-                    <form method="get">
+                    <form method="get" role="search">
                         <div className="search-field-holder">
-                            <input type="search" className="main-search-input" placeholder="Search..." />
+                            <input 
+                              type="search" 
+                              className="main-search-input" 
+                              placeholder="Search..." 
+                              aria-label="Search"
+                            />
                         </div>
                     </form>
                 </div>

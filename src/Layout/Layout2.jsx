@@ -5,8 +5,14 @@ import Footer2 from '../Components/Footer/Footer2';
 const Layout2 = () => {
     return (
         <div className='main-page-area2'>
+            {/* Skip to main content link for accessibility */}
+            <a href="#main-content" className="skip-link">
+                Skip to main content
+            </a>
             <Header2></Header2>
-            <Outlet></Outlet>
+            <main id="main-content" role="main">
+                <Outlet></Outlet>
+            </main>
             <Footer2></Footer2>
         </div>
     );

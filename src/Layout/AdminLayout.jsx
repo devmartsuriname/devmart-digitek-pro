@@ -27,9 +27,15 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-layout d-flex flex-column" style={{ minHeight: '100vh', background: '#17012C' }}>
+      {/* Skip to main content link for accessibility */}
+      <a href="#admin-main-content" className="skip-link">
+        Skip to main content
+      </a>
+      
       {/* Admin Header */}
       <header
         className="admin-header"
+        role="banner"
         style={{
           background: '#17012C',
           borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
@@ -83,7 +89,7 @@ export default function AdminLayout() {
         <AdminSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
         {/* Main Content Area */}
-        <main className="flex-grow-1" style={{ padding: '3rem 1.5rem', overflowX: 'hidden' }}>
+        <main id="admin-main-content" className="flex-grow-1" style={{ padding: '3rem 1.5rem', overflowX: 'hidden' }} role="main">
           <div className="container-fluid">
             <Outlet />
           </div>

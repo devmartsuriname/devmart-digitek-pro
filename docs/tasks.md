@@ -344,14 +344,18 @@
 - [ ] Update `/docs/changelog.md`
 
 ### 5.2 Accessibility (WCAG 2.1 AA)
-- [ ] Test keyboard navigation
-- [ ] Add ARIA labels for interactive elements
+- [x] Add skip to content links (both layouts)
+- [x] Add ARIA labels for interactive elements (search, buttons, navigation)
+- [x] Add focus indicators (custom styles with theme colors)
+- [x] Add landmark roles (main, banner, navigation, dialog, search)
+- [x] Implement reduced motion support
+- [x] Convert interactive elements to proper semantic HTML (button vs a)
+- [ ] Test keyboard navigation (focus traps in modals, tab order)
+- [ ] Complete ARIA implementation (aria-describedby, aria-live)
 - [ ] Check color contrast (≥4.5:1 for all text)
-- [ ] Add focus indicators
-- [ ] Test with screen reader
-- [ ] Add skip to content link
-- [ ] Run accessibility audit
-- [ ] Update `/docs/changelog.md`
+- [ ] Test with screen reader (NVDA/VoiceOver)
+- [ ] Run accessibility audit (Lighthouse + axe DevTools)
+- [x] Update `/docs/changelog.md`
 
 ### 5.3 Analytics & Events
 - [ ] Add Plausible analytics script

@@ -61,8 +61,8 @@ export default function AdminSidebar({ isOpen, onClose }) {
         </div>
 
         {/* Navigation */}
-        <nav className="p-3">
-          <ul className="list-unstyled mb-0">
+        <nav className="p-3" role="navigation" aria-label="Admin navigation">
+          <ul className="list-unstyled mb-0" role="list">
             {navItems.map((item) => (
               <li key={item.path} className="mb-2">
                 <NavLink
