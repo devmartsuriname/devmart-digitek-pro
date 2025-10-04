@@ -417,6 +417,389 @@ USING (has_role(auth.uid(), 'viewer'));
 
 ---
 
+## Frontend Database Integration (Phase 2.5)
+
+### Dynamic Data Flow Architecture
+
+```mermaid
+graph TD
+    A[Public Frontend Pages] --> B{Page Type}
+    
+    B -->|List Pages| C[Services3, CaseStudy4, Blog4, Team3, Faq1]
+    B -->|Detail Pages| D[ServiceDetails, CaseStudyDetails, BlogDetails, TeamDetails]
+    
+    C --> E[useServices Hook]
+    C --> F[useProjects Hook]
+    C --> G[useBlogPosts Hook]
+    C --> H[useTeam Hook]
+    C --> I[useFAQs Hook]
+    
+    D --> J[useServiceBySlug Hook]
+    D --> K[useProjectBySlug Hook]
+    D --> L[useBlogPostBySlug Hook]
+    D --> M[useTeamMemberBySlug Hook]
+    
+    E & F & G & H & I --> N[Supabase Repositories]
+    J & K & L & M --> N
+    
+    N --> O[(Database Tables)]
+    O --> P[RLS Policies]
+    P --> Q{Filter Published}
+    Q -->|Published| R[Return to Frontend]
+    Q -->|Draft/Unpublished| S[Access Denied]
+```
+
+### Component Data Flow
+
+#### List Pages (All Items)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      Public List Page                            │
+│  (Services3, CaseStudy4, Blog4, Team3, Faq1)                    │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                      Custom Hook                                 │
+│  useServices({ status: 'published' })                           │
+│  useProjects({ status: 'published' })                           │
+│  useBlogPosts({ status: 'published' })                          │
+│  useTeam()                                                       │
+│  useFAQs()                                                       │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                   Supabase Repository                            │
+│  SupabaseServiceRepository.getAll()                             │
+│  SupabaseProjectRepository.getAll()                             │
+│  SupabaseBlogRepository.getAll()                                │
+│  SupabaseTeamRepository.getAll()                                │
+│  SupabaseFAQRepository.getAll()                                 │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Supabase RLS Filter                           │
+│  WHERE status = 'published' (services, projects, blog_posts)    │
+│  No filter (team, faqs - always public)                         │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    Component Rendering                           │
+│  - Display loading skeleton (LoadingSkeleton)                   │
+│  - Display error message (toast notification)                   │
+│  - Display empty state ("No items found")                       │
+│  - Display data cards/list items                                │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+#### Detail Pages (Single Item by Slug)
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Detail Page Route                             │
+│  /services/:slug                                                 │
+│  /portfolio/:slug                                                │
+│  /blog/:slug                                                     │
+│  /team/:slug                                                     │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│               Extract Slug from URL Params                       │
+│  const { slug } = useParams();                                  │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                   Single-Item Hook                               │
+│  useServiceBySlug(slug)                                         │
+│  useProjectBySlug(slug)                                         │
+│  useBlogPostBySlug(slug) → + increment views                    │
+│  useTeamMemberBySlug(slug)                                      │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│              Repository getBySlug Method                         │
+│  SELECT * FROM table WHERE slug = ? AND status = 'published'    │
+│  (No status filter for team table)                              │
+└─────────────────────────────────────────────────────────────────┘
+                                ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                   Result Handling                                │
+│  ✅ Found → Display full content                                │
+│  ❌ Not Found → Redirect to /404                                │
+│  ⏳ Loading → Display skeleton loader                           │
+│  ⚠️ Error → Display error message                               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Hook Implementation Patterns
+
+#### List Hook Pattern
+
+```typescript
+// src/lib/hooks/useServices.ts
+export const useServices = (filters = {}) => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        setLoading(true);
+        const repository = new SupabaseServiceRepository();
+        const data = await repository.getAll(filters);
+        setServices(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        toast.error('Failed to load services');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, [JSON.stringify(filters)]);
+
+  return { services, loading, error };
+};
+```
+
+#### Single-Item Hook Pattern
+
+```typescript
+// src/lib/hooks/useServices.ts
+export const useServiceBySlug = (slug) => {
+  const [service, setService] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!slug) return;
+
+    const fetchService = async () => {
+      try {
+        setLoading(true);
+        const repository = new SupabaseServiceRepository();
+        const data = await repository.getBySlug(slug);
+        setService(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+        setService(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchService();
+  }, [slug]);
+
+  return { service, loading, error };
+};
+```
+
+### Component Implementation Patterns
+
+#### List Component Pattern
+
+```jsx
+// src/Components/Services/Services3.jsx
+export default function Services3() {
+  const { services, loading, error } = useServices({ status: 'published' });
+
+  if (loading) return <LoadingSkeleton />;
+  if (error) return <div>Error loading services</div>;
+  if (!services.length) return <div>No services found</div>;
+
+  return (
+    <div className="service-area">
+      {services.map((service) => (
+        <Link key={service.id} to={`/services/${service.slug}`}>
+          <ServiceCard service={service} />
+        </Link>
+      ))}
+    </div>
+  );
+}
+```
+
+#### Detail Component Pattern
+
+```jsx
+// src/Components/ServiceDetails/ServiceDetails.jsx
+import { useParams, Navigate } from 'react-router-dom';
+
+export default function ServiceDetails() {
+  const { slug } = useParams();
+  const { service, loading, error } = useServiceBySlug(slug);
+
+  if (loading) return <LoadingSkeleton />;
+  if (error || !service) return <Navigate to="/404" replace />;
+
+  return (
+    <div className="service-details">
+      <h1>{service.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: service.body }} />
+    </div>
+  );
+}
+```
+
+### State Management
+
+#### Loading States
+
+```jsx
+// All list pages display skeleton loaders
+{loading && <LoadingSkeleton count={6} />}
+
+// All detail pages display content skeleton
+{loading && (
+  <div className="skeleton-wrapper">
+    <div className="skeleton-title"></div>
+    <div className="skeleton-content"></div>
+  </div>
+)}
+```
+
+#### Empty States
+
+```jsx
+// List pages with no results
+{!loading && items.length === 0 && (
+  <div className="empty-state">
+    <p>No items found</p>
+    <Link to="/contact">Contact us for more information</Link>
+  </div>
+)}
+```
+
+#### Error States
+
+```jsx
+// Error handling with toast notifications
+if (error) {
+  toast.error('Failed to load data. Please try again.');
+}
+
+// Network error fallback
+{error && (
+  <div className="error-state">
+    <p>Something went wrong. Please refresh the page.</p>
+  </div>
+)}
+```
+
+#### 404 Handling
+
+```jsx
+// Detail pages redirect to 404 for invalid slugs
+import { Navigate } from 'react-router-dom';
+
+if (!item && !loading) {
+  return <Navigate to="/404" replace />;
+}
+
+// Custom 404 page
+// src/Pages/NotFound.jsx
+export default function NotFound() {
+  return (
+    <div className="error-page">
+      <h1>404 - Page Not Found</h1>
+      <Link to="/">Go Home</Link>
+    </div>
+  );
+}
+```
+
+### URL Structure
+
+```
+Public Pages:
+├── / (Home)
+├── /about
+├── /services (list)
+│   └── /services/:slug (detail)
+├── /portfolio (list)
+│   └── /portfolio/:slug (detail)
+├── /blog (list)
+│   └── /blog/:slug (detail)
+├── /team (list)
+│   └── /team/:slug (detail)
+├── /faq
+├── /pricing
+├── /contact
+└── /404 (catch-all)
+
+Admin Pages:
+└── /admin/*
+    ├── /dashboard
+    ├── /services
+    ├── /projects
+    ├── /blog
+    ├── /team
+    ├── /faq
+    ├── /media
+    ├── /leads
+    └── /settings
+```
+
+### RLS Policy Configuration
+
+```sql
+-- Services: Only published visible to public
+CREATE POLICY "Anyone can view published services"
+ON services FOR SELECT
+USING (status = 'published');
+
+-- Projects: Only published visible to public
+CREATE POLICY "Anyone can view published projects"
+ON projects FOR SELECT
+USING (status = 'published');
+
+-- Blog Posts: Only published visible to public
+CREATE POLICY "Anyone can view published blog posts"
+ON blog_posts FOR SELECT
+USING (status = 'published');
+
+-- Team: All members always public
+CREATE POLICY "Anyone can view team members"
+ON team FOR SELECT
+USING (true);
+
+-- FAQs: All FAQs always public
+CREATE POLICY "Anyone can view FAQs"
+ON faqs FOR SELECT
+USING (true);
+
+-- Settings: Site config always public
+CREATE POLICY "Anyone can view settings"
+ON settings FOR SELECT
+USING (true);
+```
+
+### Performance Optimizations
+
+1. **Query Optimization**: Only fetch published content for public pages
+2. **Field Selection**: Select only required fields (not all columns)
+3. **Pagination**: Implement `limit` and `offset` in repository methods
+4. **Caching**: React Query or SWR for data caching (future enhancement)
+5. **Lazy Loading**: Use React.lazy() for route-level code splitting
+
+### Future Enhancements
+
+1. **Search Functionality**: Full-text search across all content types
+2. **Filtering**: Client-side or server-side filtering by tags, categories
+3. **Sorting**: User-controlled sorting (date, title, popularity)
+4. **Related Content**: Algorithm to suggest related items
+5. **Breadcrumbs**: Dynamic breadcrumb generation for navigation
+6. **Social Sharing**: Share buttons with Open Graph meta tags
+7. **Reading Progress**: Progress bar for blog posts
+8. **View Tracking**: Analytics for popular content
+
+---
+
 ## FAQ Module
 
 ### Data Flow
