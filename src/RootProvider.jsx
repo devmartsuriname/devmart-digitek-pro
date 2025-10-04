@@ -1,18 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, useToasterStore } from 'react-hot-toast';
 import { AuthProvider } from './lib/contexts/AuthContext';
 import { loadAnalytics } from './lib/utils/loadAnalytics';
 
 export default function RootProvider() {
+  const [liveMessage, setLiveMessage] = useState('');
+  const { toasts } = useToasterStore();
+
   useEffect(() => {
     // Load analytics script after initial render (deferred 2s)
     const timer = setTimeout(() => loadAnalytics(), 2000);
     return () => clearTimeout(timer);
   }, []);
 
+  // Announce toasts to screen readers via aria-live region
+  useEffect(() => {
+    const latestToast = toasts[toasts.length - 1];
+    if (latestToast && latestToast.message) {
+      const message = typeof latestToast.message === 'string' 
+        ? latestToast.message 
+        : latestToast.message?.props?.children || '';
+      setLiveMessage(message);
+      
+      // Clear message after announcement to allow re-announcements
+      const clearTimer = setTimeout(() => setLiveMessage(''), 1000);
+      return () => clearTimeout(clearTimer);
+    }
+  }, [toasts]);
+
   return (
     <AuthProvider>
+      {/* Visually hidden aria-live region for screen reader announcements */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="visually-hidden"
+      >
+        {liveMessage}
+      </div>
+      
       <Toaster
         position="top-right"
         toastOptions={{
