@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useFAQs } from "@/lib/hooks/useFAQ";
-import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const Faq1 = ({addclass}) => {
     const { faqs, loading, error } = useFAQs();
@@ -27,12 +26,17 @@ const Faq1 = ({addclass}) => {
         return (
             <section className={addclass}>
                 <div className="container">
-                    <div className="row g-4">
-                        {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="col-12">
-                                <LoadingSkeleton />
-                            </div>
-                        ))}
+                    <div className="faq-wrapper">
+                        <div className="row g-4">
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className="col-lg-12">
+                                    <div className="faq-items placeholder-glow">
+                                        <div className="placeholder col-10 mb-2" style={{ height: '24px' }}></div>
+                                        <div className="placeholder col-12"></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

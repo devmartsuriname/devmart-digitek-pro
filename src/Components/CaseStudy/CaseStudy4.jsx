@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useProjects } from "@/lib/hooks/useProjects";
-import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const CaseStudy4 = () => {
     const { projects, loading, error } = useProjects({ status: 'published' });
@@ -12,7 +11,17 @@ const CaseStudy4 = () => {
                     <div className="row g-4">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
                             <div key={i} className="col-xl-6 col-lg-6 col-md-6">
-                                <LoadingSkeleton />
+                                <div className="case-studies-card-items mt-0">
+                                    <div className="thumb placeholder-glow">
+                                        <div className="placeholder w-100" style={{ height: '300px' }}></div>
+                                    </div>
+                                    <div className="content">
+                                        <div className="placeholder-glow">
+                                            <div className="placeholder col-10 mb-2"></div>
+                                            <div className="placeholder col-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>

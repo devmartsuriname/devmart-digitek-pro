@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
-import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const Blog4 = () => {
     const { blogPosts, loading, error } = useBlogPosts({ status: 'published' });
@@ -12,7 +11,18 @@ const Blog4 = () => {
                     <div className="row g-4">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
                             <div key={i} className="col-xl-4 col-lg-6 col-md-6">
-                                <LoadingSkeleton />
+                                <div className="news-card-items">
+                                    <div className="news-image placeholder-glow">
+                                        <div className="placeholder w-100" style={{ height: '250px' }}></div>
+                                    </div>
+                                    <div className="news-content">
+                                        <div className="placeholder-glow">
+                                            <div className="placeholder col-4 mb-2"></div>
+                                            <div className="placeholder col-10 mb-2"></div>
+                                            <div className="placeholder col-8"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>

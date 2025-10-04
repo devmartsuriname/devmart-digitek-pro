@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useServices } from "@/lib/hooks/useServices";
-import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const Services3 = () => {
     const { services, loading, error } = useServices({ status: 'published' });
@@ -12,7 +11,14 @@ const Services3 = () => {
                     <div className="row g-4">
                         {[1, 2, 3, 4, 5, 6].map((i) => (
                             <div key={i} className="col-xl-4 col-lg-6 col-md-6">
-                                <LoadingSkeleton />
+                                <div className="service-card-items">
+                                    <div className="placeholder-glow">
+                                        <div className="placeholder col-12 mb-3" style={{ height: '80px' }}></div>
+                                        <div className="placeholder col-10 mb-2"></div>
+                                        <div className="placeholder col-12"></div>
+                                        <div className="placeholder col-8"></div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>

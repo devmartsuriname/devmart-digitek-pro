@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useTeamMembers } from "@/lib/hooks/useTeam";
-import LoadingSkeleton from "@/Components/Common/LoadingSkeleton";
 
 const Team3 = () => {
     const { teamMembers, loading, error } = useTeamMembers();
@@ -12,7 +11,17 @@ const Team3 = () => {
                     <div className="row g-4">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                             <div key={i} className="col-xl-3 col-lg-4 col-md-6">
-                                <LoadingSkeleton />
+                                <div className="team-card-items mt-0">
+                                    <div className="team-image placeholder-glow">
+                                        <div className="placeholder w-100" style={{ height: '300px' }}></div>
+                                    </div>
+                                    <div className="team-content">
+                                        <div className="placeholder-glow">
+                                            <div className="placeholder col-8 mb-2"></div>
+                                            <div className="placeholder col-6"></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
