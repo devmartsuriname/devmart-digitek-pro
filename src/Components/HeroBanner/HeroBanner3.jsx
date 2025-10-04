@@ -13,7 +13,7 @@ const HeroBanner3 = () => {
         const heroContent = {
             bg:'/assets/img/hero/hero-bg-3.jpg',  
             subtitle:"Excellence in Digital Innovation",
-            title:'Transform Your <span>Digital Presence</span> <br/> With Devmart Suriname',
+            title:'Transform Your <span>Digital Presence</span>',
             content:'At Devmart, we combine creativity and technology to accelerate your growth. From websites to graphic design and app development – we make technology accessible, innovative and effective.',
             img:'/assets/img/hero/hero-image-3.png',     
             btnname:'GET STARTED',             
