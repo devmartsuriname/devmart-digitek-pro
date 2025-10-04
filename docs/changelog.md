@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### 🔧 Critical Bug Fix - Router Architecture - 2025-01-04
+
+**Issue:** "Failed To Fetch Dynamically Imported Module" error on all pages except homepage in live preview
+- **Root Cause:** Duplicate `RouterProvider` instances - one in `main.jsx` bypassing `App.jsx`, causing incorrect module chunking
+- **Impact:** All lazy-loaded pages (About, Services, Blog, etc.) failed to load in production/live preview
+- **Fix:**
+  1. Removed duplicate `RouterProvider` from `main.jsx`
+  2. Updated `main.jsx` to properly render `App.jsx` as entry point
+  3. Added manual chunk configuration in `vite.config.js` for proper code splitting
+  4. Ensured single `AuthProvider` and `RouterProvider` instance across the app
+- **Files Modified:**
+  - `src/main.jsx`: Import and render `App` component instead of direct `RouterProvider`
+  - `vite.config.js`: Added `build.rollupOptions.output.manualChunks` for vendor splitting
+- **Result:** All pages now load correctly in both editor and live preview, proper dynamic import resolution
+
 ### 🚀 Phase 3.3 - Accessibility Audit Results & Fixes - 2025-01-04
 
 **Lighthouse & axe DevTools Scan Results (Round 1):**
