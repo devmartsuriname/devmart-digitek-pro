@@ -40,6 +40,8 @@ const Testimonial3 = () => {
 
     return (
         <section className="testimonial-section-3 section-padding pt-0">
+            {/* Visually hidden heading for accessibility - maintains proper heading hierarchy */}
+            <h2 className="visually-hidden">Client Testimonials</h2>
             <div className="overlay-shape">
                 <img src="/assets/img/testimonial/overlay-shape.png" alt="img" loading="lazy" />
             </div>
@@ -84,7 +86,7 @@ const Testimonial3 = () => {
                                             <img src={item.img} alt="img" loading="lazy" />
                                         </div>
                                         <div className="content">
-                                            <h4>{item.title}</h4>
+                                            <h3>{item.title}</h3>
                                             <span>{item.subtitle}</span>
                                         </div>
                                     </div>

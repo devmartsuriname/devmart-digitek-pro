@@ -20,9 +20,9 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
   const slidesToShow = settings?.slidesToShow || 1;
   const sliderRef = useRef(null);
   
-  // Fix accessibility: Prevent tab focus on hidden slides
+  // Fix accessibility: Prevent tab focus on hidden slides using MutationObserver
   useEffect(() => {
-    const handleSlideChange = () => {
+    const updateFocusableElements = () => {
       const slider = sliderRef.current;
       if (!slider) return;
       
@@ -42,11 +42,19 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
         
         focusableElements.forEach(el => {
           if (isHidden) {
+            // Store original tabindex if it exists
+            if (!el.hasAttribute('data-original-tabindex') && el.hasAttribute('tabindex')) {
+              el.setAttribute('data-original-tabindex', el.getAttribute('tabindex'));
+            }
             el.setAttribute('tabindex', '-1');
             el.setAttribute('aria-hidden', 'true');
           } else {
-            // Only remove tabindex if we added it (don't affect intentional tabindex)
-            if (el.getAttribute('tabindex') === '-1') {
+            // Restore original tabindex or remove it
+            const originalTabindex = el.getAttribute('data-original-tabindex');
+            if (originalTabindex) {
+              el.setAttribute('tabindex', originalTabindex);
+              el.removeAttribute('data-original-tabindex');
+            } else {
               el.removeAttribute('tabindex');
             }
             el.removeAttribute('aria-hidden');
@@ -55,15 +63,44 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       });
     };
     
-    // Run after mount with enough delay for react-slick to initialize
-    const timer = setTimeout(handleSlideChange, 300);
+    // Initial setup with delay for react-slick to initialize
+    const initTimer = setTimeout(updateFocusableElements, 100);
     
-    // Listen for slide changes more frequently
-    const interval = setInterval(handleSlideChange, 200);
+    // Set up MutationObserver to watch for DOM changes
+    let observer;
+    const setupObserver = () => {
+      const slider = sliderRef.current;
+      if (!slider) return;
+      
+      const sliderElement = slider.innerSlider?.list || document.querySelector('.slick-list');
+      if (!sliderElement) return;
+      
+      observer = new MutationObserver(() => {
+        updateFocusableElements();
+      });
+      
+      // Watch for attribute changes on slides (aria-hidden)
+      observer.observe(sliderElement, {
+        attributes: true,
+        attributeFilter: ['aria-hidden', 'class'],
+        subtree: true,
+        childList: true
+      });
+    };
+    
+    const observerTimer = setTimeout(setupObserver, 150);
+    
+    // Also run on resize and slide change events
+    const handleResize = () => updateFocusableElements();
+    window.addEventListener('resize', handleResize);
     
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
+      clearTimeout(initTimer);
+      clearTimeout(observerTimer);
+      window.removeEventListener('resize', handleResize);
+      if (observer) {
+        observer.disconnect();
+      }
     };
   }, [children]);
   

@@ -33,11 +33,13 @@
   line-height: 1;
   padding: 19.5px 35px;
   border-radius: 30px;
+  min-height: 48px;
 }
 @media (max-width: 575px) {
   .main-button .theme-btn {
     padding: 18px 30px;
     font-size: 14px;
+    min-height: 48px;
   }
 }
 .main-button .arrow-btn {
@@ -65,6 +67,12 @@
   font-weight: 500;
   text-transform: uppercase;
   display: inline-block;
+  min-height: 48px;
+  min-width: 48px;
+  padding: 14px 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .link-btn i {
   margin-left: 10px;
@@ -8260,14 +8268,14 @@ select:focus-visible {
   }
 }
 
-/* Accessibility: Touch target size ≥44x44px (WCAG 2.5.5 AAA) */
-/* Apply to all button-like interactive elements with specific selectors */
+/* Accessibility: Touch target size ≥48x48px (WCAG 2.5.5 Level AAA, 2.5.8 Level AA minimum) */
+/* Apply to all interactive elements */
 
 /* Link buttons */
 a.link-btn, 
 a.service-btn {
-  min-height: 44px !important;
-  padding: 12px 24px !important;
+  min-height: 48px !important;
+  padding: 14px 24px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -8275,11 +8283,9 @@ a.service-btn {
 
 /* Theme buttons */
 a.theme-btn,
-button.theme-btn,
-.main-button .theme-btn {
-  min-height: 44px !important;
-  min-width: 44px !important;
-  padding: 12px 24px !important;
+.theme-btn {
+  min-height: 48px !important;
+  padding: 18px 30px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -8293,24 +8299,68 @@ a.icon,
 .circle-button,
 a[aria-label*="View"],
 a[aria-label*="view"] {
-  min-height: 44px !important;
-  min-width: 44px !important;
+  min-height: 48px !important;
+  min-width: 48px !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
 /* Form buttons */
-button:not(.navbar-toggler):not(.close):not(.btn-close),
+button:not(.navbar-toggler):not(.close):not(.btn-close):not(.slick-arrow),
 button[type="submit"],
-button[type="button"] {
-  min-height: 44px !important;
+button[type="button"]:not(.slick-arrow) {
+  min-height: 48px !important;
 }
 
 /* Video and scroll icons */
 .scroll-icon,
 .video-icon,
-.video-popup {
-  min-height: 44px !important;
-  min-width: 44px !important;
+.video-popup,
+a.video-icon,
+a.video-popup {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Navigation links */
+.header-section nav a,
+.main-menu li a {
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 14px 16px !important;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 767px) {
+  a.link-btn, 
+  a.service-btn,
+  a.theme-btn,
+  .theme-btn {
+    min-height: 48px !important;
+    padding: 14px 20px !important;
+  }
+  
+  .video-icon,
+  .video-popup {
+    min-height: 48px !important;
+    min-width: 48px !important;
+  }
+}
+
+/* Visually hidden class for accessibility */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
 }
