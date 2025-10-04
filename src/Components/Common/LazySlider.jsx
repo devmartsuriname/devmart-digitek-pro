@@ -2,6 +2,15 @@ import { lazy, Suspense, forwardRef, useEffect, useRef } from 'react';
 
 const Slider = lazy(() => import('react-slick'));
 
+// Debounce utility to prevent rapid-fire updates
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
 const SliderSkeleton = ({ slidesToShow = 3, className = '' }) => {
   return (
     <div className={`d-flex gap-3 ${className}`}>
@@ -20,51 +29,67 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
   const slidesToShow = settings?.slidesToShow || 1;
   const sliderRef = useRef(null);
   
-  // Fix accessibility: Prevent tab focus on hidden slides using MutationObserver
+  // Fix accessibility: Prevent tab focus on hidden slides using optimized MutationObserver
   useEffect(() => {
+    let isUpdating = false; // Prevent concurrent updates
+    
     const updateFocusableElements = () => {
-      const slider = sliderRef.current;
-      if (!slider) return;
+      // Safeguard: prevent concurrent updates
+      if (isUpdating) return;
       
-      // Get the actual slider DOM element - react-slick wraps everything
-      const sliderElement = slider.innerSlider?.list || document.querySelector('.slick-list');
-      if (!sliderElement) return;
-      
-      // Get all slides including cloned ones
-      const slides = sliderElement.querySelectorAll('.slick-slide');
-      if (!slides || slides.length === 0) return;
-      
-      slides.forEach(slide => {
-        const isHidden = slide.getAttribute('aria-hidden') === 'true';
-        const focusableElements = slide.querySelectorAll(
-          'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-        );
+      try {
+        isUpdating = true;
         
-        focusableElements.forEach(el => {
-          if (isHidden) {
-            // Store original tabindex if it exists
-            if (!el.hasAttribute('data-original-tabindex') && el.hasAttribute('tabindex')) {
-              el.setAttribute('data-original-tabindex', el.getAttribute('tabindex'));
-            }
-            el.setAttribute('tabindex', '-1');
-            el.setAttribute('aria-hidden', 'true');
-          } else {
-            // Restore original tabindex or remove it
-            const originalTabindex = el.getAttribute('data-original-tabindex');
-            if (originalTabindex) {
-              el.setAttribute('tabindex', originalTabindex);
-              el.removeAttribute('data-original-tabindex');
+        const slider = sliderRef.current;
+        if (!slider) return;
+        
+        // Get the actual slider DOM element - react-slick wraps everything
+        const sliderElement = slider.innerSlider?.list || document.querySelector('.slick-list');
+        if (!sliderElement) return;
+        
+        // Get all slides including cloned ones
+        const slides = sliderElement.querySelectorAll('.slick-slide');
+        if (!slides || slides.length === 0) return;
+        
+        slides.forEach(slide => {
+          const isHidden = slide.getAttribute('aria-hidden') === 'true';
+          const focusableElements = slide.querySelectorAll(
+            'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+          );
+          
+          focusableElements.forEach(el => {
+            if (isHidden) {
+              // Store original tabindex if it exists
+              if (!el.hasAttribute('data-original-tabindex') && el.hasAttribute('tabindex')) {
+                el.setAttribute('data-original-tabindex', el.getAttribute('tabindex'));
+              }
+              el.setAttribute('tabindex', '-1');
+              el.setAttribute('aria-hidden', 'true');
             } else {
-              el.removeAttribute('tabindex');
+              // Restore original tabindex or remove it
+              const originalTabindex = el.getAttribute('data-original-tabindex');
+              if (originalTabindex) {
+                el.setAttribute('tabindex', originalTabindex);
+                el.removeAttribute('data-original-tabindex');
+              } else {
+                el.removeAttribute('tabindex');
+              }
+              el.removeAttribute('aria-hidden');
             }
-            el.removeAttribute('aria-hidden');
-          }
+          });
         });
-      });
+      } catch (error) {
+        console.error('LazySlider accessibility update error:', error);
+      } finally {
+        isUpdating = false;
+      }
     };
     
+    // Debounced version to prevent rapid-fire updates
+    const debouncedUpdate = debounce(updateFocusableElements, 100);
+    
     // Initial setup with delay for react-slick to initialize
-    const initTimer = setTimeout(updateFocusableElements, 100);
+    const initTimer = setTimeout(updateFocusableElements, 150);
     
     // Set up MutationObserver to watch for DOM changes
     let observer;
@@ -75,23 +100,30 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
       const sliderElement = slider.innerSlider?.list || document.querySelector('.slick-list');
       if (!sliderElement) return;
       
-      observer = new MutationObserver(() => {
-        updateFocusableElements();
+      observer = new MutationObserver((mutations) => {
+        // Only react to aria-hidden changes to reduce processing
+        const hasAriaChange = mutations.some(
+          mutation => mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden'
+        );
+        
+        if (hasAriaChange) {
+          debouncedUpdate();
+        }
       });
       
-      // Watch for attribute changes on slides (aria-hidden)
+      // Optimized observer config - only watch aria-hidden attribute
       observer.observe(sliderElement, {
         attributes: true,
-        attributeFilter: ['aria-hidden', 'class'],
-        subtree: true,
-        childList: true
+        attributeFilter: ['aria-hidden'], // ONLY watch aria-hidden, not class or other attributes
+        subtree: true, // Still need to watch children slides
+        childList: false // Don't watch for added/removed nodes
       });
     };
     
-    const observerTimer = setTimeout(setupObserver, 150);
+    const observerTimer = setTimeout(setupObserver, 200);
     
-    // Also run on resize and slide change events
-    const handleResize = () => updateFocusableElements();
+    // Debounced resize handler
+    const handleResize = debounce(updateFocusableElements, 250);
     window.addEventListener('resize', handleResize);
     
     return () => {
