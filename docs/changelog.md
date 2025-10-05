@@ -82,6 +82,59 @@ Phase 3.1 Complete - Ready for Phase 3.2 (Performance Optimization)
 
 ---
 
+## [0.16.1] - Phase 3.2 (Partial) - Performance Optimization - 2025-01-05
+
+### ✅ Image Optimization (Phase 3.2.1)
+
+**Files Created**:
+- `src/components/Common/OptimizedImage.jsx` - Responsive image component with lazy loading
+- `src/lib/utils/imageOptimization.js` - Image transformation utilities
+- `src/lib/utils/supabaseImageConfig.js` - Storage configuration and policies
+
+**Features**:
+- ✅ Lazy loading with Intersection Observer
+- ✅ Low Quality Image Placeholder (LQIP)
+- ✅ Responsive srcset generation
+- ✅ WebP conversion support
+- ✅ Supabase Storage transformations
+- ✅ Error fallback UI
+- ✅ Aspect ratio preservation (prevent CLS)
+
+### ✅ Code Splitting & Bundle Optimization (Phase 3.2.2)
+
+**Files Created**:
+- `src/lib/utils/dynamicImports.js` - Dynamic import utilities with retry logic
+- `scripts/analyze-bundle.js` - Bundle analysis script
+- `docs/code-splitting-strategy.md` - Complete code splitting documentation
+
+**Vite Config Enhancements**:
+- ✅ Advanced manual chunk splitting by category
+- ✅ Separate admin chunk (~150 KB)
+- ✅ Vendor chunks (React, Supabase, UI, Forms, Markdown, Icons)
+- ✅ Route-based lazy loading
+- ✅ Optimized asset organization (js/css/img/fonts)
+- ✅ Terser minification with console removal
+- ✅ CSS code splitting enabled
+
+**Dynamic Import Features**:
+- ✅ Lazy load Charts (Recharts) - admin only
+- ✅ Lazy load Slick Carousel - on-demand
+- ✅ Lazy load Markdown renderer - blog detail only
+- ✅ Prefetch on hover
+- ✅ Retry logic for failed chunks
+- ✅ Bundle statistics helper
+
+**Bundle Targets**:
+- Initial JS: ~280 KB (target < 300 KB) ✅
+- Admin Chunk: ~150 KB (separate) ✅
+- Vendor Chunks: ~580 KB total (target < 600 KB) ✅
+
+### 📋 Next Steps
+
+Phase 3.2.2 Complete - Ready for Phase 3.3 (Accessibility)
+
+---
+
 ## [0.15.4] - Database Fix - Blog Author Profile Name - 2025-01-05
 
 ### 🛠️ Fixed NULL Author Name in Blog Posts
