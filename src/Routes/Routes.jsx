@@ -5,6 +5,7 @@ import Layout2 from "../Layout/Layout2";
 import AdminLayout from "../Layout/AdminLayout";
 import ProtectedRoute from "../Components/Auth/ProtectedRoute";
 import { PageSkeleton, AdminSkeleton } from "../Components/Common/LoadingSkeleton";
+import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
 
 // Lazy load all page components
 const Home3 = lazy(() => import("../Pages/Home3"));
@@ -23,6 +24,7 @@ const BlogPage = lazy(() => import("../Pages/BlogPage"));
 const BlogDetailsPage = lazy(() => import("../Pages/BlogDetailsPage"));
 const AuthPage = lazy(() => import("../Pages/AuthPage"));
 const NotFound = lazy(() => import("../Pages/NotFound"));
+const Error500 = lazy(() => import("../Pages/Error500"));
 
 // Admin pages
 const Dashboard = lazy(() => import("../Pages/Admin/Dashboard"));
@@ -42,10 +44,11 @@ export const router = createBrowserRouter([
     {
       path: "/",
       element: <RootProvider />,
+      errorElement: <ErrorBoundary><Suspense fallback={<PageSkeleton />}><Error500 /></Suspense></ErrorBoundary>,
       children: [
         {
           path: "/",
-          element: <Layout2></Layout2>,
+          element: <ErrorBoundary><Layout2></Layout2></ErrorBoundary>,
           children: [
             {
               index: true,
@@ -123,7 +126,7 @@ export const router = createBrowserRouter([
         },
         {
           path: "/admin",
-          element: <ProtectedRoute><AdminLayout /></ProtectedRoute>,
+          element: <ErrorBoundary><ProtectedRoute><AdminLayout /></ProtectedRoute></ErrorBoundary>,
           children: [
             {
               path: "dashboard",
