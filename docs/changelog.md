@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dashboard Recent Activity:** Added Recent Leads table showing last 5 leads with status badges and dates, Latest Blog Posts widget showing 3 most recent posts
 - **Dashboard Quick Actions:** Added quick navigation buttons to manage Services, Projects, Blog, and Team modules
 - **Professional README:** Replaced Vite boilerplate with comprehensive project documentation including features, tech stack, quick start guide, project structure, deployment instructions, and documentation links
+- **Deployment Reference:** Created `.env.example` file with comprehensive environment variable documentation for external deployments (Vercel, Hostinger VPS, etc.)
 
 ### Fixed
 - **Analytics Context Error:** Resolved "can't access property 'useContext', dispatcher is null" by moving AnalyticsProvider from Layout2 to RootProvider to ensure proper Router context availability
