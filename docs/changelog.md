@@ -11,6 +11,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.4] - Database Fix - Blog Author Profile Name - 2025-01-05
+
+### 🛠️ Fixed NULL Author Name in Blog Posts
+
+**Problem**: Blog posts displayed "By Admin" fallback text because the profile's `full_name` was NULL.
+
+**Solution**:
+- Updated `profiles.full_name` to 'Admin' for profile ID `c36e726c-df4e-40af-b72b-4e6c9c7e16da`
+- Verified FK constraint `blog_posts_author_id_fkey` already exists (no migration needed)
+
+### ✅ Result
+
+- ✅ Blog posts now display correct author names
+- ✅ Database integrity confirmed with proper FK constraint
+- ✅ Phase 2.5 complete - ready for Phase 3
+
+---
+
 ## [0.15.3] - Bug Fix - Blog Author Relationship Query - 2025-01-05
 
 ### 🐛 Fixed Blog Author Relationship Error

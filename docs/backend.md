@@ -719,9 +719,9 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 
 ## Status
 
-**Phase:** Phase 2.7 Complete ✅ - Leads Inbox Module Implemented  
-**Next Steps:** Phase 2.8 - Settings  
-**Last Updated:** 2025-01-06
+**Phase:** Phase 2 Complete ✅ - All CRUD Modules + Blog Author Fix  
+**Next Steps:** Phase 3 - SEO & Performance Optimization  
+**Last Updated:** 2025-01-05 (v0.15.4)
 
 ### Repository Implementation Status
 
@@ -747,7 +747,13 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 | FAQ | ✅ useFAQ | ✅ FAQForm | ✅ FAQTable | ✅ v0.10.0 |
 | Media | ✅ useMedia | ✅ MediaUploader | ✅ MediaGrid | ✅ v0.11.0 |
 | Leads | ✅ useLeads | ✅ ContactForm | ✅ LeadsTable | ✅ v0.12.0 |
-| Settings | 🟡 Pending | 🟡 Pending | N/A | Phase 2.8 |
+| Settings | ✅ useSettings | ✅ SettingsForm (5 tabs) | N/A | ✅ v0.13.0 |
+
+**Blog Author Relationship:**
+- ✅ Fixed FK constraint (blog_posts.author_id → profiles.id)
+- ✅ Fixed query syntax in SupabaseBlogRepository (v0.15.3)
+- ✅ Updated profile full_name to 'Admin' (v0.15.4)
+- ✅ Blog posts now correctly display author names
 
 ### Files Created (Phase 1.4)
 
