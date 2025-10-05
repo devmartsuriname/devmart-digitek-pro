@@ -109,13 +109,7 @@ export default defineConfig(({ mode }) => ({
     },
     // Optimize bundle size
     target: 'es2015',
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Remove console.logs in production
-        drop_debugger: true,
-      },
-    },
+    minify: 'esbuild', // Use esbuild instead of terser (faster, no extra dependency)
     // Increase chunk size warning limit (default is 500kb)
     chunkSizeWarningLimit: 1000,
     // Enable CSS code splitting

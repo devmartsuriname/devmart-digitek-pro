@@ -113,7 +113,7 @@ Phase 3.1 Complete - Ready for Phase 3.2 (Performance Optimization)
 - ✅ Vendor chunks (React, Supabase, UI, Forms, Markdown, Icons)
 - ✅ Route-based lazy loading
 - ✅ Optimized asset organization (js/css/img/fonts)
-- ✅ Terser minification with console removal
+- ✅ Esbuild minification (faster than terser)
 - ✅ CSS code splitting enabled
 
 **Dynamic Import Features**:
@@ -132,6 +132,66 @@ Phase 3.1 Complete - Ready for Phase 3.2 (Performance Optimization)
 ### 📋 Next Steps
 
 Phase 3.2.2 Complete - Ready for Phase 3.3 (Accessibility)
+
+---
+
+## [0.17.0] - Phase 3.3 Complete - Accessibility (WCAG 2.1 AA) - 2025-01-05
+
+### ✅ Accessibility Utilities & Hooks
+
+**Files Created**:
+- `src/lib/utils/accessibility.js` - Complete accessibility utilities
+- `src/lib/hooks/useAccessibility.js` - React hooks for accessibility
+- `src/components/Common/AccessibleButton.jsx` - ARIA-compliant button component
+- `src/assets/accessibility.css` - WCAG 2.1 AA compliant styles
+
+**Accessibility Features**:
+- ✅ Color contrast ratio calculator
+- ✅ WCAG AA/AAA compliance checker
+- ✅ Focus trap for modals/dialogs
+- ✅ Screen reader announcements
+- ✅ Keyboard navigation (Arrow keys, Home, End, Escape)
+- ✅ Focus indicators (3px outline, visible on Tab)
+- ✅ Skip to content link
+- ✅ Reduced motion support
+- ✅ High contrast mode support
+- ✅ Touch target size (min 44x44px)
+- ✅ Accessible error/success messages
+
+**React Hooks**:
+- `useFocusTrap()` - Trap focus within modals
+- `useScreenReaderAnnouncement()` - Announce to screen readers
+- `useKeyboardNavigation()` - Enable keyboard nav in menus
+- `useReducedMotion()` - Respect motion preferences
+- `useEscapeKey()` - Handle Escape key
+- `useRestoreFocus()` - Restore focus after modal close
+
+**CSS Features**:
+- ✅ `.sr-only` / `.visually-hidden` classes
+- ✅ Focus-visible styles (keyboard only)
+- ✅ High contrast mode styles
+- ✅ Reduced motion media query
+- ✅ Print accessibility
+- ✅ Dark mode accessibility
+- ✅ Form validation states
+- ✅ ARIA live regions
+
+**Main.jsx Enhancements**:
+- ✅ Document language set to 'en'
+- ✅ Reduced motion detection
+- ✅ Keyboard usage tracking (Tab key)
+- ✅ Focus style management
+
+**Accessibility Audit Function**:
+- ✅ Checks for missing alt text
+- ✅ Checks for unlabeled buttons/inputs
+- ✅ Checks for missing page title
+- ✅ Checks for missing lang attribute
+- ✅ Console logging of issues
+
+### 📋 Next Steps
+
+Phase 3.3 Complete - Ready for Phase 3.4 (Analytics Integration)
 
 ---
 
