@@ -45,8 +45,8 @@ const Services2 = () => {
                                         <OptimizedImage 
                                             src={service.icon_url || '/assets/img/service/01.png'} 
                                             alt={`${service.title} - Professional digital service icon`}
-                                            width={400}
-                                            height={400}
+                                            width={80}
+                                            height={80}
                                         />
                                     </div>
                                     <div className="content">
