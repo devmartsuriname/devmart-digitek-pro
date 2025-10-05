@@ -25,8 +25,8 @@ const Home3 = () => {
                 ogImage={getOgImageUrl('/assets/img/hero/hero-image-3.png')}
                 ogType="website"
                 jsonLd={[
-                    generateOrganizationSchema(settings),
-                    generateWebSiteSchema(settings)
+                    generateOrganizationSchema(settings || {}),
+                    generateWebSiteSchema(settings || {})
                 ]}
                 siteName={settings?.site_name}
             />

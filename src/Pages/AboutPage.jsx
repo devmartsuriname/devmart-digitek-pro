@@ -30,7 +30,7 @@ const AboutPage = () => {
                         url: getCanonicalUrl('/about'),
                         breadcrumbs
                     }),
-                    generateOrganizationSchema(settings)
+                    generateOrganizationSchema(settings || {})
                 ]}
                 siteName={settings?.site_name}
             />

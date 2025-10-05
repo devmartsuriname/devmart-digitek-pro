@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Made JSON-LD schema generators null-safe to prevent runtime errors when settings are still loading
+- Added null coalescing in `generateOrganizationSchema` and `generateWebSiteSchema` to handle null settings gracefully
+
 ---
 
 ## [0.19.2] - Phase 3 Part C Complete - OptimizedImage Migration - 2025-01-05

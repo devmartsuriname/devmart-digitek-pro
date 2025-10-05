@@ -12,26 +12,27 @@ import { BASE_URL, DEFAULT_SEO } from '@/lib/utils/seoHelpers';
  * @returns {object} - Organization JSON-LD schema
  */
 export const generateOrganizationSchema = (settings = {}) => {
+  const s = settings ?? {};
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: settings.site_name || DEFAULT_SEO.siteName,
+    name: s.site_name || DEFAULT_SEO.siteName,
     url: BASE_URL,
-    logo: settings.logo_url || `${BASE_URL}/assets/img/logo/black-logo.svg`,
-    description: settings.meta_desc || DEFAULT_SEO.description,
+    logo: s.logo_url || `${BASE_URL}/assets/img/logo/black-logo.svg`,
+    description: s.meta_desc || DEFAULT_SEO.description,
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: settings.contact_phone || '+597 123-4567',
+      telephone: s.contact_phone || '+597 123-4567',
       contactType: 'Customer Service',
-      email: settings.contact_email || 'info@devmart.sr',
+      email: s.contact_email || 'info@devmart.sr',
       availableLanguage: ['English', 'Dutch'],
     },
-    address: settings.address ? {
+    address: s.address ? {
       '@type': 'PostalAddress',
-      streetAddress: settings.address,
+      streetAddress: s.address,
       addressCountry: 'SR',
     } : undefined,
-    sameAs: settings.social ? Object.values(settings.social).filter(Boolean) : [],
+    sameAs: s.social ? Object.values(s.social).filter(Boolean) : [],
   };
 };
 
@@ -41,12 +42,13 @@ export const generateOrganizationSchema = (settings = {}) => {
  * @returns {object} - WebSite JSON-LD schema
  */
 export const generateWebSiteSchema = (settings = {}) => {
+  const s = settings ?? {};
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: settings.site_name || DEFAULT_SEO.siteName,
+    name: s.site_name || DEFAULT_SEO.siteName,
     url: BASE_URL,
-    description: settings.meta_desc || DEFAULT_SEO.description,
+    description: s.meta_desc || DEFAULT_SEO.description,
     potentialAction: {
       '@type': 'SearchAction',
       target: {
