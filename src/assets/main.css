@@ -7674,6 +7674,12 @@ input.main-search-input::placeholder {
     display: block;
     line-height: inherit;
     padding: 10px 20px;
+    color: #18191d;
+    font-weight: 500;
+ }
+  .cs_nav .cs_nav_list ul a:hover {
+    color: #7444fd;
+    background-color: rgba(116, 68, 253, 0.05);
  }
   .cs_nav .cs_nav_list ul ul {
     top: 15px;
