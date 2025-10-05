@@ -3,8 +3,9 @@
  * Utilities for generating SEO metadata, sanitizing content, and creating canonical URLs
  */
 
-// Base URL for the site (update this in production)
-export const BASE_URL = import.meta.env.VITE_BASE_URL || 'https://devmart.sr';
+// Base URL for the site - production domain
+// Note: VITE_* env vars are not supported by Lovable, using direct URL
+export const BASE_URL = 'https://devmart.sr';
 
 // Default site metadata
 export const DEFAULT_SEO = {

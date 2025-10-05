@@ -1,0 +1,36 @@
+# robots.txt for Devmart Digtek Pro
+# https://devmart.sr/robots.txt
+
+# Allow all bots to crawl everything except admin area
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://devmart.sr/sitemap.xml
+
+# Crawl-delay for polite crawling (optional)
+# Crawl-delay: 1
+
+# Specific rules for common search engine bots
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /auth/
+
+# Block bad bots (optional - uncomment if needed)
+# User-agent: AhrefsBot
+# Disallow: /
+
+# User-agent: SemrushBot
+# Disallow: /
+
+# User-agent: DotBot
+# Disallow: /

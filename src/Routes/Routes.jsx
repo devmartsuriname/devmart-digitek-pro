@@ -35,6 +35,9 @@ const Media = lazy(() => import("../Pages/Admin/Media"));
 const Leads = lazy(() => import("../Pages/Admin/Leads"));
 const Settings = lazy(() => import("../Pages/Admin/Settings"));
 
+// SEO pages
+const Sitemap = lazy(() => import("../Pages/Sitemap"));
+
 export const router = createBrowserRouter([
     {
       path: "/",
@@ -103,6 +106,10 @@ export const router = createBrowserRouter([
             {
               path: "/team/:slug",
               element: <Suspense fallback={<PageSkeleton />}><TeamDetailsPage /></Suspense>,
+            },
+            {
+              path: "/sitemap.xml",
+              element: <Suspense fallback={<PageSkeleton />}><Sitemap /></Suspense>,
             },
             {
               path: "*",
