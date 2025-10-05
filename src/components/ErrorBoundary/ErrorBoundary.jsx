@@ -32,7 +32,10 @@ class ErrorBoundary extends Component {
 
   componentDidCatch(error, errorInfo) {
     // Log error to console (in production, send to error tracking service)
-    console.error('Error Boundary caught an error:', error, errorInfo);
+    console.error('🔴 Error Boundary caught an error:', error);
+    console.error('🔴 Error Info:', errorInfo);
+    console.error('🔴 Error Stack:', error?.stack);
+    console.error('🔴 Component Stack:', errorInfo?.componentStack);
 
     // Store error info in state
     this.setState({
@@ -40,8 +43,8 @@ class ErrorBoundary extends Component {
       errorInfo,
     });
 
-    // Optional: Send to error tracking service (Sentry, LogRocket, etc.)
-    // this.logErrorToService(error, errorInfo);
+    // Log to service
+    this.logErrorToService(error, errorInfo);
   }
 
   logErrorToService = (error, errorInfo) => {
