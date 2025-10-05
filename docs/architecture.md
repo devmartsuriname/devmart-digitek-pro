@@ -417,6 +417,593 @@ USING (has_role(auth.uid(), 'viewer'));
 
 ---
 
+## SEO Architecture (Phase 3)
+
+### SEO System Overview
+
+```mermaid
+graph TD
+    A[Page Component] --> B[SEOHead Component]
+    B --> C[Meta Tags Manager]
+    B --> D[JSON-LD Generator]
+    B --> E[OpenGraph Tags]
+    B --> F[Twitter Cards]
+    
+    C --> G[Document Head]
+    D --> G
+    E --> G
+    F --> G
+    
+    H[seoHelpers.js] --> I[getCanonicalUrl]
+    H --> J[sanitizeDescription]
+    H --> K[generateMetaTags]
+    
+    L[jsonLd.js] --> M[generateOrganizationSchema]
+    L --> N[generateWebPageSchema]
+    L --> O[generateServiceSchema]
+    L --> P[generateArticleSchema]
+    L --> Q[generateCreativeWorkSchema]
+    L --> R[generateBreadcrumbSchema]
+```
+
+### SEOHead Component Architecture
+
+**File:** `src/components/SEO/SEOHead.jsx`
+
+```jsx
+<SEOHead
+  title="Page Title | Site Name"
+  description="Meta description under 160 chars"
+  canonical="https://devmart.sr/page-path"
+  ogImage="https://devmart.sr/images/og-image.jpg"
+  ogType="website"
+  article={{ publishedTime, modifiedTime, author, tags }} // for blog posts
+  jsonLd={[schemaOrganization, schemaWebPage, ...]}
+  siteName="Devmart Suriname"
+/>
+```
+
+**Features:**
+- Dynamic meta tag injection using `useEffect`
+- Null-safe JSON-LD schema generation
+- Automatic fallback to DEFAULT_SEO values
+- Supports multiple JSON-LD schemas per page
+- OpenGraph and Twitter Card generation
+- Article-specific metadata for blog posts
+
+### JSON-LD Schema Types
+
+**1. Organization Schema** (Homepage, About, Contact)
+```json
+{
+  "@type": "Organization",
+  "name": "Devmart Suriname",
+  "url": "https://devmart.sr",
+  "logo": "https://devmart.sr/logo.svg",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+597-123-4567",
+    "email": "info@devmart.sr"
+  },
+  "sameAs": ["facebook", "twitter", "linkedin"]
+}
+```
+
+**2. WebSite Schema** (Homepage)
+```json
+{
+  "@type": "WebSite",
+  "name": "Devmart Suriname",
+  "url": "https://devmart.sr",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://devmart.sr/search?q={search_term_string}"
+  }
+}
+```
+
+**3. Service Schema** (Service Detail Pages)
+```json
+{
+  "@type": "Service",
+  "name": "Web Development",
+  "description": "Professional web development services",
+  "provider": { "@type": "Organization", "name": "Devmart" }
+}
+```
+
+**4. Article Schema** (Blog Posts)
+```json
+{
+  "@type": "Article",
+  "headline": "Blog Post Title",
+  "author": { "@type": "Person", "name": "Author Name" },
+  "datePublished": "2025-01-01",
+  "image": "https://devmart.sr/blog/image.jpg"
+}
+```
+
+**5. CreativeWork Schema** (Portfolio Projects)
+```json
+{
+  "@type": "CreativeWork",
+  "name": "Project Name",
+  "creator": { "@type": "Organization", "name": "Devmart" },
+  "dateCreated": "2024-12-01"
+}
+```
+
+**6. BreadcrumbList Schema** (All Pages)
+```json
+{
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "/" },
+    { "@type": "ListItem", "position": 2, "name": "Services", "item": "/services" }
+  ]
+}
+```
+
+### SEO Helper Functions
+
+**File:** `src/lib/utils/seoHelpers.js`
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `getCanonicalUrl(path)` | Generate absolute canonical URL | `https://devmart.sr/services` |
+| `sanitizeDescription(text, maxLength)` | Clean and truncate description | Strip HTML, limit to 160 chars |
+| `formatTitle(title, siteName)` | Format page title | "Services \| Devmart" |
+| `extractExcerpt(content, wordCount)` | Extract text from MDX/HTML | First 30 words |
+| `getOgImageUrl(imageUrl)` | Generate absolute image URL | Full URL for social sharing |
+| `calculateReadingTime(content)` | Estimate reading time | "5 min read" |
+| `generateBreadcrumbs(pathname)` | Generate breadcrumb trail | `[{ name: 'Home', url: '/' }, ...]` |
+| `generateMetaTags(options)` | Comprehensive meta generation | All meta tags in one call |
+
+### Page-Level SEO Implementation
+
+**Static Pages:**
+- Home (`/`) → Organization + WebSite schemas
+- About (`/about`) → WebPage + Organization schemas
+- Services (`/services`) → WebPage + BreadcrumbList
+- Portfolio (`/portfolio`) → WebPage + BreadcrumbList
+- Team (`/team`) → WebPage + BreadcrumbList
+- Pricing (`/pricing`) → WebPage + BreadcrumbList
+- FAQ (`/faq`) → WebPage + FAQPage schema
+- Contact (`/contact`) → WebPage + Organization + ContactPage
+- Blog (`/blog`) → WebPage + BreadcrumbList
+
+**Dynamic Pages:**
+- Service Detail (`/services/:slug`) → WebPage + Service schema
+- Project Detail (`/portfolio/:slug`) → WebPage + CreativeWork schema
+- Blog Post (`/blog/:slug`) → WebPage + Article schema
+- Team Member (`/team/:slug`) → WebPage + Person schema
+
+### Sitemap Generation
+
+**File:** `src/Pages/Sitemap.jsx`
+
+```jsx
+// Dynamic sitemap generated from database
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://devmart.sr/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://devmart.sr/services/{slug}</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <!-- ... blog posts, projects, team -->
+</urlset>
+```
+
+**Robots.txt:**
+```
+User-agent: *
+Allow: /
+Sitemap: https://devmart.sr/sitemap.xml
+```
+
+### SEO Best Practices Implemented
+
+✅ **Meta Tags:**
+- Unique title and description per page
+- Title under 60 characters
+- Description under 160 characters
+- Canonical URLs to prevent duplicates
+
+✅ **Structured Data:**
+- JSON-LD for all content types
+- Rich snippets enabled (articles, services, breadcrumbs)
+- Schema.org compliant
+
+✅ **Social Sharing:**
+- OpenGraph tags for Facebook/LinkedIn
+- Twitter Cards for Twitter
+- Custom OG images per page
+
+✅ **Technical SEO:**
+- Clean, semantic URLs with slugs
+- Proper heading hierarchy (single H1 per page)
+- Alt text on all images
+- Mobile-friendly responsive design
+- Fast loading times (<2.5s LCP)
+
+---
+
+## Analytics Architecture (Phase 3)
+
+### Analytics System Overview
+
+```mermaid
+graph TD
+    A[User Interaction] --> B{Event Type}
+    
+    B --> C[Page View]
+    B --> D[CTA Click]
+    B --> E[Form Interaction]
+    B --> F[Scroll Depth]
+    B --> G[Content View]
+    
+    C --> H[usePageViewTracking Hook]
+    D --> I[trackCTAClick Function]
+    E --> J[useFormTracking Hook]
+    F --> K[useScrollTracking Hook]
+    G --> L[trackServiceView/ProjectView/BlogView]
+    
+    H --> M[PlausibleAdapter]
+    I --> M
+    J --> M
+    K --> M
+    L --> M
+    
+    M --> N[Plausible Analytics API]
+    N --> O[Plausible Dashboard]
+```
+
+### Plausible Analytics Integration
+
+**Provider:** Plausible (Privacy-first, GDPR-compliant)  
+**Script:** `https://plausible.io/js/script.js`  
+**Data Domain:** `devmart.sr`
+
+**Key Features:**
+- No cookies, no persistent identifiers
+- No personal data collection
+- Lightweight script (~1KB)
+- Real-time dashboard
+- Custom event tracking
+
+### Analytics Adapter Architecture
+
+**File:** `src/lib/adapters/plausible/PlausibleAdapter.js`
+
+**Core Functions:**
+```javascript
+// Check if Plausible loaded
+isPlausibleLoaded() → boolean
+
+// Track custom event
+trackEvent(eventName, props) → void
+
+// Track page view (SPA)
+trackPageView(path, props) → void
+
+// Track outbound link click
+trackOutboundLink(url, props) → void
+
+// Track file download
+trackDownload(fileName, fileType) → void
+
+// Track form submission
+trackFormSubmit(formName, success) → void
+
+// Track CTA click
+trackCTAClick(ctaText, location) → void
+
+// Track service page view
+trackServiceView(serviceName) → void
+
+// Track project page view
+trackProjectView(projectName) → void
+
+// Track blog post view
+trackBlogView(postTitle, tags) → void
+
+// Track scroll depth
+trackScrollDepth(depth, page) → void
+
+// Track search query
+trackSearch(query, resultsCount) → void
+
+// Track video play
+trackVideoPlay(videoTitle) → void
+
+// Track social share
+trackSocialShare(platform, contentTitle) → void
+```
+
+### Analytics Hooks
+
+**File:** `src/lib/hooks/useAnalytics.js`
+
+**1. usePageViewTracking**
+```javascript
+// Automatically tracks page views on route change
+usePageViewTracking(); // Called in AnalyticsProvider
+```
+
+**2. useScrollTracking**
+```javascript
+// Tracks scroll depth milestones (25%, 50%, 75%, 100%)
+useScrollTracking('blog-post-slug');
+```
+
+**3. useOutboundLinkTracking**
+```javascript
+// Automatically tracks external link clicks
+useOutboundLinkTracking(); // Called in AnalyticsProvider
+```
+
+**4. useTimeOnPage**
+```javascript
+// Tracks time spent on page (only if >10 seconds)
+useTimeOnPage('Service Detail Page');
+```
+
+**5. useElementVisibility**
+```javascript
+// Tracks when element becomes visible
+useElementVisibility('pricing-section', 'Pricing Section Viewed');
+```
+
+**6. useFormTracking**
+```javascript
+// Provides form interaction tracking functions
+const { trackFieldFocus, trackFieldBlur, trackSubmit, trackError } = 
+  useFormTracking('Contact Form');
+```
+
+**7. useVideoTracking**
+```javascript
+// Tracks video play, progress, pause
+const { trackPlay, trackProgress, trackPause } = 
+  useVideoTracking('Hero Video');
+```
+
+### Event Tracking Implementation
+
+**Page View Events (Automatic):**
+- Home page load
+- Service detail page view → `trackServiceView('Web Development')`
+- Project detail page view → `trackProjectView('E-commerce Platform')`
+- Blog post view → `trackBlogView('Post Title', ['tag1', 'tag2'])`
+- All route changes
+
+**CTA Click Events:**
+- Hero banner CTA → `trackCTAClick('GET STARTED', 'Hero Banner')`
+- Contact section CTA → `trackCTAClick('Get in Touch', 'CTA Contact Section')`
+- Service page CTAs
+- Pricing page CTAs
+
+**Form Interaction Events:**
+- Field focus → `Form Field Focus: name`
+- Field blur → `Form Field Blur: email`
+- Validation error → `Form Error: invalid email`
+- Submission success → `Form Submit: Contact Form (success: true)`
+- Submission failure → `Form Submit: Contact Form (success: false)`
+
+**Scroll Depth Events (Blog Posts):**
+- 25% scroll depth
+- 50% scroll depth
+- 75% scroll depth
+- 100% scroll depth
+
+**Outbound Link Events (Automatic):**
+- External link clicks with URL and link text
+
+### Analytics Provider Component
+
+**File:** `src/components/Analytics/AnalyticsProvider.jsx`
+
+```jsx
+export default function AnalyticsProvider({ children }) {
+  // Auto-track page views
+  usePageViewTracking();
+  
+  // Auto-track outbound links
+  useOutboundLinkTracking();
+
+  // Load Plausible script (deferred 2s)
+  useEffect(() => {
+    const timer = setTimeout(() => loadAnalytics(), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return children;
+}
+```
+
+**Integration:** Wraps app inside `RouterProvider` in `Routes.jsx`
+
+### Conversion Goals
+
+**Primary Goals:**
+1. Contact form submission → `Form Submit: Contact Form`
+2. CTA clicks → `CTA Click: {ctaText}`
+3. Service page views → `Service View: {serviceName}`
+
+**Secondary Goals:**
+1. Blog post reads (100% scroll) → `Scroll Depth: 100%`
+2. Project detail views → `Project View: {projectName}`
+3. Time on page (>30s) → `Time on Page: {pageId}`
+
+### Privacy & Compliance
+
+✅ **No cookies:** No tracking cookies used  
+✅ **No personal data:** No IP addresses, user agents, or identifiers stored  
+✅ **GDPR compliant:** No consent banner needed  
+✅ **Data ownership:** All data stays in Plausible  
+✅ **Transparent:** Public stats dashboard available  
+
+---
+
+## Image Optimization Architecture (Phase 3)
+
+### OptimizedImage Component
+
+**File:** `src/components/Common/OptimizedImage.jsx`
+
+**Purpose:** Universal image component with lazy loading, responsive srcset, WebP support, and LQIP (Low-Quality Image Placeholder).
+
+**Props:**
+```jsx
+<OptimizedImage
+  src="/assets/img/hero/hero-image.png"
+  alt="Hero image description"
+  width={1200}
+  height={1000}
+  eager={false}           // Load immediately for above-fold images
+  lqip={true}             // Show blur placeholder
+  className="custom-class"
+  onLoad={() => {}}
+  onError={() => {}}
+/>
+```
+
+### Features
+
+**1. Lazy Loading**
+- Uses `IntersectionObserver` to load images only when in viewport
+- Reduces initial page load time
+- `eager={true}` prop for above-fold images (hero banners)
+
+**2. Responsive Srcset**
+- Generates multiple image sizes: 400px, 800px, 1200px, 1600px
+- Browser selects optimal size based on viewport
+- Reduces bandwidth for mobile users
+
+**3. WebP Format Support**
+- Automatically converts to WebP for supported browsers
+- Falls back to original format (JPEG/PNG) for older browsers
+- ~30% smaller file sizes with same quality
+
+**4. LQIP (Low-Quality Image Placeholder)**
+- Shows blurred, tiny version (100px wide) while loading
+- Prevents layout shift (CLS)
+- Smooth fade-in transition when full image loads
+- Disable with `lqip={false}` for icons/logos
+
+**5. Aspect Ratio Preservation**
+- Calculates aspect ratio from width/height props
+- Reserves space before image loads
+- Prevents Cumulative Layout Shift (CLS)
+
+**6. Error Handling**
+- Shows fallback message if image fails to load
+- Calls optional `onError` callback
+- Prevents broken image icons
+
+### Usage Patterns
+
+**Hero Images (Above-the-Fold):**
+```jsx
+<OptimizedImage 
+  src="/assets/img/hero/hero-image-3.png" 
+  alt="Transform your digital presence" 
+  eager={true}
+  width={1200}
+  height={1000}
+  lqip={false}  // No blur for hero
+/>
+```
+
+**Content Images (Below-the-Fold):**
+```jsx
+<OptimizedImage 
+  src="/assets/img/blog/post-cover.jpg" 
+  alt="Blog post cover image" 
+  width={800}
+  height={600}
+  // Defaults: eager=false, lqip=true
+/>
+```
+
+**Thumbnails/Avatars:**
+```jsx
+<OptimizedImage 
+  src="/assets/img/team/member.jpg" 
+  alt="Team member photo" 
+  width={400}
+  height={400}
+  lqip={false}  // No blur for small images
+/>
+```
+
+### Image Optimization Utilities
+
+**File:** `src/lib/utils/imageOptimization.js`
+
+**Key Functions:**
+
+| Function | Purpose | Example |
+|----------|---------|---------|
+| `getOptimizedImageUrl(url, options)` | Generate optimized URL | Add `?width=800&format=webp` |
+| `generateSrcSet(url, sizes)` | Create responsive srcset | `400w, 800w, 1200w` |
+| `preloadImage(url)` | Preload critical images | `<link rel="preload">` |
+| `uploadOptimizedImage(file)` | Upload with auto-optimization | Compress on upload |
+| `supportsWebP()` | Check WebP support | Browser capability detection |
+| `generatePlaceholder(url)` | Create LQIP data URL | Tiny blurred base64 image |
+
+### Supabase Storage Configuration
+
+**File:** `src/lib/utils/supabaseImageConfig.js`
+
+**Transform Options:**
+- `width`: Resize width (maintains aspect ratio)
+- `height`: Resize height
+- `quality`: 80 (balance between size and quality)
+- `format`: `webp` (automatic conversion)
+
+**Example Transformation:**
+```
+https://project.supabase.co/storage/v1/object/public/bucket/image.jpg
+  ?width=800&quality=80&format=webp
+```
+
+### Performance Metrics
+
+**Target Metrics:**
+- LCP (Largest Contentful Paint): **< 2.5s**
+- CLS (Cumulative Layout Shift): **< 0.1**
+- Total Image Payload: **< 1MB** (first load)
+
+**Optimizations Applied:**
+- Lazy loading: 50-70% reduction in initial payload
+- WebP format: 30-40% smaller than JPEG/PNG
+- Responsive srcset: 40-60% savings on mobile
+- LQIP: Perceived load time improvement
+
+### Component Migration Status
+
+**Migrated Components (Phase 3):**
+- ✅ HeroBanner3 (eager load, no LQIP)
+- ✅ Services2/Services3 (lazy, with LQIP)
+- ✅ CaseStudy3/CaseStudy4 (lazy, with LQIP)
+- ✅ Blog2/Blog4 (lazy, with LQIP)
+- ✅ Team1/Team2/Team3 (lazy, with LQIP)
+- ✅ Testimonial2/Testimonial3 (lazy, with LQIP)
+- ✅ About2 (lazy, with LQIP)
+- ✅ Cta2 (lazy, with LQIP)
+
+**All `<img>` tags replaced with `OptimizedImage` component.**
+
+---
+
+---
+
 ## Frontend Database Integration (Phase 2.5)
 
 ### Dynamic Data Flow Architecture
