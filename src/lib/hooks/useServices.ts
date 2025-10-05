@@ -3,6 +3,12 @@ import { SupabaseServiceRepository } from '@/lib/adapters/supabase/SupabaseServi
 import type { Service, CreateServiceDTO, UpdateServiceDTO, ServiceFilters } from '@/lib/schemas/service';
 
 const serviceRepo = new SupabaseServiceRepository();
+const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms)) as Promise<T>,
+  ]);
+};
 
 export function useServices(filters?: ServiceFilters) {
   const [services, setServices] = useState<Service[]>([]);
@@ -15,8 +21,8 @@ export function useServices(filters?: ServiceFilters) {
       setLoading(true);
       setError(null);
       const [data, total] = await Promise.all([
-        serviceRepo.findAll(filters),
-        serviceRepo.count(filters)
+        withTimeout(serviceRepo.findAll(filters)),
+        withTimeout(serviceRepo.count(filters)),
       ]);
       setServices(data);
       setCount(total);
@@ -33,7 +39,7 @@ export function useServices(filters?: ServiceFilters) {
 
   const createService = async (data: CreateServiceDTO) => {
     try {
-      const newService = await serviceRepo.create(data);
+      const newService = await withTimeout(serviceRepo.create(data));
       await fetchServices();
       return newService;
     } catch (err) {
@@ -43,7 +49,7 @@ export function useServices(filters?: ServiceFilters) {
 
   const updateService = async (id: string, data: UpdateServiceDTO) => {
     try {
-      const updated = await serviceRepo.update(id, data);
+      const updated = await withTimeout(serviceRepo.update(id, data));
       await fetchServices();
       return updated;
     } catch (err) {
@@ -53,7 +59,7 @@ export function useServices(filters?: ServiceFilters) {
 
   const deleteService = async (id: string) => {
     try {
-      await serviceRepo.delete(id);
+      await withTimeout(serviceRepo.delete(id));
       await fetchServices();
     } catch (err) {
       throw new Error(err instanceof Error ? err.message : 'Failed to delete service');
@@ -86,7 +92,7 @@ export function useService(id: string) {
       try {
         setLoading(true);
         setError(null);
-        const data = await serviceRepo.findById(id);
+        const data = await withTimeout(serviceRepo.findById(id));
         setService(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch service');
@@ -121,7 +127,7 @@ export function useServiceBySlug(slug: string | undefined) {
       try {
         setLoading(true);
         const repo = new SupabaseServiceRepository();
-        const data = await repo.findBySlug(slug);
+        const data = await withTimeout(repo.findBySlug(slug));
         setService(data);
         setError(null);
       } catch (err) {

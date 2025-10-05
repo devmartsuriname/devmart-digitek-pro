@@ -3,6 +3,12 @@ import { SupabaseProjectRepository } from '@/lib/adapters/supabase/SupabaseProje
 import type { Project, CreateProjectDTO, UpdateProjectDTO, ProjectFilters } from '@/lib/schemas/project';
 
 const projectRepo = new SupabaseProjectRepository();
+const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms)) as Promise<T>,
+  ]);
+};
 
 /**
  * Hook for managing multiple projects with filtering
@@ -18,8 +24,8 @@ export function useProjects(filters?: ProjectFilters) {
       setLoading(true);
       setError(null);
       const [data, count] = await Promise.all([
-        projectRepo.findAll(filters),
-        projectRepo.count(filters)
+        withTimeout(projectRepo.findAll(filters)),
+        withTimeout(projectRepo.count(filters)),
       ]);
       setProjects(data);
       setTotalCount(count);
@@ -36,19 +42,19 @@ export function useProjects(filters?: ProjectFilters) {
   }, [fetchProjects]);
 
   const createProject = async (data: CreateProjectDTO): Promise<Project> => {
-    const newProject = await projectRepo.create(data);
+    const newProject = await withTimeout(projectRepo.create(data));
     await fetchProjects();
     return newProject;
   };
 
   const updateProject = async (id: string, data: UpdateProjectDTO): Promise<Project> => {
-    const updatedProject = await projectRepo.update(id, data);
+    const updatedProject = await withTimeout(projectRepo.update(id, data));
     await fetchProjects();
     return updatedProject;
   };
 
   const deleteProject = async (id: string): Promise<void> => {
-    await projectRepo.delete(id);
+    await withTimeout(projectRepo.delete(id));
     await fetchProjects();
   };
 
@@ -77,7 +83,7 @@ export function useProject(id: string) {
       try {
         setLoading(true);
         setError(null);
-        const data = await projectRepo.findById(id);
+        const data = await withTimeout(projectRepo.findById(id));
         setProject(data);
       } catch (err) {
         console.error('Failed to fetch project:', err);
@@ -113,7 +119,7 @@ export function useProjectBySlug(slug: string | undefined) {
       try {
         setLoading(true);
         const repo = new SupabaseProjectRepository();
-        const data = await repo.findBySlug(slug);
+        const data = await withTimeout(repo.findBySlug(slug));
         setProject(data);
         setError(null);
       } catch (err) {

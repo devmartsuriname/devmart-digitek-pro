@@ -3,6 +3,12 @@ import type { BlogPost, CreateBlogPostDTO, UpdateBlogPostDTO, BlogPostFilters } 
 import { SupabaseBlogRepository } from '@/lib/adapters/supabase/SupabaseBlogRepository';
 
 const repository = new SupabaseBlogRepository();
+const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error('Request timed out')), ms)) as Promise<T>,
+  ]);
+};
 
 export const useBlogPosts = (filters?: BlogPostFilters) => {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
@@ -13,7 +19,7 @@ export const useBlogPosts = (filters?: BlogPostFilters) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await repository.findAll(filters);
+      const data = await withTimeout(repository.findAll(filters));
       setBlogPosts(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch blog posts');

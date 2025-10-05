@@ -8,6 +8,7 @@ import Services2 from "../Components/Services/Services2";
 import Testimonial3 from "../Components/Testimonial/Testimonial3";
 import WhyChoose2 from "../Components/WhyChoose/WhyChoose2";
 import SEOHead from "../components/SEO/SEOHead";
+import ErrorBoundary from "../components/ErrorBoundary/ErrorBoundary";
 import { useSettings } from "../lib/hooks/useSettings";
 import { generateOrganizationSchema, generateWebSiteSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl } from "../lib/utils/seoHelpers";
@@ -30,15 +31,15 @@ const Home3 = () => {
                 ]}
                 siteName={settings?.site_name}
             />
-            <HeroBanner3></HeroBanner3>
-            <Services2></Services2>
-            <WhyChoose2></WhyChoose2>
-            <Marquee2></Marquee2>
-            <CaseStudy3></CaseStudy3>
-            <Marquee3></Marquee3>
-            <Testimonial3></Testimonial3>
-            <Counter2></Counter2>
-            <Blog2></Blog2>
+            <ErrorBoundary><HeroBanner3 /></ErrorBoundary>
+            <ErrorBoundary><Services2 /></ErrorBoundary>
+            <ErrorBoundary><WhyChoose2 /></ErrorBoundary>
+            <ErrorBoundary><Marquee2 /></ErrorBoundary>
+            <ErrorBoundary><CaseStudy3 /></ErrorBoundary>
+            <ErrorBoundary><Marquee3 /></ErrorBoundary>
+            <ErrorBoundary><Testimonial3 /></ErrorBoundary>
+            <ErrorBoundary><Counter2 /></ErrorBoundary>
+            <ErrorBoundary><Blog2 /></ErrorBoundary>
         </div>
     );
 };
