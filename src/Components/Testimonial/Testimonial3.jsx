@@ -1,4 +1,5 @@
 import LazySlider from "../Common/LazySlider";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const Testimonial3 = () => {
 
@@ -83,7 +84,12 @@ const Testimonial3 = () => {
                                     </p>
                                     <div className="client-info">
                                         <div className="client-img">
-                                            <img src={item.img} alt="img" loading="lazy" />
+                                            <OptimizedImage 
+                                                src={item.img} 
+                                                alt={`${item.title} - ${item.subtitle}`}
+                                                width={80}
+                                                height={80}
+                                            />
                                         </div>
                                         <div className="content">
                                             <h3>{item.title}</h3>

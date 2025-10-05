@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import LazySlider from "../Common/LazySlider";
 import { useProjects } from "@/lib/hooks/useProjects";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const CaseStudy3 = () => {
     const { projects, loading } = useProjects({ 
@@ -69,10 +70,11 @@ const CaseStudy3 = () => {
                                 <div key={project.id} className="swiper-slide">
                                     <div className="case-studies-card-items">
                                         <div className="thumb">
-                                            <img 
+                                            <OptimizedImage 
                                                 src={project.cover_url || '/assets/img/case-studies/02.jpg'} 
-                                                alt={project.title} 
-                                                loading="lazy" 
+                                                alt={`${project.title} - ${project.client || 'Portfolio project'}`}
+                                                width={800}
+                                                height={600}
                                             />
                                         </div>
                                         <div className="content">

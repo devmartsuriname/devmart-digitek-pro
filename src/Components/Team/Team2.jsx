@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import LazySlider from "../Common/LazySlider";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const Team2 = () => {
 
@@ -80,7 +81,12 @@ const Team2 = () => {
                                 <div key={i} className="swiper-slide">
                                     <div className="team-card-items mt-0">
                                         <div className="team-image">
-                                            <img src={item.img} alt="img" />
+                                            <OptimizedImage 
+                                                src={item.img} 
+                                                alt={`${item.name} - ${item.content} at Devmart`}
+                                                width={500}
+                                                height={600}
+                                            />
                                         </div>
                                         <div className="team-content">
                                             <h3><a href="team-details.html">{item.name}</a></h3>

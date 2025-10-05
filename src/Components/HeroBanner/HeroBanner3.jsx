@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
+import OptimizedImage from "../Common/OptimizedImage";
 
 // Cache-busting update: 2025-01-03 - Force editor to reload assets
 const HeroBanner3 = () => {
@@ -45,7 +46,14 @@ const HeroBanner3 = () => {
                     </div>
                     <div className="col-lg-5">
                         <div className="hero-image wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s">
-                            <img src={heroContent.img} alt="img" loading="eager" />
+                            <OptimizedImage 
+                                src={heroContent.img} 
+                                alt="Transform your digital presence with Devmart - Professional web development and digital marketing services" 
+                                eager={true}
+                                width={1200}
+                                height={1000}
+                                lqip={false}
+                            />
                         </div>
                     </div>
                 </div>

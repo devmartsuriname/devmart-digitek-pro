@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const Blog2 = () => {
     const { blogPosts, loading } = useBlogPosts({ 
@@ -30,10 +31,11 @@ const Blog2 = () => {
                         <div key={post.id} className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
                             <div className="news-card-items">
                                 <div className="news-image">
-                                    <img 
+                                    <OptimizedImage 
                                         src={post.cover_url || '/assets/img/news/05.jpg'} 
-                                        alt={post.title} 
-                                        loading="lazy" 
+                                        alt={`${post.title} - Blog post cover image`}
+                                        width={600}
+                                        height={450}
                                     />
                                 </div>
                                 <div className="news-content">

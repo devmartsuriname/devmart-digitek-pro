@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const About2 = ({addclass}) => {
 
@@ -28,7 +29,13 @@ const About2 = ({addclass}) => {
                     <div className="row g-4">
                         <div className="col-lg-6">
                             <div className="about-image">
-                                <img src={aboutContent.img} alt="img" className="wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s" />
+                                <OptimizedImage 
+                                    src={aboutContent.img} 
+                                    alt="About Devmart - Your partner in digital innovation and web development" 
+                                    className="wow img-custom-anim-left" 
+                                    width={800}
+                                    height={1000}
+                                />
                                 <div className="box-shape float-bob-y">
                                     <img src="/assets/img/about/box-shape-2.png" alt="img" />
                                 </div>

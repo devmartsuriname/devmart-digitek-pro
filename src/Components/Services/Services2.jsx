@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useServices } from "@/lib/hooks/useServices";
+import OptimizedImage from "../Common/OptimizedImage";
 
 const Services2 = () => {
     const { services, loading } = useServices({ 
@@ -34,10 +35,11 @@ const Services2 = () => {
                             <div key={service.id} className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
                                 <div className="service-card-items style-2">
                                     <div className="service-thumb">
-                                        <img 
+                                        <OptimizedImage 
                                             src={service.icon_url || '/assets/img/service/01.png'} 
-                                            alt={service.title} 
-                                            loading="lazy" 
+                                            alt={`${service.title} - Professional digital service icon`}
+                                            width={400}
+                                            height={400}
                                         />
                                     </div>
                                     <div className="content">
