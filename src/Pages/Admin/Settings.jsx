@@ -10,7 +10,7 @@ const SettingsAnalyticsForm = lazy(() => import('@/Components/Admin/Forms/Settin
 const SettingsContactForm = lazy(() => import('@/Components/Admin/Forms/SettingsContactForm'));
 
 const Settings = () => {
-  const { settings, loading, saving, updateSettings } = useSettings();
+  const { settings, loading, saving, error, updateSettings, refresh } = useSettings();
   const [activeTab, setActiveTab] = useState('general');
 
   if (loading) {
@@ -21,6 +21,36 @@ const Settings = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
           <p className="text-white mt-3">Loading settings...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !settings) {
+    return (
+      <div className="container py-5">
+        <div className="text-center">
+          <div className="alert alert-danger d-inline-block" role="alert">
+            <i className="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>Connection Error:</strong> {error}
+          </div>
+          <div className="mt-3">
+            <button 
+              className="btn btn-primary" 
+              onClick={refresh}
+              disabled={loading}
+            >
+              <i className="bi bi-arrow-clockwise me-2"></i>
+              Retry Connection
+            </button>
+          </div>
+          <p className="text-white-50 mt-3">
+            <small>
+              The database connection timed out. This is usually temporary.
+              <br />
+              Please wait a moment and click "Retry Connection".
+            </small>
+          </p>
         </div>
       </div>
     );

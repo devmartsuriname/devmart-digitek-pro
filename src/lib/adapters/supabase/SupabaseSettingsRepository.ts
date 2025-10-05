@@ -27,14 +27,37 @@ export class SupabaseSettingsRepository implements ISettingsRepository {
   }
 
   async get(): Promise<Settings | null> {
-    const { data: row, error } = await supabase
-      .from('settings')
-      .select('*')
-      .limit(1)
-      .maybeSingle();
+    try {
+      // Add 10 second timeout for connection issues
+      const timeoutPromise = new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('Database connection timed out after 10 seconds')), 10000);
+      });
 
-    if (error) throw new Error(`Failed to get settings: ${error.message}`);
-    return row ? this.mapToSettings(row) : null;
+      const queryPromise = supabase
+        .from('settings')
+        .select('*')
+        .limit(1)
+        .maybeSingle();
+
+      const { data: row, error } = await Promise.race([queryPromise, timeoutPromise]);
+
+      if (error) {
+        // Detect connection/timeout errors
+        if (error.message?.includes('503') || 
+            error.message?.includes('timeout') || 
+            error.message?.includes('connection')) {
+          throw new Error('Unable to connect to database. Please check your connection and try again.');
+        }
+        throw new Error(`Failed to get settings: ${error.message}`);
+      }
+      
+      return row ? this.mapToSettings(row) : null;
+    } catch (err) {
+      if (err instanceof Error) {
+        throw err;
+      }
+      throw new Error('An unexpected error occurred while fetching settings');
+    }
   }
 
   async update(data: UpdateSettingsDTO): Promise<Settings> {

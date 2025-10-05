@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Deployment Reference:** Created `.env.example` file with comprehensive environment variable documentation for external deployments (Vercel, Hostinger VPS, etc.)
 - **Lighthouse Audit Documentation:** Created `/docs/lighthouse-audit.md` template with target scores, page-by-page sections, common issues/fixes, optimization checklist, and testing instructions
 - **Debug Logging:** Added comprehensive console logging to main entry points (main.jsx, App.jsx) to troubleshoot blank screen issues in preview/production mode
+- **Connection Timeout Handling:** Added 10-second timeout to database queries with user-friendly error messages for 503/timeout errors
+- **Error UI with Retry:** Added error state display in Settings page with retry button for failed database connections
 
 ### Fixed
 - **Analytics Context Error:** Resolved "can't access property 'useContext', dispatcher is null" by moving AnalyticsProvider from Layout2 to RootProvider to ensure proper Router context availability
@@ -24,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Blog Author Relational Query:** Restored proper FK join using `profiles!blog_posts_author_id_fkey` to fetch author names in `findById()`, `findBySlug()`, `findAll()`, and `findFeatured()` methods
 - **ErrorBoundary Logging:** Enhanced error logging with more visible console output (🔴 prefixes) to make errors easier to spot in console
 - **App Initialization Error Handling:** Added try-catch in main.jsx with fallback error display in case of catastrophic rendering failures
+- **Blank Screen on Supabase Timeout:** Fixed infinite loading spinner when database connection fails by adding proper error handling and retry functionality
 
 ---
 
