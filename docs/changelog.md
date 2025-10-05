@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ErrorBoundary Logging:** Enhanced error logging with more visible console output (🔴 prefixes) to make errors easier to spot in console
 - **App Initialization Error Handling:** Added try-catch in main.jsx with fallback error display in case of catastrophic rendering failures
 - **Blank Screen on Supabase Timeout:** Fixed infinite loading spinner when database connection fails by adding proper error handling and retry functionality
+- **Home Page Blank Screen:** Fixed blank screen on homepage by adding error state handling to CaseStudy3 and Blog2 components that were failing silently during Supabase connection timeouts
 
 ---
 

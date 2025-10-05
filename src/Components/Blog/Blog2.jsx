@@ -3,7 +3,7 @@ import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
 import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const Blog2 = () => {
-    const { blogPosts, loading } = useBlogPosts({ 
+    const { blogPosts, loading, error } = useBlogPosts({ 
         status: 'published',
         limit: 4 
     });
@@ -22,7 +22,14 @@ const Blog2 = () => {
         </div>
         <div className="container-fluid">
             <div className="row" style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s ease-in-out' }}>
-                {blogPosts.length === 0 && !loading ? (
+                {error ? (
+                    <div className="col-12 text-center py-5">
+                        <p className="text-white-50">
+                            <i className="bi bi-exclamation-circle me-2"></i>
+                            Unable to load blog posts at the moment. Please try again later.
+                        </p>
+                    </div>
+                ) : blogPosts.length === 0 && !loading ? (
                     <div className="col-12 text-center py-5">
                         <p className="text-white">No blog posts available at the moment.</p>
                     </div>

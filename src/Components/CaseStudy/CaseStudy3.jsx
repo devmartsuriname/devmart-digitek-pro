@@ -4,7 +4,7 @@ import { useProjects } from "@/lib/hooks/useProjects";
 import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const CaseStudy3 = () => {
-    const { projects, loading } = useProjects({ 
+    const { projects, loading, error } = useProjects({ 
         status: 'published',
         featured: true,
         limit: 6 
@@ -56,7 +56,16 @@ const CaseStudy3 = () => {
             </div>
         </div>
         <div className="container-fluid" style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s ease-in-out' }}>
-            {projects.length === 0 && !loading ? (
+            {error ? (
+                <div className="container">
+                    <div className="text-center py-5">
+                        <p className="text-white-50">
+                            <i className="bi bi-exclamation-circle me-2"></i>
+                            Unable to load projects at the moment. Please try again later.
+                        </p>
+                    </div>
+                </div>
+            ) : projects.length === 0 && !loading ? (
                 <div className="container">
                     <div className="text-center py-5">
                         <p className="text-white">No projects available at the moment.</p>

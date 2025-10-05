@@ -3,7 +3,7 @@ import { useServices } from "@/lib/hooks/useServices";
 import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const Services2 = () => {
-    const { services, loading } = useServices({ 
+    const { services, loading, error } = useServices({ 
         status: 'published',
         limit: 3 
     });
@@ -26,7 +26,14 @@ const Services2 = () => {
                     </h2>
                 </div>
                 <div className="row" style={{ opacity: loading ? 0.7 : 1, transition: 'opacity 0.3s ease-in-out' }}>
-                    {services.length === 0 && !loading ? (
+                    {error ? (
+                        <div className="col-12 text-center py-5">
+                            <p className="text-white-50">
+                                <i className="bi bi-exclamation-circle me-2"></i>
+                                Unable to load services at the moment. Please try again later.
+                            </p>
+                        </div>
+                    ) : services.length === 0 && !loading ? (
                         <div className="col-12 text-center py-5">
                             <p className="text-white">No services available at the moment.</p>
                         </div>
