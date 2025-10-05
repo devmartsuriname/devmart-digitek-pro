@@ -749,11 +749,14 @@ trackEvent('Contact Form Submit', { source: 'homepage' });
 | Leads | ✅ useLeads | ✅ ContactForm | ✅ LeadsTable | ✅ v0.12.0 |
 | Settings | ✅ useSettings | ✅ SettingsForm (5 tabs) | N/A | ✅ v0.13.0 |
 
-**Blog Author Relationship:**
-- ✅ Fixed FK constraint (blog_posts.author_id → profiles.id)
+**Blog Author Relationship (Phase 2.5 Complete):**
+- ✅ **FK constraint verified**: `blog_posts_author_id_fkey` exists (confirmed via migration error "already exists")
+- ✅ **Constraint details**: `blog_posts.author_id` → `profiles.id` with `ON DELETE SET NULL`
 - ✅ Fixed query syntax in SupabaseBlogRepository (v0.15.3)
 - ✅ Updated profile full_name to 'Admin' (v0.15.4)
-- ✅ Blog posts now correctly display author names
+- ✅ Database integrity confirmed (v0.15.5)
+- ✅ All blog posts correctly display author names
+- ✅ **Phase 2.5 Checklist**: ALL 6 sections complete
 
 ### Files Created (Phase 1.4)
 

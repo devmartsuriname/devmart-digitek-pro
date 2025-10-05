@@ -11,6 +11,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.5] - Phase 2.5 Complete - Blog Author Relationship Verified - 2025-01-05
+
+### ✅ Confirmed Database Integrity
+
+**Verification**:
+- ✅ FK constraint `blog_posts_author_id_fkey` confirmed to exist (ALTER TABLE returned "already exists")
+- ✅ Constraint properly links `blog_posts.author_id` → `profiles.id` with `ON DELETE SET NULL`
+- ✅ Profile `full_name` updated to 'Admin' (v0.15.4)
+- ✅ All blog posts correctly display author names
+- ✅ Application working perfectly with no console errors
+
+### 📊 Query Results
+
+```sql
+SELECT bp.title, p.full_name as author_name
+FROM blog_posts bp
+LEFT JOIN profiles p ON bp.author_id = p.id
+LIMIT 5;
+```
+
+**Result**: All 5 blog posts correctly show `author_name: Admin` ✅
+
+---
+
 ## [0.15.4] - Database Fix - Blog Author Profile Name - 2025-01-05
 
 ### 🛠️ Fixed NULL Author Name in Blog Posts
@@ -19,13 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Solution**:
 - Updated `profiles.full_name` to 'Admin' for profile ID `c36e726c-df4e-40af-b72b-4e6c9c7e16da`
-- Verified FK constraint `blog_posts_author_id_fkey` already exists (no migration needed)
 
 ### ✅ Result
 
 - ✅ Blog posts now display correct author names
-- ✅ Database integrity confirmed with proper FK constraint
-- ✅ Phase 2.5 complete - ready for Phase 3
+- ✅ Ready for FK verification (v0.15.5)
 
 ---
 

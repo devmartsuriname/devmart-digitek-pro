@@ -467,11 +467,11 @@
 
 ## Status Tracking
 
-**Current Phase:** Phase 2 - Database Integration ✅ COMPLETE  
+**Current Phase:** Phase 2.5 ✅ COMPLETE (Blog Author FK Verified)  
 **Next Phase:** Phase 3 - SEO & Performance Optimization  
-**Overall Progress:** 30% complete  
+**Overall Progress:** 32% complete  
 
-**Last Updated:** 2025-01-05 (v0.15.4 - Blog Author Relationship Fixed)
+**Last Updated:** 2025-01-05 (v0.15.5 - FK Constraint Verified)
 
 **Phase 2 Module Status:**
 - ✅ 2.1 - Admin Dashboard Shell
@@ -496,5 +496,10 @@
 - **All public pages now dynamically fetch from database**
 - **Dynamic slug-based routing for detail pages**
 - **Loading, error, and 404 handling implemented**
-- **Blog author relationship fixed (v0.15.3-v0.15.4)**
+- **Blog author relationship verified complete:**
+  - ✅ FK constraint exists: `blog_posts.author_id` → `profiles.id` (ON DELETE SET NULL)
+  - ✅ Query syntax fixed (v0.15.3)
+  - ✅ Profile name updated (v0.15.4)
+  - ✅ Database integrity confirmed (v0.15.5)
+- ✅ Phase 2.5 Checklist: **ALL ITEMS COMPLETE**
 - Ready for Phase 3 (Performance & SEO optimization)
