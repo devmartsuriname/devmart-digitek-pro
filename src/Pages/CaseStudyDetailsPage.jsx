@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import CaseStudyDetails from "../Components/CaseStudyDetails/CaseStudyDetails";
 import BreadCumb from "../Components/Common/BreadCumb";
 import SEOHead from "../components/SEO/SEOHead";
@@ -6,6 +7,7 @@ import { useProjectBySlug } from "@/lib/hooks/useProjects";
 import { useSettings } from "@/lib/hooks/useSettings";
 import { generateWebPageSchema, generateCreativeWorkSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl, generateBreadcrumbs, sanitizeDescription } from "../lib/utils/seoHelpers";
+import { trackProjectView } from "@/lib/adapters/plausible/PlausibleAdapter";
 
 const CaseStudyDetailsPage = () => {
     const { slug } = useParams();
@@ -13,6 +15,13 @@ const CaseStudyDetailsPage = () => {
     const { settings } = useSettings();
 
     const breadcrumbs = generateBreadcrumbs(`/portfolio/${slug}`);
+
+    // Track project view when data loads
+    useEffect(() => {
+        if (!loading && project) {
+            trackProjectView(project.title);
+        }
+    }, [loading, project]);
 
     return (
         <div>

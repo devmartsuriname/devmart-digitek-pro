@@ -5,6 +5,7 @@ import { CreateLeadSchema } from '@/lib/schemas/lead';
 import { SupabaseLeadRepository } from '@/lib/adapters/supabase/SupabaseLeadRepository';
 import { toast } from 'react-hot-toast';
 import { trackFormSubmit } from '@/lib/adapters/plausible/PlausibleAdapter';
+import { useFormTracking } from '@/lib/hooks/useAnalytics';
 
 const repository = new SupabaseLeadRepository();
 
@@ -14,6 +15,9 @@ const RATE_LIMIT_MINUTES = 5;
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Form tracking hooks
+  const { trackFieldFocus, trackFieldBlur, trackSubmit, trackError } = useFormTracking('Contact Form');
 
   const {
     register,
@@ -67,6 +71,9 @@ const ContactForm = () => {
       // Store submission time
       localStorage.setItem(RATE_LIMIT_KEY, new Date().toISOString());
 
+      // Track successful submission
+      trackSubmit(true);
+
       // Send email notification (non-blocking)
       try {
         const response = await fetch(
@@ -106,6 +113,10 @@ const ContactForm = () => {
     } catch (error) {
       console.error('Failed to submit lead:', error);
       toast.error('Failed to submit form. Please try again.');
+      
+      // Track failed submission
+      trackSubmit(false);
+      trackError('submission_failed', error.message);
     } finally {
       setIsSubmitting(false);
     }
@@ -134,6 +145,8 @@ const ContactForm = () => {
                 aria-required="true"
                 aria-invalid={errors.name ? 'true' : 'false'}
                 aria-describedby={errors.name ? 'contact-name-error' : undefined}
+                onFocus={() => trackFieldFocus('name')}
+                onBlur={() => trackFieldBlur('name')}
               />
               {errors.name && (
                 <small 
@@ -159,6 +172,8 @@ const ContactForm = () => {
                 aria-required="true"
                 aria-invalid={errors.email ? 'true' : 'false'}
                 aria-describedby={errors.email ? 'contact-email-error' : undefined}
+                onFocus={() => trackFieldFocus('email')}
+                onBlur={() => trackFieldBlur('email')}
               />
               {errors.email && (
                 <small 
@@ -182,6 +197,8 @@ const ContactForm = () => {
                 {...register('phone')}
                 aria-invalid={errors.phone ? 'true' : 'false'}
                 aria-describedby={errors.phone ? 'contact-phone-error' : undefined}
+                onFocus={() => trackFieldFocus('phone')}
+                onBlur={() => trackFieldBlur('phone')}
               />
               {errors.phone && (
                 <small 
@@ -205,6 +222,8 @@ const ContactForm = () => {
                 {...register('subject')}
                 aria-invalid={errors.subject ? 'true' : 'false'}
                 aria-describedby={errors.subject ? 'contact-subject-error' : undefined}
+                onFocus={() => trackFieldFocus('subject')}
+                onBlur={() => trackFieldBlur('subject')}
               />
               {errors.subject && (
                 <small 
@@ -230,6 +249,8 @@ const ContactForm = () => {
                 aria-required="true"
                 aria-invalid={errors.message ? 'true' : 'false'}
                 aria-describedby={errors.message ? 'contact-message-error' : undefined}
+                onFocus={() => trackFieldFocus('message')}
+                onBlur={() => trackFieldBlur('message')}
               />
               {errors.message && (
                 <small 

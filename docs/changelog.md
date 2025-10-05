@@ -13,6 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SEO metadata and JSON-LD schemas to BlogPage (WebPage + Breadcrumb schemas)
 - OptimizedImage component to Cta2 contact section for better performance
 - CTA click tracking to Hero Banner and Contact CTA section via Plausible Analytics
+- Page view tracking for dynamic pages:
+  - ServiceDetailsPage: tracks service views with service title
+  - CaseStudyDetailsPage: tracks project views with project title
+  - BlogDetailsPage: tracks blog views with title and tags
+- Scroll depth tracking on BlogDetailsPage (25%, 50%, 75%, 100%)
+- Comprehensive form interaction tracking for ContactForm:
+  - Field focus and blur events for all form fields
+  - Form submission success/failure tracking
+  - Form error tracking with error details
 
 ### Fixed
 - Made JSON-LD schema generators null-safe to prevent runtime errors when settings are still loading

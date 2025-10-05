@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import BreadCumb from "../Components/Common/BreadCumb";
 import ServiceDetails from "../Components/ServiceDetails/ServiceDetails";
 import SEOHead from "../components/SEO/SEOHead";
@@ -6,6 +7,7 @@ import { useServiceBySlug } from "@/lib/hooks/useServices";
 import { useSettings } from "@/lib/hooks/useSettings";
 import { generateWebPageSchema, generateServiceSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl, generateBreadcrumbs, sanitizeDescription } from "../lib/utils/seoHelpers";
+import { trackServiceView } from "@/lib/adapters/plausible/PlausibleAdapter";
 
 const ServiceDetailsPage = () => {
     const { slug } = useParams();
@@ -13,6 +15,13 @@ const ServiceDetailsPage = () => {
     const { settings } = useSettings();
 
     const breadcrumbs = generateBreadcrumbs(`/services/${slug}`);
+
+    // Track service view when data loads
+    useEffect(() => {
+        if (!loading && service) {
+            trackServiceView(service.title);
+        }
+    }, [loading, service]);
 
     return (
         <div>

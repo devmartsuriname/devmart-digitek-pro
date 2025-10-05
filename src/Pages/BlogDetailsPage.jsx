@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import BlogDetails from "../Components/BlogDetails/BlogDetails";
 import BreadCumb from "../Components/Common/BreadCumb";
 import SEOHead from "../components/SEO/SEOHead";
@@ -6,6 +7,8 @@ import { useBlogPostBySlug } from "@/lib/hooks/useBlogPosts";
 import { useSettings } from "@/lib/hooks/useSettings";
 import { generateWebPageSchema, generateArticleSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl, generateBreadcrumbs, sanitizeDescription } from "../lib/utils/seoHelpers";
+import { trackBlogView } from "@/lib/adapters/plausible/PlausibleAdapter";
+import { useScrollTracking } from "@/lib/hooks/useAnalytics";
 
 const BlogDetailsPage = () => {
     const { slug } = useParams();
@@ -13,6 +16,16 @@ const BlogDetailsPage = () => {
     const { settings } = useSettings();
 
     const breadcrumbs = generateBreadcrumbs(`/blog/${slug}`);
+
+    // Track blog view when data loads
+    useEffect(() => {
+        if (!loading && blogPost) {
+            trackBlogView(blogPost.title, blogPost.tags || []);
+        }
+    }, [loading, blogPost]);
+
+    // Track scroll depth on blog posts
+    useScrollTracking(slug || 'blog-post');
 
     return (
         <div>
