@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - **Analytics Context Error:** Resolved "can't access property 'useContext', dispatcher is null" by moving AnalyticsProvider from Layout2 to RootProvider to ensure proper Router context availability
 - **Dashboard Hardcoded Values:** Replaced placeholder zeros with dynamic data fetched from Supabase repositories
+- **Blog Author Relational Query:** Restored proper FK join using `profiles!blog_posts_author_id_fkey` to fetch author names in `findById()`, `findBySlug()`, `findAll()`, and `findFeatured()` methods
 
 ---
 

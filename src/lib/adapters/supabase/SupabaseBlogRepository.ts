@@ -12,7 +12,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
       slug: row.slug,
       title: row.title,
       author_id: row.author_id,
-      author_name: row.author_name || null,
+      author_name: row.author?.full_name || null,
       date: row.date,
       cover_url: row.cover_url,
       tags: row.tags,
@@ -49,7 +49,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
   async findById(id: string): Promise<BlogPost | null> {
     const { data: row, error } = await supabase
       .from('blog_posts')
-      .select('*')
+      .select('*, author:profiles!blog_posts_author_id_fkey(full_name)')
       .eq('id', id)
       .maybeSingle();
 
@@ -60,7 +60,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
   async findBySlug(slug: string): Promise<BlogPost | null> {
     const { data: row, error } = await supabase
       .from('blog_posts')
-      .select('*')
+      .select('*, author:profiles!blog_posts_author_id_fkey(full_name)')
       .eq('slug', slug)
       .maybeSingle();
 
@@ -69,7 +69,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
   }
 
   async findAll(filters?: BlogPostFilters): Promise<BlogPost[]> {
-    let query = supabase.from('blog_posts').select('*');
+    let query = supabase.from('blog_posts').select('*, author:profiles!blog_posts_author_id_fkey(full_name)');
 
     if (filters?.status) {
       query = query.eq('status', filters.status);
@@ -107,7 +107,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
   async findFeatured(limit: number = 3): Promise<BlogPost[]> {
     const { data: rows, error } = await supabase
       .from('blog_posts')
-      .select('*')
+      .select('*, author:profiles!blog_posts_author_id_fkey(full_name)')
       .eq('status', 'published')
       .eq('featured', true)
       .order('date', { ascending: false })
