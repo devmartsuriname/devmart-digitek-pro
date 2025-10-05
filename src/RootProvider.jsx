@@ -3,10 +3,17 @@ import { Outlet } from 'react-router-dom';
 import { Toaster, useToasterStore } from 'react-hot-toast';
 import { AuthProvider } from './lib/contexts/AuthContext';
 import { loadAnalytics } from './lib/utils/loadAnalytics';
+import { usePageViewTracking, useOutboundLinkTracking } from './lib/hooks/useAnalytics';
 
 export default function RootProvider() {
   const [liveMessage, setLiveMessage] = useState('');
   const { toasts } = useToasterStore();
+
+  // Track page views automatically on route changes
+  usePageViewTracking();
+  
+  // Track outbound link clicks automatically
+  useOutboundLinkTracking();
 
   useEffect(() => {
     // Load analytics script after initial render (deferred 2s)

@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CreateLeadSchema } from '@/lib/schemas/lead';
 import { SupabaseLeadRepository } from '@/lib/adapters/supabase/SupabaseLeadRepository';
 import { toast } from 'react-hot-toast';
+import { trackFormSubmit } from '@/lib/adapters/plausible/PlausibleAdapter';
 
 const repository = new SupabaseLeadRepository();
 
