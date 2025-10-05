@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Toaster, useToasterStore } from 'react-hot-toast';
 import { AuthProvider } from './lib/contexts/AuthContext';
+import AnalyticsProvider from './components/Analytics/AnalyticsProvider';
 
 export default function RootProvider() {
   const [liveMessage, setLiveMessage] = useState('');
@@ -57,7 +58,9 @@ export default function RootProvider() {
           },
         }}
       />
-      <Outlet />
+      <AnalyticsProvider>
+        <Outlet />
+      </AnalyticsProvider>
     </AuthProvider>
   );
 }
