@@ -10,6 +10,35 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- Early runtime error overlay: captures errors before React mounts -->
+    <script>
+      (function(){
+        if (window.__earlyOverlayInstalled) return; window.__earlyOverlayInstalled = true;
+        function show(err){
+          try{
+            var overlay = document.getElementById('early-error-overlay');
+            if(!overlay){
+              overlay = document.createElement('div');
+              overlay.id = 'early-error-overlay';
+              overlay.style.position='fixed';
+              overlay.style.inset='0';
+              overlay.style.background='rgba(0,0,0,0.9)';
+              overlay.style.color='#fff';
+              overlay.style.zIndex='2147483647';
+              overlay.style.padding='16px';
+              overlay.style.fontFamily='system-ui, -apple-system, Segoe UI, Roboto, sans-serif';
+              overlay.innerHTML = '<div style="max-width:960px;margin:40px auto;background:#17012C;border:1px solid rgba(106,71,237,0.5);border-radius:12px;padding:16px;"><h2 style="margin:0 0 8px 0;">Runtime error</h2><p style="opacity:.8;margin:0 0 8px 0;">An error occurred before the app could render.</p><pre id="early-error-text" style="white-space:pre-wrap;overflow:auto;max-height:50vh;background:#0b0716;padding:12px;border-radius:8px;"></pre><div style="margin-top:8px;display:flex;gap:8px;"><button id="early-reload" style="padding:8px 12px;background:#6A47ED;color:#fff;border:0;border-radius:8px;cursor:pointer;">Reload</button><a href="/" style="padding:8px 12px;border:1px solid #C6F806;color:#C6F806;border-radius:8px;text-decoration:none;">Go Home</a></div></div>';
+              document.body.appendChild(overlay);
+              var btn=document.getElementById('early-reload'); if(btn){ btn.onclick=function(){ location.reload() }; }
+            }
+            var text = document.getElementById('early-error-text');
+            if(text){ text.textContent = (err && (err.stack || err.message || String(err))) || 'Unknown error'; }
+          }catch(e){}
+        }
+        window.addEventListener('error', function(e){ show(e.error || e.message); });
+        window.addEventListener('unhandledrejection', function(e){ show(e.reason || 'Unhandled promise rejection'); });
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
