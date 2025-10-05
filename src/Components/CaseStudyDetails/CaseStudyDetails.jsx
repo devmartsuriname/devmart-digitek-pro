@@ -1,6 +1,6 @@
 import { useParams, Navigate } from "react-router-dom";
 import { useProjectBySlug } from "@/lib/hooks/useProjects";
-import parse from "html-react-parser";
+
 
 const CaseStudyDetails = () => {
   const { slug } = useParams();
@@ -69,11 +69,8 @@ const CaseStudyDetails = () => {
             <h3>Overview</h3>
             <div className="row g-4">
               <div className="col-lg-12">
-                {project.summary && <p className="mb-4">{project.summary}</p>}
                 {project.body && (
-                  <div className="mb-4">
-                    {parse(project.body)}
-                  </div>
+                  <div className="mb-4" dangerouslySetInnerHTML={{ __html: project.body }} />
                 )}
               </div>
             </div>

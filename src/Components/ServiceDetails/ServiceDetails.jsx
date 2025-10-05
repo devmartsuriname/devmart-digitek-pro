@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
 import { useServiceBySlug } from "@/lib/hooks/useServices";
 import { useServices } from "@/lib/hooks/useServices";
-import parse from "html-react-parser";
+
 
 const ServiceDetails = () => {
   const { slug } = useParams();
@@ -89,9 +89,7 @@ const ServiceDetails = () => {
                 <h3>{service.title}</h3>
                 {service.summary && <p className="mb-4">{service.summary}</p>}
                 {service.body && (
-                  <div className="mb-4">
-                    {parse(service.body)}
-                  </div>
+                  <div className="mb-4" dangerouslySetInnerHTML={{ __html: service.body }} />
                 )}
                 <h3>What We Provide</h3>
                 <p className="mb-5">

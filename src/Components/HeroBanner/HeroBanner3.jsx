@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
-import parse from 'html-react-parser';
 import OptimizedImage from "../../components/Common/OptimizedImage";
 import { trackCTAClick } from "@/lib/adapters/plausible/PlausibleAdapter";
 
@@ -12,10 +11,11 @@ const HeroBanner3 = () => {
             loadBackgroudImages();
         }, []);
 
-        const heroContent = {
+const heroContent = {
             bg:'/assets/img/hero/hero-bg-3.jpg',  
             subtitle:"Excellence in Digital Innovation",
-            title:'Transform Your <span>Digital Presence</span>',
+            titleMain:'Transform Your',
+            titleHighlight:'Digital Presence',
             content:'At Devmart, we combine creativity and technology to accelerate your growth. From websites to graphic design and app development – we make technology accessible, innovative and effective.',
             img:'/assets/img/hero/hero-image-3.png',     
             btnname:'GET STARTED',             
@@ -33,7 +33,7 @@ const HeroBanner3 = () => {
                         <div className="hero-content">
                             <h6 className="wow fadeInUp">{heroContent.subtitle}</h6>
                             <h1 className="wow fadeInUp" data-wow-delay=".3s">
-                               {parse(heroContent.title)}
+                               {heroContent.titleMain} <span>{heroContent.titleHighlight}</span>
                             </h1>
                             <p className="wow fadeInUp" data-wow-delay=".5s">
                             {heroContent.content}

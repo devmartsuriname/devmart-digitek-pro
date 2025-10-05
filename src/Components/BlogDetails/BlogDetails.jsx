@@ -1,6 +1,6 @@
 import { Link, useParams, Navigate } from "react-router-dom";
 import { useBlogPostBySlug, useBlogPosts } from "@/lib/hooks/useBlogPosts";
-import parse from "html-react-parser";
+
 
 const BlogDetails = () => {
   const { slug } = useParams();
@@ -68,9 +68,7 @@ const BlogDetails = () => {
                       <p className="mb-3">{blogPost.summary}</p>
                     )}
                     {blogPost.body_mdx && (
-                      <div className="blog-content">
-                        {parse(blogPost.body_mdx)}
-                      </div>
+                      <div className="blog-content" dangerouslySetInnerHTML={{ __html: blogPost.body_mdx }} />
                     )}
                   </div>
                 </div>
