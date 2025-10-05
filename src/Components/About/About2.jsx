@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const About2 = ({addclass}) => {
 

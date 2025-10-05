@@ -1,5 +1,5 @@
 import LazySlider from "../Common/LazySlider";
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const Testimonial3 = () => {
 

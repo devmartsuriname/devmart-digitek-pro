@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useServices } from "@/lib/hooks/useServices";
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const Services2 = () => {
     const { services, loading } = useServices({ 

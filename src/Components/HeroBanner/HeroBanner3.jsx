@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 // Cache-busting update: 2025-01-03 - Force editor to reload assets
 const HeroBanner3 = () => {

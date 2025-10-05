@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import LazySlider from "../Common/LazySlider";
 import { useProjects } from "@/lib/hooks/useProjects";
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const CaseStudy3 = () => {
     const { projects, loading } = useProjects({ 

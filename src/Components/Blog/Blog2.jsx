@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useBlogPosts } from "@/lib/hooks/useBlogPosts";
-import OptimizedImage from "../Common/OptimizedImage";
+import OptimizedImage from "../../components/Common/OptimizedImage";
 
 const Blog2 = () => {
     const { blogPosts, loading } = useBlogPosts({ 
