@@ -11,6 +11,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.15.3] - Bug Fix - Blog Author Relationship Query - 2025-01-05
+
+### 🐛 Fixed Blog Author Relationship Error
+
+**Problem**: Console error "Could not find a relationship between 'blog_posts' and 'author_id'" when fetching blog posts.
+
+**Root Cause**: Incorrect Supabase PostgREST foreign key join syntax in `SupabaseBlogRepository.ts` line 72-76.
+
+**Solution**:
+- Fixed foreign key reference syntax from `profiles:author_id(full_name)` to `author:profiles!blog_posts_author_id_fkey(full_name)`
+- Updated `mapToBlogPost` to read from `row.author?.full_name` instead of `row.profiles?.full_name`
+- Foreign key constraint `blog_posts_author_id_fkey` already exists in database (confirmed)
+
+### 📝 Files Modified (1)
+
+- `src/lib/adapters/supabase/SupabaseBlogRepository.ts`: Fixed query syntax and mapping
+
+### ✅ Result
+
+- ✅ Console error eliminated
+- ✅ Blog posts fetch successfully with author names
+- ✅ No breaking changes to existing functionality
+
+---
+
 ## [0.15.2] - Performance Optimization - Homepage Flickering Fix - 2025-01-04
 
 ### 🐛 Fixed Homepage Flickering Issue

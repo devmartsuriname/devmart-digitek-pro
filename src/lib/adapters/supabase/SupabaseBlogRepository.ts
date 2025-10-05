@@ -12,7 +12,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
       slug: row.slug,
       title: row.title,
       author_id: row.author_id,
-      author_name: row.profiles?.full_name || null,
+      author_name: row.author?.full_name || null,
       date: row.date,
       cover_url: row.cover_url,
       tags: row.tags,
@@ -71,9 +71,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
   async findAll(filters?: BlogPostFilters): Promise<BlogPost[]> {
     let query = supabase.from('blog_posts').select(`
       *,
-      profiles:author_id (
-        full_name
-      )
+      author:profiles!blog_posts_author_id_fkey(full_name)
     `);
 
     if (filters?.status) {
