@@ -108,11 +108,15 @@ export default defineConfig(({ mode }) => ({
       },
     },
     // Optimize bundle size
-    target: 'es2015',
-    minify: 'esbuild', // Use esbuild instead of terser (faster, no extra dependency)
+    target: 'esnext',
+    minify: 'esbuild',
     // Increase chunk size warning limit (default is 500kb)
     chunkSizeWarningLimit: 1000,
     // Enable CSS code splitting
     cssCodeSplit: true,
+    // Handle CommonJS/ESM interop
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
   },
 }))
