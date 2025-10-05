@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
+import OptimizedImage from "../../components/Common/OptimizedImage";
+import { trackCTAClick } from "@/lib/adapters/plausible/PlausibleAdapter";
 
 const Cta2 = () => {
 
@@ -13,7 +15,12 @@ const Cta2 = () => {
             <div className="container">
                 <div className="cta-contact-wrapper bg-cover" data-background="/assets/img/cta-contact-bg.jpg">
                     <div className="cta-image wow img-custom-anim-left" data-wow-duration="1.5s" data-wow-delay="0.3s">
-                        <img src="/assets/img/contact-img.png" alt="img" />
+                        <OptimizedImage 
+                            src="/assets/img/contact-img.png" 
+                            alt="Contact us for professional digital marketing support"
+                            width={600}
+                            height={600}
+                        />
                     </div>
                     <div className="section-title mb-0">
                         <div className="sub-title bg-color-3 wow fadeInUp">
@@ -24,7 +31,13 @@ const Cta2 = () => {
                         </h2>
                     </div>
                     <div className="main-button wow fadeInUp" data-wow-delay=".5s">
-                        <Link to="/contact"> <span className="theme-btn">Get in Touch</span><span className="arrow-btn"><i className="bi bi-arrow-up-right"></i></span></Link>
+                        <Link 
+                            to="/contact" 
+                            onClick={() => trackCTAClick('Get in Touch', 'CTA Contact Section')}
+                        > 
+                            <span className="theme-btn">Get in Touch</span>
+                            <span className="arrow-btn"><i className="bi bi-arrow-up-right"></i></span>
+                        </Link>
                     </div>
                 </div>
             </div>

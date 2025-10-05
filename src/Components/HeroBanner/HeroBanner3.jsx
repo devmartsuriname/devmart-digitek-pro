@@ -3,6 +3,7 @@ import loadBackgroudImages from "../Common/loadBackgroudImages";
 import { Link } from "react-router-dom";
 import parse from 'html-react-parser';
 import OptimizedImage from "../../components/Common/OptimizedImage";
+import { trackCTAClick } from "@/lib/adapters/plausible/PlausibleAdapter";
 
 // Cache-busting update: 2025-01-03 - Force editor to reload assets
 const HeroBanner3 = () => {
@@ -39,7 +40,13 @@ const HeroBanner3 = () => {
                             </p>
                             <div className="hero-button">
                                 <div className="main-button wow fadeInUp" data-wow-delay=".3s">
-                                    <Link to={heroContent.btnurl}> <span className="theme-btn">{heroContent.btnname} </span><span className="arrow-btn"><i className="bi bi-arrow-right"></i></span></Link>
+                                    <Link 
+                                        to={heroContent.btnurl}
+                                        onClick={() => trackCTAClick(heroContent.btnname, 'Hero Banner')}
+                                    > 
+                                        <span className="theme-btn">{heroContent.btnname}</span>
+                                        <span className="arrow-btn"><i className="bi bi-arrow-right"></i></span>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
