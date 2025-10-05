@@ -12,6 +12,7 @@ import { useSettings } from "../lib/hooks/useSettings";
 import { generateOrganizationSchema, generateWebSiteSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl } from "../lib/utils/seoHelpers";
 
+// Cache-busting update: 2025-01-05 - OptimizedImage migration complete
 const Home3 = () => {
     const { settings } = useSettings();
 
