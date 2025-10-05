@@ -6,6 +6,42 @@
 
 ---
 
+## Component Hierarchy
+
+### Application Root Structure
+
+```
+App.jsx
+└── RouterProvider
+    └── RootProvider (Route Element)
+        ├── AuthProvider (Context)
+        │   └── Provides: user, session, signIn, signOut
+        │
+        ├── Toast System
+        │   ├── Toaster (react-hot-toast)
+        │   └── ARIA Live Region (screen reader announcements)
+        │
+        ├── AnalyticsProvider (Must be inside Router context)
+        │   ├── usePageViewTracking (useLocation hook)
+        │   ├── useOutboundLinkTracking
+        │   └── loadAnalytics (Plausible script)
+        │
+        └── <Outlet /> (Renders nested routes)
+            ├── Layout2 (Public Layout)
+            │   ├── Header2
+            │   ├── <Outlet /> (Public Pages)
+            │   └── Footer2
+            │
+            └── AdminLayout (Protected Layout)
+                ├── Top Header (User menu, View Site link)
+                ├── AdminSidebar (Navigation)
+                └── <Outlet /> (Admin Pages)
+```
+
+**Critical Note:** AnalyticsProvider **must** be inside the Router context (below RouterProvider) because it uses `useLocation()` hook. Placing it outside causes "dispatcher is null" errors.
+
+---
+
 ## Authentication Flow
 
 ### Authentication System Architecture

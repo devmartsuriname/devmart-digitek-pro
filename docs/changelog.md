@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **Analytics Context Error:** Resolved "can't access property 'useContext', dispatcher is null" by moving AnalyticsProvider from Layout2 to RootProvider to ensure proper Router context availability
+
 ---
 
 ## [0.20.0] - 2025-01-05
