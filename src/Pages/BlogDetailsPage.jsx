@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import BlogDetails from "../Components/BlogDetails/BlogDetails";
 import BreadCumb from "../Components/Common/BreadCumb";
 import SEOHead from "../components/SEO/SEOHead";
@@ -7,8 +7,7 @@ import { useBlogPostBySlug } from "@/lib/hooks/useBlogPosts";
 import { useSettings } from "@/lib/hooks/useSettings";
 import { generateWebPageSchema, generateArticleSchema } from "../lib/schemas/jsonLd";
 import { getCanonicalUrl, getOgImageUrl, generateBreadcrumbs, sanitizeDescription } from "../lib/utils/seoHelpers";
-import { trackBlogView } from "@/lib/adapters/plausible/PlausibleAdapter";
-import { useScrollTracking } from "@/lib/hooks/useAnalytics";
+import { trackBlogView, trackScrollDepth } from "@/lib/adapters/plausible/PlausibleAdapter";
 
 const BlogDetailsPage = () => {
     const { slug } = useParams();
@@ -24,8 +23,44 @@ const BlogDetailsPage = () => {
         }
     }, [loading, blogPost]);
 
-    // Track scroll depth on blog posts
-    useScrollTracking(slug || 'blog-post');
+    // Track scroll depth inline to avoid hook dependency issues
+    const trackedDepths = useRef(new Set());
+    useEffect(() => {
+        const pageIdentifier = slug || 'blog-post';
+        
+        const handleScroll = () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollTop = window.scrollY;
+            const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
+
+            // Track milestones (25%, 50%, 75%, 100%)
+            const milestones = [25, 50, 75, 100];
+            milestones.forEach(milestone => {
+                if (scrollPercentage >= milestone && !trackedDepths.current.has(milestone)) {
+                    trackScrollDepth(milestone, pageIdentifier);
+                    trackedDepths.current.add(milestone);
+                }
+            });
+        };
+
+        // Throttle scroll events (max once per second)
+        let isThrottled = false;
+        const throttledScroll = () => {
+            if (isThrottled) return;
+            isThrottled = true;
+            handleScroll();
+            setTimeout(() => {
+                isThrottled = false;
+            }, 1000);
+        };
+
+        window.addEventListener('scroll', throttledScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', throttledScroll);
+        };
+    }, [slug]);
 
     return (
         <div>

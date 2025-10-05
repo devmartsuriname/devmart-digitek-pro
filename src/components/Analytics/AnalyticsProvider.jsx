@@ -1,15 +1,38 @@
 import { useEffect } from 'react';
-import { useOutboundLinkTracking } from '../../lib/hooks/useAnalytics';
 import { loadAnalytics } from '../../lib/utils/loadAnalytics';
-import { trackPageView } from '@/lib/adapters/plausible/PlausibleAdapter';
+import { trackPageView, trackOutboundLink } from '@/lib/adapters/plausible/PlausibleAdapter';
 
 /**
  * AnalyticsProvider - Handles analytics initialization and tracking
  * Safe version that does NOT depend on React Router hooks to avoid invalid hook calls
  */
 export default function AnalyticsProvider({ children }) {
-  // Outbound link tracking
-  useOutboundLinkTracking();
+  // Outbound link tracking - inline to avoid hook dependency issues
+  useEffect(() => {
+    const handleClick = (e) => {
+      const link = e.target.closest('a');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href) return;
+
+      // Check if external link
+      const isExternal = 
+        href.startsWith('http') && 
+        !href.includes(window.location.hostname);
+
+      if (isExternal) {
+        trackOutboundLink(href, {
+          text: link.textContent.trim(),
+        });
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
 
   // Track SPA navigations without using useLocation
   useEffect(() => {
