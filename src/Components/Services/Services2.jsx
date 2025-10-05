@@ -41,12 +41,14 @@ const Services2 = () => {
                         services.map((service) => (
                             <div key={service.id} className="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
                                 <div className="service-card-items style-2">
-                                    <div className="service-thumb">
+                                    <div className="service-thumb" style={{ width: '80px', height: '80px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                         <OptimizedImage 
                                             src={service.icon_url || '/assets/img/service/01.png'} 
                                             alt={`${service.title} - Professional digital service icon`}
                                             width={80}
                                             height={80}
+                                            sizesAttr="80px"
+                                            style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
                                         />
                                     </div>
                                     <div className="content">

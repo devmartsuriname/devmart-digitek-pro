@@ -29,13 +29,6 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Core React libraries - loaded on every page
-          if (id.includes('node_modules/react') || 
-              id.includes('node_modules/react-dom') || 
-              id.includes('node_modules/react-router-dom')) {
-            return 'vendor-react';
-          }
-          
           // Supabase - used throughout app
           if (id.includes('node_modules/@supabase')) {
             return 'vendor-supabase';
