@@ -1,7 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { SupabaseLeadRepository } from '@/lib/adapters/supabase/SupabaseLeadRepository';
 import type { Lead, LeadFilters, UpdateLeadDTO } from '@/lib/schemas/lead';
 import { toast } from 'react-hot-toast';
+import { logger } from '@/lib/utils/logger';
 
 const repository = new SupabaseLeadRepository();
 
@@ -23,6 +24,12 @@ export function useLeads(filters?: LeadFilters) {
     total: 0,
   });
 
+  // Memoize filters to prevent infinite loops
+  const filterKey = useMemo(
+    () => JSON.stringify(filters || {}),
+    [filters]
+  );
+
   const fetchLeads = useCallback(async () => {
     try {
       setLoading(true);
@@ -32,11 +39,12 @@ export function useLeads(filters?: LeadFilters) {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch leads';
       setError(message);
+      logger.error('Failed to fetch leads', err);
       toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filterKey]);
 
   const fetchCounts = useCallback(async () => {
     try {
@@ -54,7 +62,7 @@ export function useLeads(filters?: LeadFilters) {
         total: totalCount,
       });
     } catch (err) {
-      console.error('Failed to fetch lead counts:', err);
+      logger.error('Failed to fetch lead counts', err);
     }
   }, []);
 
@@ -67,6 +75,7 @@ export function useLeads(filters?: LeadFilters) {
         await Promise.all([fetchLeads(), fetchCounts()]);
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to update lead';
+        logger.error('Failed to update lead status', err);
         toast.error(message);
         throw err;
       }

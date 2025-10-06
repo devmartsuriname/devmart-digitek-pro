@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { SupabaseProjectRepository } from '@/lib/adapters/supabase/SupabaseProjectRepository';
 import type { Project, CreateProjectDTO, UpdateProjectDTO, ProjectFilters } from '@/lib/schemas/project';
+import { logger } from '@/lib/utils/logger';
 
 const projectRepo = new SupabaseProjectRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
@@ -19,6 +20,12 @@ export function useProjects(filters?: ProjectFilters) {
   const [error, setError] = useState<string | null>(null);
   const [totalCount, setTotalCount] = useState(0);
 
+  // Memoize filters to prevent infinite loops
+  const filterKey = useMemo(
+    () => JSON.stringify(filters || {}),
+    [filters]
+  );
+
   const fetchProjects = useCallback(async () => {
     try {
       setLoading(true);
@@ -30,12 +37,12 @@ export function useProjects(filters?: ProjectFilters) {
       setProjects(data);
       setTotalCount(count);
     } catch (err) {
-      console.error('Failed to fetch projects:', err);
+      logger.error('Failed to fetch projects', err);
       setError(err instanceof Error ? err.message : 'Failed to fetch projects');
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  }, [filterKey]);
 
   useEffect(() => {
     fetchProjects();
@@ -86,7 +93,7 @@ export function useProject(id: string) {
         const data = await withTimeout(projectRepo.findById(id));
         setProject(data);
       } catch (err) {
-        console.error('Failed to fetch project:', err);
+        logger.error('Failed to fetch project', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch project');
       } finally {
         setLoading(false);

@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { SupabaseServiceRepository } from '@/lib/adapters/supabase/SupabaseServiceRepository';
 import type { Service, CreateServiceDTO, UpdateServiceDTO, ServiceFilters } from '@/lib/schemas/service';
+import { logger } from '@/lib/utils/logger';
 
 const serviceRepo = new SupabaseServiceRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
@@ -16,7 +17,13 @@ export function useServices(filters?: ServiceFilters) {
   const [error, setError] = useState<string | null>(null);
   const [count, setCount] = useState(0);
 
-  const fetchServices = async () => {
+  // Memoize filters to prevent infinite loops
+  const filterKey = useMemo(
+    () => JSON.stringify(filters || {}),
+    [filters]
+  );
+
+  const fetchServices = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -27,15 +34,17 @@ export function useServices(filters?: ServiceFilters) {
       setServices(data);
       setCount(total);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch services');
+      const errorMsg = err instanceof Error ? err.message : 'Failed to fetch services';
+      setError(errorMsg);
+      logger.error('Failed to fetch services', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [filterKey]);
 
   useEffect(() => {
     fetchServices();
-  }, [JSON.stringify(filters)]);
+  }, [fetchServices]);
 
   const createService = async (data: CreateServiceDTO) => {
     try {

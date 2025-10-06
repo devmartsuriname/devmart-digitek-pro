@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { BlogPost, CreateBlogPostDTO, UpdateBlogPostDTO, BlogPostFilters } from '@/lib/schemas/blog';
 import { SupabaseBlogRepository } from '@/lib/adapters/supabase/SupabaseBlogRepository';
+import { logger } from '@/lib/utils/logger';
 
 const repository = new SupabaseBlogRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
@@ -15,7 +16,13 @@ export const useBlogPosts = (filters?: BlogPostFilters) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchBlogPosts = async () => {
+  // Memoize filters to prevent infinite loops
+  const filterKey = useMemo(
+    () => JSON.stringify(filters || {}),
+    [filters]
+  );
+
+  const fetchBlogPosts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -23,15 +30,15 @@ export const useBlogPosts = (filters?: BlogPostFilters) => {
       setBlogPosts(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch blog posts');
-      console.error('Error fetching blog posts:', err);
+      logger.error('Error fetching blog posts', err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [filterKey]);
 
   useEffect(() => {
     fetchBlogPosts();
-  }, [JSON.stringify(filters)]);
+  }, [fetchBlogPosts]);
 
   const createBlogPost = async (data: CreateBlogPostDTO): Promise<BlogPost> => {
     const post = await repository.create(data);
@@ -86,7 +93,7 @@ export const useBlogPost = (id: string | undefined) => {
         setBlogPost(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch blog post');
-        console.error('Error fetching blog post:', err);
+        logger.error('Error fetching blog post', err);
       } finally {
         setLoading(false);
       }
