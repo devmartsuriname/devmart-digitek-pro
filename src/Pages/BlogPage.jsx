@@ -9,13 +9,13 @@ const BlogPage = () => {
     const { settings } = useSettings();
     
     const breadcrumbs = [
-        { name: 'Home', url: '/' },
-        { name: 'Blog', url: '/blog' }
+        { name: 'Home', path: '/' },
+        { name: 'Blog', path: '/blog' }
     ];
 
     const metaTags = generateMetaTags({
-        title: 'Blog & Insights - Digital Marketing Tips',
-        description: 'Explore expert insights on web development, digital marketing, SEO, and design. Stay updated with the latest trends and best practices.',
+        title: 'Blog & Insights - Digital Marketing Tips & Tutorials',
+        description: 'Explore expert insights on web development, digital marketing, SEO, and design. Stay updated with the latest industry trends, best practices, and actionable tips from our team.',
         path: '/blog',
         type: 'website'
     });
@@ -43,7 +43,9 @@ const BlogPage = () => {
                 bgimg="/assets/img/breadcrumb.jpg"
                 Title="Blog"
             />     
-            <Blog4 />       
+            <main role="main" id="main-content">
+                <Blog4 />
+            </main>
         </div>
     );
 };

@@ -59,16 +59,22 @@ const Blog2 = () => {
                                         )}
                                     </ul>
                                     <h3><Link to={`/blog/${post.slug}`}>{post.title}</Link></h3>
-                                    <Link to={`/blog/${post.slug}`} className="link-btn">
-                                        Read More <i className="bi bi-arrow-right"></i>
+                                    <Link 
+                                        to={`/blog/${post.slug}`} 
+                                        className="link-btn"
+                                        aria-label={`Read more about ${post.title}`}
+                                    >
+                                        Read More <span className="visually-hidden">: {post.title}</span> <i className="bi bi-arrow-right"></i>
                                     </Link>
                                     <div className="post-date">
                                         <i className="fa-light fa-calendar-days"></i>
-                                        {new Date(post.date).toLocaleDateString('en-US', { 
-                                            month: 'short', 
-                                            day: '2-digit', 
-                                            year: 'numeric' 
-                                        })}
+                                        <time dateTime={post.date}>
+                                            {new Date(post.date).toLocaleDateString('en-US', { 
+                                                month: 'short', 
+                                                day: '2-digit', 
+                                                year: 'numeric' 
+                                            })}
+                                        </time>
                                     </div>
                                 </div>
                             </div>

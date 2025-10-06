@@ -58,8 +58,12 @@ const Services2 = () => {
                                         <p>
                                             {service.summary}
                                         </p>
-                                        <Link to={`/services/${service.slug}`} className="service-btn">
-                                            Read more <i className="bi bi-arrow-right"></i>
+                                        <Link 
+                                            to={`/services/${service.slug}`} 
+                                            className="service-btn"
+                                            aria-label={`Learn more about ${service.title}`}
+                                        >
+                                            Learn more <span className="visually-hidden">about {service.title}</span> <i className="bi bi-arrow-right"></i>
                                         </Link>
                                     </div>
                                 </div>

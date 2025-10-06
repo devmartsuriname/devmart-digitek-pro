@@ -124,6 +124,14 @@ const ContactForm = () => {
 
   return (
     <div className="contact-form-items">
+      {/* Aria live region for screen readers */}
+      <div aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {success && 'Your message has been sent successfully. We will contact you soon.'}
+        {errors.name && `Name error: ${errors.name.message}`}
+        {errors.email && `Email error: ${errors.email.message}`}
+        {errors.message && `Message error: ${errors.message.message}`}
+      </div>
+
       {success && (
         <div className="alert alert-success mb-4" role="alert">
           <i className="bi bi-check-circle me-2"></i>
@@ -131,7 +139,7 @@ const ContactForm = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="row g-4">
           <div className="col-md-6">
             <div className="form-clt">
@@ -279,6 +287,8 @@ const ContactForm = () => {
               type="submit"
               className="theme-btn"
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
+              aria-label={isSubmitting ? 'Sending message, please wait' : 'Send message'}
             >
               {isSubmitting ? (
                 <>
