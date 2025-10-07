@@ -3,6 +3,7 @@ import { useProjects } from '@/lib/hooks/useProjects';
 import { FormSkeleton } from '@/Components/Common/LoadingSkeleton';
 import ProjectTable from '@/Components/Admin/Tables/ProjectTable';
 import toast from 'react-hot-toast';
+import { logger } from '@/lib/utils/logger';
 
 const ProjectForm = lazy(() => import('@/Components/Admin/Forms/ProjectForm'));
 
@@ -24,7 +25,7 @@ const Projects = () => {
       setView('list');
       toast.success('Project created successfully');
     } catch (error) {
-      console.error('Failed to create project:', error);
+      logger.error('Failed to create project', error);
       toast.error(error.message || 'Failed to create project');
       throw error;
     }
@@ -37,7 +38,7 @@ const Projects = () => {
       setSelectedProject(null);
       toast.success('Project updated successfully');
     } catch (error) {
-      console.error('Failed to update project:', error);
+      logger.error('Failed to update project', error);
       toast.error(error.message || 'Failed to update project');
       throw error;
     }
@@ -48,7 +49,7 @@ const Projects = () => {
       await deleteProject(id);
       toast.success('Project deleted successfully');
     } catch (error) {
-      console.error('Failed to delete project:', error);
+      logger.error('Failed to delete project', error);
       toast.error(error.message || 'Failed to delete project');
     }
   };

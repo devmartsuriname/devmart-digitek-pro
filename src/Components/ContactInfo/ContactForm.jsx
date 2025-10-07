@@ -6,6 +6,7 @@ import { SupabaseLeadRepository } from '@/lib/adapters/supabase/SupabaseLeadRepo
 import { toast } from 'react-hot-toast';
 import { trackFormSubmit } from '@/lib/adapters/plausible/PlausibleAdapter';
 import { useFormTracking } from '@/lib/hooks/useAnalytics';
+import { logger } from '@/lib/utils/logger';
 
 const repository = new SupabaseLeadRepository();
 
@@ -96,11 +97,11 @@ const ContactForm = () => {
         );
 
         if (!response.ok) {
-          console.warn('Email notification failed, but lead was saved');
+          logger.warn('Email notification failed, but lead was saved', { status: response.status });
         }
       } catch (emailError) {
         // Don't block submission if email fails
-        console.warn('Email notification error:', emailError);
+        logger.warn('Email notification error', emailError);
       }
 
       // Show success
@@ -111,7 +112,7 @@ const ContactForm = () => {
       // Reset success message after 5 seconds
       setTimeout(() => setSuccess(false), 5000);
     } catch (error) {
-      console.error('Failed to submit lead:', error);
+      logger.error('Failed to submit lead', error);
       toast.error('Failed to submit form. Please try again.');
       
       // Track failed submission

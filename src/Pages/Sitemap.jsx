@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { BASE_URL } from '@/lib/utils/seoHelpers';
+import { logger } from '@/lib/utils/logger';
 
 /**
  * Sitemap Component - Generates dynamic XML sitemap
@@ -124,7 +125,7 @@ ${urls.map(url => `  <url>
         document.contentType = 'application/xml';
         
       } catch (error) {
-        console.error('Failed to generate sitemap:', error);
+        logger.error('Failed to generate sitemap', error);
         setXml('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"></urlset>');
       }
     };

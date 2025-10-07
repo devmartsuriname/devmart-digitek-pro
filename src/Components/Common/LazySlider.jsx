@@ -1,4 +1,5 @@
 import { lazy, Suspense, forwardRef, useEffect, useRef, useState } from 'react';
+import { logger } from '@/lib/utils/logger';
 
 const Slider = lazy(() => import('react-slick'));
 
@@ -101,7 +102,7 @@ const LazySlider = forwardRef(({ children, settings, className, ...props }, ref)
           });
         });
       } catch (error) {
-        console.error('LazySlider accessibility update error:', error);
+        logger.error('LazySlider accessibility update error', error);
       } finally {
         isUpdating = false;
       }
