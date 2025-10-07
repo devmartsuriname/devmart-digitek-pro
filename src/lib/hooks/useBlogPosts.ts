@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import type { BlogPost, CreateBlogPostDTO, UpdateBlogPostDTO, BlogPostFilters } from '@/lib/schemas/blog';
-import { SupabaseBlogRepository } from '@/lib/adapters/supabase/SupabaseBlogRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import { logger } from '@/lib/utils/logger';
 
-const repository = new SupabaseBlogRepository();
+const repository = getRepositoryRegistry().getBlogRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
   return await Promise.race([
     promise,

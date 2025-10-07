@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { SupabaseProjectRepository } from '@/lib/adapters/supabase/SupabaseProjectRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import type { Project, CreateProjectDTO, UpdateProjectDTO, ProjectFilters } from '@/lib/schemas/project';
 import { logger } from '@/lib/utils/logger';
 
-const projectRepo = new SupabaseProjectRepository();
+const projectRepo = getRepositoryRegistry().getProjectRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
   return await Promise.race([
     promise,
@@ -125,8 +125,7 @@ export function useProjectBySlug(slug: string | undefined) {
     const fetchProject = async () => {
       try {
         setLoading(true);
-        const repo = new SupabaseProjectRepository();
-        const data = await withTimeout(repo.findBySlug(slug));
+        const data = await withTimeout(projectRepo.findBySlug(slug));
         setProject(data);
         setError(null);
       } catch (err) {

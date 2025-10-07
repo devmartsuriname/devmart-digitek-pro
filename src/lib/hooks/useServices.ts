@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { SupabaseServiceRepository } from '@/lib/adapters/supabase/SupabaseServiceRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import type { Service, CreateServiceDTO, UpdateServiceDTO, ServiceFilters } from '@/lib/schemas/service';
 import { logger } from '@/lib/utils/logger';
 
-const serviceRepo = new SupabaseServiceRepository();
+const serviceRepo = getRepositoryRegistry().getServiceRepository();
 const withTimeout = async <T,>(promise: Promise<T>, ms = 10000): Promise<T> => {
   return await Promise.race([
     promise,
@@ -135,8 +135,7 @@ export function useServiceBySlug(slug: string | undefined) {
     const fetchService = async () => {
       try {
         setLoading(true);
-        const repo = new SupabaseServiceRepository();
-        const data = await withTimeout(repo.findBySlug(slug));
+        const data = await withTimeout(serviceRepo.findBySlug(slug));
         setService(data);
         setError(null);
       } catch (err) {

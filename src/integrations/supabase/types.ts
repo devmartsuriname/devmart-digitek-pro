@@ -75,7 +75,15 @@ export type Database = {
           updated_by?: string | null
           views?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       faqs: {
         Row: {
