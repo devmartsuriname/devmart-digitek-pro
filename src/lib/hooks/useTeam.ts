@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SupabaseTeamRepository } from '@/lib/adapters/supabase/SupabaseTeamRepository';
 import type { TeamMember, CreateTeamMemberDTO, UpdateTeamMemberDTO, TeamMemberFilters } from '@/lib/schemas/team';
+import { logger } from '@/lib/utils/logger';
 
 const teamRepo = new SupabaseTeamRepository();
 
@@ -21,7 +22,7 @@ export function useTeamMembers(filters?: TeamMemberFilters) {
       setTeamMembers(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load team members');
-      console.error('Error loading team members:', err);
+      logger.error('Failed to load team members', err);
     } finally {
       setLoading(false);
     }
@@ -80,7 +81,7 @@ export function useTeamMember(id: string | null) {
       setTeamMember(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load team member');
-      console.error('Error loading team member:', err);
+      logger.error('Failed to load team member', err);
     } finally {
       setLoading(false);
     }

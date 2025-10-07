@@ -2,6 +2,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { IBlogRepository } from '@/lib/repos/IBlogRepository';
 import type { BlogPost, CreateBlogPostDTO, UpdateBlogPostDTO, BlogPostFilters } from '@/lib/schemas/blog';
 import type { Database } from '@/integrations/supabase/types';
+import { logger } from '@/lib/utils/logger';
 
 type BlogPostRow = Database['public']['Tables']['blog_posts']['Row'];
 
@@ -154,7 +155,7 @@ export class SupabaseBlogRepository implements IBlogRepository {
         .eq('id', id);
     });
 
-    if (error) console.error('Failed to increment views:', error);
+    if (error) logger.error('Failed to increment blog post views', { error, id });
   }
 
   async update(id: string, data: UpdateBlogPostDTO): Promise<BlogPost> {
