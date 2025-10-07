@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SupabaseFAQRepository } from '@/lib/adapters/supabase/SupabaseFAQRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import type { FAQ, CreateFAQDTO, UpdateFAQDTO, FAQFilters } from '@/lib/schemas/faq';
+import { toast } from 'react-hot-toast';
+import { logger } from '@/lib/utils/logger';
 
-const faqRepo = new SupabaseFAQRepository();
+const faqRepo = getRepositoryRegistry().getFAQRepository();
 
 export const useFAQs = (filters?: FAQFilters) => {
   const [faqs, setFAQs] = useState<FAQ[]>([]);
@@ -21,8 +23,10 @@ export const useFAQs = (filters?: FAQFilters) => {
       setFAQs(data);
       setTotal(count);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch FAQs');
-      console.error('Error fetching FAQs:', err);
+      const message = err instanceof Error ? err.message : 'Failed to fetch FAQs';
+      setError(message);
+      logger.error('Failed to fetch FAQs', err);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -92,8 +96,9 @@ export const useFAQ = (id: string | null) => {
         const data = await faqRepo.findById(id);
         setFAQ(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch FAQ');
-        console.error('Error fetching FAQ:', err);
+      const message = err instanceof Error ? err.message : 'Failed to fetch FAQ';
+      setError(message);
+      logger.error('Failed to fetch FAQ', err);
       } finally {
         setLoading(false);
       }

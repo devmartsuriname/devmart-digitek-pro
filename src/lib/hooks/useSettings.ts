@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { SupabaseSettingsRepository } from '@/lib/adapters/supabase/SupabaseSettingsRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import type { Settings, UpdateSettingsDTO } from '@/lib/schemas/settings';
 import toast from 'react-hot-toast';
+import { logger } from '@/lib/utils/logger';
 
-const repository = new SupabaseSettingsRepository();
+const repository = getRepositoryRegistry().getSettingsRepository();
 
 export function useSettings() {
   const [settings, setSettings] = useState<Settings | null>(null);

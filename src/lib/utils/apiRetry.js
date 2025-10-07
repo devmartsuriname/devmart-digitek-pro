@@ -107,10 +107,7 @@ export const withRetry = async (queryFn, options = {}) => {
     {
       shouldRetry: isRetryableError,
       onRetry: (attempt, delay, error) => {
-        console.warn(
-          `Retry attempt ${attempt} after ${delay}ms due to:`,
-          error.message
-        );
+        // Silent retry - logged by caller if needed
       },
       ...options,
     }
@@ -148,10 +145,7 @@ export const fetchWithRetry = async (url, fetchOptions = {}, retryOptions = {}) 
         );
       },
       onRetry: (attempt, delay, error) => {
-        console.warn(
-          `Fetch retry attempt ${attempt} for ${url} after ${delay}ms:`,
-          error.message
-        );
+        // Silent retry - logged by caller if needed
       },
       ...retryOptions,
     }
@@ -174,10 +168,7 @@ export const withRetryDecorator = (maxRetries = 3) => {
           maxRetries,
           shouldRetry: isRetryableError,
           onRetry: (attempt, delay, error) => {
-            console.warn(
-              `Retry ${propertyKey} attempt ${attempt} after ${delay}ms:`,
-              error.message
-            );
+            // Silent retry - logged by caller if needed
           },
         }
       );

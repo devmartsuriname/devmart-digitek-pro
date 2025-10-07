@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import { logger } from '@/lib/utils/logger';
 
 export interface Author {
   id: string;
@@ -38,8 +39,9 @@ export const useAuthors = () => {
 
         setAuthors(data || []);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch authors');
-        console.error('Error fetching authors:', err);
+        const message = err instanceof Error ? err.message : 'Failed to fetch authors';
+        setError(message);
+        logger.error('Failed to fetch authors', err);
       } finally {
         setLoading(false);
       }

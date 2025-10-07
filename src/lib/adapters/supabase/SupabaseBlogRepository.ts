@@ -69,7 +69,10 @@ export class SupabaseBlogRepository implements IBlogRepository {
   }
 
   async findAll(filters?: BlogPostFilters): Promise<BlogPost[]> {
-    let query = supabase.from('blog_posts').select('*, author:profiles!blog_posts_author_id_fkey(full_name)');
+    // Exclude body_mdx for list queries to optimize bandwidth
+    let query = supabase
+      .from('blog_posts')
+      .select('id, slug, title, summary, cover_url, tags, date, status, featured, views, seo_title, seo_desc, created_at, updated_at, author_id, author:profiles!blog_posts_author_id_fkey(full_name)');
 
     if (filters?.status) {
       query = query.eq('status', filters.status);

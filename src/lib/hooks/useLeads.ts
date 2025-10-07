@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { SupabaseLeadRepository } from '@/lib/adapters/supabase/SupabaseLeadRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import type { Lead, LeadFilters, UpdateLeadDTO } from '@/lib/schemas/lead';
 import { toast } from 'react-hot-toast';
 import { logger } from '@/lib/utils/logger';
 
-const repository = new SupabaseLeadRepository();
+const repository = getRepositoryRegistry().getLeadRepository();
 
 interface LeadCounts {
   new: number;

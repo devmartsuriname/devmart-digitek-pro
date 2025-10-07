@@ -34,7 +34,6 @@ export const parseSupabaseStorageUrl = (url) => {
       path: pathSegments.join('/'),
     };
   } catch (error) {
-    console.error('Failed to parse Supabase Storage URL:', error);
     return null;
   }
 };
@@ -83,7 +82,6 @@ export const getOptimizedImageUrl = (url, options = {}) => {
 
       return data.publicUrl;
     } catch (error) {
-      console.error('Failed to generate optimized URL:', error);
       return url;
     }
   }
@@ -180,7 +178,6 @@ export const uploadOptimizedImage = async (file, bucket, path = '') => {
       error: null,
     };
   } catch (error) {
-    console.error('Failed to upload image:', error);
     return {
       url: null,
       path: null,
@@ -258,7 +255,6 @@ export const generatePlaceholder = async (url) => {
       reader.readAsDataURL(blob);
     });
   } catch (error) {
-    console.error('Failed to generate placeholder:', error);
     return '';
   }
 };

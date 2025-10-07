@@ -1,9 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { SupabaseMediaRepository } from '@/lib/adapters/supabase/SupabaseMediaRepository';
+import { getRepositoryRegistry } from '@/lib/repos/RepositoryRegistry';
 import { supabase } from '@/integrations/supabase/client';
 import type { Media, CreateMediaDTO, UpdateMediaDTO, MediaFilters } from '@/lib/schemas/media';
+import { toast } from 'react-hot-toast';
+import { logger } from '@/lib/utils/logger';
 
-const mediaRepo = new SupabaseMediaRepository();
+const mediaRepo = getRepositoryRegistry().getMediaRepository();
 
 export function useMedia(filters?: MediaFilters) {
   const [media, setMedia] = useState<Media[]>([]);
